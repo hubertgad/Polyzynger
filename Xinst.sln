@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinstApp", "XinstApp\XinstApp.csproj", "{6AB3EB5D-AD31-4F4D-9F43-3B2CC2FCD43B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6AB3EB5D-AD31-4F4D-9F43-3B2CC2FCD43B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AB3EB5D-AD31-4F4D-9F43-3B2CC2FCD43B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AB3EB5D-AD31-4F4D-9F43-3B2CC2FCD43B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AB3EB5D-AD31-4F4D-9F43-3B2CC2FCD43B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {59C6CEC5-864E-43AE-8133-05791E38DFC7}
+	EndGlobalSection
+EndGlobal
