@@ -21,7 +21,7 @@ namespace XinstApp
         public MainWindow()
         {
             InitializeComponent();
-            MouseDown += (o, e) => { if (e.ChangedButton == MouseButton.Left) this.DragMove(); };
+            MouseDown += (o, e) => { if (e.ChangedButton == MouseButton.Left) this.DragMove(); }; //TODO: block alt+f4 closing, add some on close behaviour
             Installers = new List<Installer> 
             {
                 //TODO: Change all GetInstance() to Instance prop
