@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace XinstApp.Installers
 {
@@ -26,5 +20,6 @@ namespace XinstApp.Installers
             this.arguments = "/silent /install";
             this.Controls.CheckBox.Content = "Google Chrome";
         }
+        //TODO: Installer Chrome
     }
 }

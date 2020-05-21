@@ -23,7 +23,7 @@ namespace XinstApp.Installers
                 Visibility = Visibility.Hidden,
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 Margin = new Thickness(5),
-                Foreground = new SolidColorBrush(Color.FromRgb((byte)157, (byte)47, (byte)47))
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217))
             };
 
             this.Status = new Label

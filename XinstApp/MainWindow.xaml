@@ -6,12 +6,11 @@
         xmlns:local="clr-namespace:XinstApp"
         mc:Ignorable="d"
         ResizeMode="NoResize"
+        WindowStyle="None"
         Title="Xinst" Height="600" Width="1024">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
@@ -21,61 +20,34 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Image Grid.Row="0" Grid.Column="1" Grid.RowSpan="1" Width="200" Height="85" Margin="5" VerticalAlignment="Top" HorizontalAlignment="Left" Source="/Resources/logo.png"/>
-            <Button Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5" Content="START" Click="Button_ClickAsync" x:Name="StartButton" />
-        </Grid>  
-        
-        <Grid Grid.Row="2" Grid.Column="1" x:Name="GridOne" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-        </Grid>
 
-        <Grid Grid.Row="2" Grid.Column="2" x:Name="GridTwo" >
+        <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-        </Grid>
-
-        <Grid Grid.Row="2" Grid.Column="3" x:Name="GridThree" >
-            <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="30" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
+            <Image Grid.Column="1" Grid.RowSpan="1" Width="200" Height="85" Source="/Resources/logo.png"/>
+            <WrapPanel Grid.Column="4" VerticalAlignment="Center">
+                <Button Style="{StaticResource DefaultButton}" Content="START" Click="Button_ClickAsync" x:Name="StartButton" />
+                <Button Style="{StaticResource ExitButton}" Content="EXIT" Click="Button_Click" x:Name="ExitButton" />
+            </WrapPanel>
         </Grid>
+        
+        <ScrollViewer Grid.Row="2" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" x:Name="ColumnOne" />
+                <Grid Grid.Column="1" x:Name="ColumnTwo" />
+                <Grid Grid.Column="2" x:Name="ColumnThree" />
+            </Grid>
+        </ScrollViewer>
         
         <!-- temporary testing section -->
         <!--<TextBox Grid.Row="2" Grid.Column="9" Grid.RowSpan="5" x:Name="txt" />-->

@@ -18,7 +18,7 @@ namespace XinstApp.Installers
         public Controls Controls { get; set; }
         protected string offlinePath => Path.Combine(this.entryDir, this.fileName);
 
-        public Installer()
+        protected Installer()
         {
             this.status = "Initializing...";
             this.entryDir = GetEntryAssemblyDirName();

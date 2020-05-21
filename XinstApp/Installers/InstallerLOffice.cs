@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace XinstApp.Installers
 {
@@ -20,11 +14,12 @@ namespace XinstApp.Installers
 
         private InstallerLOffice() : base()
         {
-            this.remotePath = "https://download.documentfoundation.org/libreoffice/stable/6.3.6/win/x86_64/LibreOffice_6.3.6_Win_x64.msi"; // #TODO: GetLastestVersion();
+            this.remotePath = "https://download.documentfoundation.org/libreoffice/stable/6.3.6/win/x86_64/LibreOffice_6.3.6_Win_x64.msi"; //TODO: Updater Libre Office
             this.fileName = "LibreOffice_6.3.6_Win_x64.msi";
             this.localPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.arguments = "/qn";
             this.Controls.CheckBox.Content = "Libre Office";
         }
+        //TODO: Installer Libre Office
     }
 }

@@ -20,7 +20,7 @@ namespace XinstApp.Installers
 
         private Installer7Zip() : base()
         {
-            this.remotePath = "https://sourceforge.net/projects/sevenzip/files/7-Zip/19.00/7z1900-x64.msi"; // #TODO: GetLastestVersion();
+            this.remotePath = "https://www.7-zip.org/a/7z1900-x64.msi"; //TODO: Add method which finds lastest version of 7-zip
             this.fileName = "7z1900-x64.msi";
             this.localPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.arguments = "/qn";

@@ -67,12 +67,23 @@
     <Compile Include="Installers\Controls.cs" />
     <Compile Include="Installers\Installer.cs" />
     <Compile Include="Installers\Installer7Zip.cs" />
+    <Compile Include="Installers\InstallerAdobeAir.cs" />
+    <Compile Include="Installers\InstallerAdobeReader.cs" />
     <Compile Include="Installers\InstallerChrome.cs" />
+    <Compile Include="Installers\InstallerESET.cs" />
+    <Compile Include="Installers\InstallerJRE.cs" />
     <Compile Include="Installers\InstallerLOffice.cs" />
+    <Compile Include="Installers\InstallerMPC.cs" />
+    <Compile Include="Installers\InstallerMSSilverlight.cs" />
+    <Compile Include="Installers\InstallerTV.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
