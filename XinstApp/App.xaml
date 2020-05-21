@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:XinstApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-            <ResourceDictionary Source="Styles.xaml"/>
+      <ResourceDictionary>
+          <ResourceDictionary.MergedDictionaries>       
+              <ResourceDictionary Source="Styles.xaml" />
+          </ResourceDictionary.MergedDictionaries>
     </Application.Resources>
 </Application>
