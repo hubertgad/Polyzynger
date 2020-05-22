@@ -10,12 +10,15 @@ namespace XinstApp.Installers
 {
     class Installer7Zip : Installer
     {
-        private static Installer7Zip instance = null;
+        private static Installer7Zip _instance = null;
 
-        public static Installer7Zip GetInstance()
+        public static Installer7Zip Instance
         {
-            if (instance == null) { instance = new Installer7Zip(); }
-            return instance;
+            get
+            {
+                if (_instance == null) { _instance = new Installer7Zip(); }
+                return _instance;
+            }
         }
 
         private Installer7Zip() : base()
