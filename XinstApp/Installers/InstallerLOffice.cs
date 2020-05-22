@@ -8,8 +8,11 @@ namespace XinstApp.Installers
 
         public static InstallerLOffice Instance
         {
-            if (_instance == null) { _instance = new InstallerLOffice(); }
-            return _instance;
+            get
+            {
+                if (_instance == null) { _instance = new InstallerLOffice(); }
+                return _instance;
+            }
         }
 
         private InstallerLOffice() : base()
