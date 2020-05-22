@@ -25,13 +25,13 @@ namespace XinstApp
             Installers = new List<Installer> 
             {
                 //TODO: Change all GetInstance() to Instance prop
-                InstallerChrome.GetInstance(), 
-                Installer7Zip.GetInstance(), 
+                InstallerChrome.Instance, 
+                Installer7Zip.Instance, 
                 InstallerMPC.GetInstance(), 
                 InstallerMSSilverlight.Instance, 
                 InstallerJRE.Instance, 
 
-                InstallerLOffice.GetInstance(),
+                InstallerLOffice.Instance,
                 InstallerTV.GetInstance()
             };
 
