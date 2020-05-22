@@ -4,12 +4,12 @@ namespace XinstApp.Installers
 {
     class InstallerLOffice : Installer
     {
-        private static InstallerLOffice instance = null;
+        private static InstallerLOffice _instance = null;
 
-        public static InstallerLOffice GetInstance()
+        public static InstallerLOffice Instance
         {
-            if (instance == null) { instance = new InstallerLOffice(); }
-            return instance;
+            if (_instance == null) { _instance = new InstallerLOffice(); }
+            return _instance;
         }
 
         private InstallerLOffice() : base()
