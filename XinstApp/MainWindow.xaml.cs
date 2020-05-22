@@ -41,8 +41,8 @@ namespace XinstApp
             for (int i = 0; i < this.Installers.Count; i++)
             {
                 Grid column;
-                if (i <= this.Installers.Count / 3) { column = this.ColumnOne; }
-                else if (i <= this.Installers.Count * 2 / 3) { column = this.ColumnTwo; }
+                if (i % 3 == 0) { column = this.ColumnOne; }
+                else if (i % 3 == 1) { column = this.ColumnTwo; }
                 else { column = this.ColumnThree; }
                 column.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 Grid.SetRow(Installers[i].Controls.CheckBox, column.RowDefinitions.Count - 1);
@@ -79,18 +79,17 @@ namespace XinstApp
             this.StartButton.IsEnabled = true;
             this.ExitButton.IsEnabled = true;
         }
+        
+        private void Button_Click(object sender, RoutedEventArgs e) => Close();        
 
+        /// <summary>
+        /// Downloads installer file if necessary and installs an application.
+        /// </summary>
         private async Task InstallAsync(Installer installer)
         {
-            var bar = installer.Controls.ProgressBar;
-            var status = installer.Controls.Status;
-
             DownloadProgressChangedEventHandler downloadHandler = 
-                (object sender, DownloadProgressChangedEventArgs e) => this.Dispatcher.BeginInvoke(new Action(() => installer.Controls.ProgressBar.Value = e.ProgressPercentage));
-            
+                (s, e) => this.Dispatcher.BeginInvoke(new Action(() => installer.Controls.ProgressBar.Value = e.ProgressPercentage));
             await installer.DownloadAsync(downloadHandler);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e) => Close();        
+        }        
     }
 }
