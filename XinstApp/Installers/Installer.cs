@@ -23,6 +23,7 @@ namespace XinstApp.Installers
             this.status = "Initializing...";
             this.entryDir = GetEntryAssemblyDirName();
             this.Controls = new Controls();
+            this.arguments = "/qn";
         }
 
         public virtual void Install()
