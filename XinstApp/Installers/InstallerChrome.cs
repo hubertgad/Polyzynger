@@ -4,12 +4,15 @@ namespace XinstApp.Installers
 {
     class InstallerChrome : Installer
     {
-        private static InstallerChrome instance = null;
+        private static InstallerChrome _instance = null;
 
-        public static InstallerChrome GetInstance()
+        public static InstallerChrome Instance
         {
-            if (instance == null) { instance = new InstallerChrome(); }
-            return instance;
+            get
+            {
+                if (_instance == null) { _instance = new InstallerChrome(); }
+                return _instance;
+            }
         }
 
         private InstallerChrome() : base()
