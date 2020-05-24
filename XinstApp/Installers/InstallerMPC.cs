@@ -4,12 +4,15 @@ namespace XinstApp.Installers
 {
     class InstallerMPC : Installer
     {
-        private static InstallerMPC instance = null;
+        private static InstallerMPC _instance = null;
 
-        public static InstallerMPC GetInstance()
+        public static InstallerMPC Instance
         {
-            if (instance == null) { instance = new InstallerMPC(); }
-            return instance;
+            get
+            {
+                if (_instance == null) { _instance = new InstallerMPC(); }
+                return _instance;
+            }
         }
 
         private InstallerMPC()

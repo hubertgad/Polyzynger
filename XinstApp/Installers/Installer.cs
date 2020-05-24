@@ -4,6 +4,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace XinstApp.Installers
 {
@@ -26,11 +27,12 @@ namespace XinstApp.Installers
             this.arguments = "/qn";
         }
 
-        public virtual void Install()
+        public virtual Task Install()
         {
-
+            return null;
         }
-        public virtual Task DownloadAsync(DownloadProgressChangedEventHandler downloadProgress)
+        
+        public virtual Task<int> DownloadAsync(DownloadProgressChangedEventHandler downloadProgress)
         {
             if (File.Exists(this.offlinePath))
             {
@@ -38,36 +40,31 @@ namespace XinstApp.Installers
                 return null;
             }
 
-            this.Controls.ProgressBar.Visibility = Visibility.Visible;
-            this.Controls.Status.Content = "DOWNLOADING...";
+            TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
 
-            var tcs = new TaskCompletionSource<object>();
             try
             {
                 WebClient client = new WebClient();
                 client.DownloadProgressChanged += downloadProgress;
                 client.DownloadFileCompleted += (sender, e) =>
                 {
-                    this.Controls.Status.Content = "WAITING FOR INSTALL...";
-                    this.Controls.ProgressBar.Visibility = Visibility.Hidden;
-                    tcs.SetResult(null);
+                    tcs.SetResult(0);
                 };
                 client.DownloadFileAsync(new Uri(this.remotePath), this.localPath);
-
             }
             catch
             {
-                this.Controls.Status.Content = "DOWNLOAD ERROR";
-                this.Controls.ProgressBar.Visibility = Visibility.Hidden;
-                tcs.SetResult(null);
+                tcs.SetResult(1);
             }
             return tcs.Task;
         }
+
         public virtual void DeleteTempFiles()
         {
             if (this.localPath == this.offlinePath) return;
             if (File.Exists(this.localPath)) File.Delete(this.localPath);
         }
+
         private string GetEntryAssemblyDirName()
         {
             var location = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);

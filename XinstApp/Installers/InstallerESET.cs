@@ -1,19 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace XinstApp.Installers
 {
-    //TODO
-    class InstallerESET
+    class InstallerESET : Installer
     {
-
+        private static InstallerESET _instance;
+        public static InstallerESET Instance
+        {
+            get
+            {
+                if (_instance == null) { _instance = new InstallerESET(); }
+                return _instance;
+            }
+        }
 
         private InstallerESET()
         {
-
+            this.remotePath = "https://download.eset.com/com/eset/apps/business/eea/windows/latest/eea_nt64.msi";
+            this.fileName = "eea_nt64.msi";
+            this.localPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.Controls.CheckBox.Content = "ESET";
         }
+
+        //TODO: ESET Installer
     }
 }

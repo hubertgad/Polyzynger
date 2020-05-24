@@ -4,12 +4,15 @@ namespace XinstApp.Installers
 {
     class InstallerTV : Installer
     {
-        private static InstallerTV instance = null;
+        private static InstallerTV _instance = null;
 
-        public static InstallerTV GetInstance()
+        public static InstallerTV Instance
         {
-            if (instance == null) { instance = new InstallerTV(); }
-            return instance;
+            get
+            {
+                if (_instance == null) { _instance = new InstallerTV(); }
+                return _instance;
+            }
         }
 
         private InstallerTV()
