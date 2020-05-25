@@ -3,8 +3,6 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
 
 namespace XinstApp.Installers
 {
@@ -12,12 +10,12 @@ namespace XinstApp.Installers
     {
         protected string status;
         protected string remotePath;
-        protected string localPath;
+        protected string tempPath;
         protected string fileName;
         protected string arguments;
         protected string entryDir;
         public Controls Controls { get; set; }
-        protected string offlinePath => Path.Combine(this.entryDir, this.fileName);
+        protected string offlinePath => Path.Combine(this.entryDir, "files", this.fileName);
 
         protected Installer()
         {
@@ -32,25 +30,23 @@ namespace XinstApp.Installers
             return null;
         }
         
-        public virtual Task<int> DownloadAsync(DownloadProgressChangedEventHandler downloadProgress)
+        public virtual Task<int> DownloadAsync(DownloadProgressChangedEventHandler downloadProgress) => DownloadFileAsync(downloadProgress, this.offlinePath, this.remotePath, this.tempPath);
+        
+        protected virtual Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress, string offlinePath, string remotePath, string tempPath)
         {
-            if (File.Exists(this.offlinePath))
+            if (File.Exists(offlinePath))
             {
-                this.localPath = this.offlinePath;
+                this.tempPath = this.offlinePath;
                 return null;
             }
 
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
-
             try
             {
                 WebClient client = new WebClient();
                 client.DownloadProgressChanged += downloadProgress;
-                client.DownloadFileCompleted += (sender, e) =>
-                {
-                    tcs.SetResult(0);
-                };
-                client.DownloadFileAsync(new Uri(this.remotePath), this.localPath);
+                client.DownloadFileCompleted += (sender, e) => tcs.SetResult(0);
+                client.DownloadFileAsync(new Uri(remotePath), tempPath);
             }
             catch
             {
@@ -59,10 +55,12 @@ namespace XinstApp.Installers
             return tcs.Task;
         }
 
-        public virtual void DeleteTempFiles()
+        public virtual void DeleteTempFiles() => DeleteTempFiles(this.tempPath, this.offlinePath);
+
+        public virtual void DeleteTempFiles(string tempPath, string offlinePath)
         {
-            if (this.localPath == this.offlinePath) return;
-            if (File.Exists(this.localPath)) File.Delete(this.localPath);
+            if (tempPath == offlinePath) return;
+            if (File.Exists(tempPath)) File.Delete(tempPath);
         }
 
         private string GetEntryAssemblyDirName()

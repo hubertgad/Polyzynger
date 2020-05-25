@@ -18,7 +18,7 @@ namespace XinstApp.Installers
         {
             this.remotePath = "https://download.eset.com/com/eset/apps/business/eea/windows/latest/eea_nt64.msi";
             this.fileName = "eea_nt64.msi";
-            this.localPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.Controls.CheckBox.Content = "ESET";
         }
 

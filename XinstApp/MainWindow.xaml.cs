@@ -193,8 +193,8 @@ namespace XinstApp
             {
                 installer.Controls.Status.Content = "INSTALL ERROR";
                 installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)144, (byte)0, (byte)0));
-//                Console.WriteLine(e.Message);
-//                Console.WriteLine(e);
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
             }
             installer.Controls.Status.Content = "DONE";
             installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));

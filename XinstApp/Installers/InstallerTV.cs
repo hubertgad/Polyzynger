@@ -19,7 +19,7 @@ namespace XinstApp.Installers
         {
             this.remotePath = "https://download.teamviewer.com/download/TeamViewer_Setup.exe";
             this.fileName = "TeamViewer_Setup.exe";
-            this.localPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.arguments = "/S /norestart";
             this.Controls.CheckBox.Content = "TeamViewer";
         }

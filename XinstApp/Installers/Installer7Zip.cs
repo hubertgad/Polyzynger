@@ -25,7 +25,7 @@ namespace XinstApp.Installers
         {
             this.remotePath = "https://www.7-zip.org/a/7z1900-x64.msi"; //TODO: Add method which finds lastest version of 7-zip
             this.fileName = "7z1900-x64.msi";
-            this.localPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.Controls.CheckBox.Content = "7-Zip";
         }
     }

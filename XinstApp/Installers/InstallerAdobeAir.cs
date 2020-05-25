@@ -20,7 +20,7 @@ namespace XinstApp.Installers
             this.remotePath = "https://airdownload.adobe.com/air/win/download/32.0/AdobeAIRInstaller.exe"; //TODO: Air Updater
             this.fileName = "AdobeAIRInstaller.exe";
             this.arguments = "-silent -pingbackAllowed";
-            this.localPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.Controls.CheckBox.Content = "Adobe Air";
         }
 
