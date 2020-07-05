@@ -23,6 +23,5 @@ namespace XinstApp.Installers
             this.arguments = "/silent /install";
             this.Controls.CheckBox.Content = "Google Chrome";
         }
-        //TODO: Installer Chrome
     }
 }

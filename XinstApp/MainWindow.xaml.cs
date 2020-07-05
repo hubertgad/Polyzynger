@@ -9,6 +9,7 @@ using XinstApp.Installers;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Media;
+using System.Threading;
 
 namespace XinstApp
 {
@@ -25,12 +26,16 @@ namespace XinstApp
         List<Installer> Office { get; set; }
         List<Installer> Security { get; set; }
         List<Installer> Utilities { get; set; }
-        public CheckBox CheckBoxTest { get; set; }
+        List<Installer> Ads { get; set; }
+        private readonly static SemaphoreSlim sem = new SemaphoreSlim(1);
+
 
         public MainWindow()
         {
             InitializeComponent();
-            MouseDown += (o, e) => { if (e.ChangedButton == MouseButton.Left) this.DragMove(); }; //TODO: block alt+f4 closing, add some on close behaviour
+            MouseDown += (o, e) => { if (e.ChangedButton == MouseButton.Left) this.DragMove(); }; //TODO: block alt+f4 closing, add some onclose behaviour
+
+            this.output.Text += "Output:";
 
             AddColumnDefinitions(this.ColumnOne);
             AddColumnDefinitions(this.ColumnTwo);
@@ -79,22 +84,6 @@ namespace XinstApp
             AddGroupToColumn(Security, "Security");
             AddGroupToColumn(Utilities, "Utilities");
             AddGroupToColumn(Multimedia, "Multimedia");
-            
-            //for (int i = 0; i < this.Installers.Count; i++)
-            //{
-            //    Grid column;
-            //    if (i % 3 == 0) { column = this.ColumnOne; }
-            //    else if (i % 3 == 1) { column = this.ColumnTwo; }
-            //    else { column = this.ColumnThree; }
-            //    column.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-            //    Grid.SetRow(Installers[i].Controls.CheckBox, column.RowDefinitions.Count - 1);
-            //    Grid.SetRow(Installers[i].Controls.ProgressBar, column.RowDefinitions.Count - 1);
-            //    Grid.SetRow(Installers[i].Controls.Status, column.RowDefinitions.Count - 1);
-            //    column.Children.Add(Installers[i].Controls.CheckBox);
-            //    column.Children.Add(Installers[i].Controls.ProgressBar);
-            //    column.Children.Add(Installers[i].Controls.Status);
-            //}
-
 
             this.ColumnOne.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0, GridUnitType.Star) });
             this.ColumnTwo.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0, GridUnitType.Star) });
@@ -111,7 +100,7 @@ namespace XinstApp
         /// <summary>
         /// Adds List of Installers to an Grid. 
         /// </summary>
-        /// <param name="group">Installers in group.</param>
+        /// <param name="group">Installers in a group.</param>
         /// <param name="groupName">Name that will be shown as Label.</param>
         private void AddGroupToColumn(List<Installer> group, string groupName)
         {
@@ -141,10 +130,10 @@ namespace XinstApp
 
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
-            EnableInterface(false);            
+            EnableInterface(false);
             List<Task> tasks = new List<Task>();
             foreach (var installer in this.Installers) { if (installer.Controls.CheckBox.IsChecked.Value) tasks.Add(InstallAsync(installer)); }
-            await Task.WhenAll(tasks);            
+            await Task.WhenAll(tasks);
             EnableInterface(true);
         }
 
@@ -159,9 +148,6 @@ namespace XinstApp
 
         private void ExitButton_Click(object sender, RoutedEventArgs e) => Close();
 
-        /// <summary>
-        /// Downloads installer file if necessary and installs an application.
-        /// </summary>
         private async Task InstallAsync(Installer installer)
         {
             installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)0, (byte)0));
@@ -169,35 +155,42 @@ namespace XinstApp
             DownloadProgressChangedEventHandler downloadHandler =
                 (s, e) => this.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                        installer.Controls.ProgressBar.Value = e.ProgressPercentage;
+                    installer.Controls.ProgressBar.Value = e.ProgressPercentage;
                 }));
 
             installer.Controls.ProgressBar.Visibility = Visibility.Visible;
             installer.Controls.Status.Content = "DOWNLOADING...";
             int result = await installer.DownloadAsync(downloadHandler);
-            if (result == 0)
-                { installer.Controls.Status.Content = "WAITING FOR INSTALL..."; }
-            else
-            {
-                installer.Controls.Status.Content = "DOWNLOAD ERROR";
-                installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)144, (byte)0, (byte)0));
-            }
             installer.Controls.ProgressBar.Visibility = Visibility.Hidden;
 
-            installer.Controls.Status.Content = "INSTALLING...";
+            installer.Controls.Status.Content = "WAITING";
             try
             {
+                await sem.WaitAsync();
+                installer.Controls.Status.Content = ">> INSTALLING";
+                installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217));
                 await installer.Install();
             }
             catch (Exception e)
             {
                 installer.Controls.Status.Content = "INSTALL ERROR";
                 installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)144, (byte)0, (byte)0));
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e);
+
+                WriteLine(e.Message);
+                WriteLine(e.ToString());
+
+                WriteLine($"Błąd podczas instalacji {installer.GetType()} :(");
             }
-            installer.Controls.Status.Content = "DONE";
-            installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));
+            finally
+            {
+                sem.Release();
+
+                installer.Controls.Status.Content = "CLEANING";
+                installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));
+                installer.DeleteTempFiles();
+
+                installer.Controls.Status.Content = "DONE";
+            }
         }
 
         private void CheckButton_Click(object sender, RoutedEventArgs e) => CheckAll(true);
@@ -207,6 +200,20 @@ namespace XinstApp
         private void CheckAll(bool value)
         {
             foreach (var installer in this.Installers) { installer.Controls.CheckBox.IsChecked = value; }
+        }
+
+        private void MaximalizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            //#TODO
+        }
+
+        void WriteLine(string message)
+        {
+            output.AppendText(DateTime.Now.Hour.ToString("D2") + ":");
+            output.AppendText(string.Format(DateTime.Now.Minute.ToString("D2")) + ":");
+            output.AppendText(DateTime.Now.Second.ToString("D2") + " >> ");
+            output.AppendText(message);
+            output.AppendText(Environment.NewLine);
         }
     }
 }

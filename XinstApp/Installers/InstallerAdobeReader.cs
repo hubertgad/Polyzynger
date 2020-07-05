@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace XinstApp.Installers
@@ -21,10 +22,10 @@ namespace XinstApp.Installers
             }
         }
 
-        private string patchRemotePath = "";
-        private string patchFileName = "";
-        private string PatchTempPath => Path.Combine(Path.GetTempPath(), patchFileName);
-        protected string PatchOfflinePath => Path.Combine(this.entryDir, "files", this.patchFileName);
+        private string _patchRemotePath = "";
+        private string _patchFileName = "";
+        private string _patchTempPath => Path.Combine(Path.GetTempPath(), _patchFileName);
+        protected string PatchOfflinePath => Path.Combine(this.entryDir, "files", this._patchFileName);
 
         private InstallerAdobeReader()
         {
@@ -39,7 +40,7 @@ namespace XinstApp.Installers
         {
             await EstablishLastestPatchLocation();
             Task<int> downloadInstaller = DownloadFileAsync(downloadProgress, this.offlinePath, this.remotePath, this.tempPath);
-            Task<int> downloadPatch = DownloadFileAsync(downloadProgress, this.PatchOfflinePath, this.patchRemotePath, this.PatchTempPath);
+            Task<int> downloadPatch = DownloadFileAsync(downloadProgress, this.PatchOfflinePath, this._patchRemotePath, this._patchTempPath);
             return await downloadInstaller + await downloadPatch;
         }
 
@@ -53,7 +54,7 @@ namespace XinstApp.Installers
             try
             {
                 DeleteTempFiles();
-                DeleteTempFiles(this.PatchTempPath, this.PatchOfflinePath);
+                DeleteTempFiles(this._patchTempPath, this.PatchOfflinePath);
             }
             catch (Exception e)
             {
@@ -61,7 +62,7 @@ namespace XinstApp.Installers
             }
         }
 
-        private Task InstallReaderDC()
+        private async Task InstallReaderDC()
         {
             var tcs = new TaskCompletionSource<object>();
             Process p = new Process()
@@ -76,17 +77,17 @@ namespace XinstApp.Installers
                 tcs.SetResult(null);
             };
             p.Start();
-            return tcs.Task;
+            await tcs.Task;
         }
 
-        private Task UpdateReaderDC()
+        private async Task UpdateReaderDC()
         {
             TaskCompletionSource<object> tcs = new TaskCompletionSource<object>();            
             string tempPath = Path.Combine(Path.GetTempPath(), "temp.cmd");
 
             using (Stream fs = File.Create(tempPath))
             using (StreamWriter sw = new StreamWriter(fs))
-                sw.Write($"START /WAIT msiexec /update { this.patchFileName } /qn");
+                sw.Write($"START /WAIT msiexec /update \"{ this._patchTempPath }\" /qn");
 
             Process p = new Process()
             {
@@ -103,7 +104,7 @@ namespace XinstApp.Installers
             };
             p.Start();
 
-            return tcs.Task;
+            await tcs.Task;
         }
 
         private async Task EstablishLastestPatchLocation()
@@ -114,8 +115,10 @@ namespace XinstApp.Installers
             string endFTPDirPath = Path.Combine(initialFTPDirPath, latestPatchNo.ToString());
             List<string> endDirLst = await ListFTPDirectoryAsync(endFTPDirPath);
 
-            this.patchFileName = MatchPatchFileName(endDirLst, latestPatchNo);
-            this.patchRemotePath = Path.Combine(endFTPDirPath, this.patchFileName);
+            this._patchFileName = MatchPatchFileName(endDirLst, latestPatchNo);
+            this._patchRemotePath = Path.Combine(endFTPDirPath, this._patchFileName);
+            this._patchRemotePath = this._patchRemotePath.Replace("ftp://ftp.adobe.com/", "http://ardownload.adobe.com/");
+            Console.WriteLine(this._patchRemotePath);
         }
 
         private string MatchPatchFileName(List<string> list, int versionNo)

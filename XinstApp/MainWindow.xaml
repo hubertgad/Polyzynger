@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XinstApp"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
-        WindowStyle="None"
-        Title="Xinst" Height="480" Width="854">
+        ResizeMode="CanResize"
+        WindowStyle="SingleBorderWindow"
+        Title="Xinst" MinHeight="480" MinWidth="854" Height="480" Width="854" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -31,10 +31,11 @@
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Image Grid.Column="1" Grid.RowSpan="1" Width="200" Height="85" Source="/Resources/logo.png"/>
-            <WrapPanel Grid.Column="4" VerticalAlignment="Center">
+            <WrapPanel Grid.Column="4" VerticalAlignment="Top">
+                <Button Style="{StaticResource DefaultButton}" Content="START" Click="Button_ClickAsync" x:Name="StartButton" Margin="0,0,50,0" />
                 <Button Style="{StaticResource DefaultButton}" Content="CHECK" Click="CheckButton_Click" x:Name="CheckButton" />
-                <Button Style="{StaticResource DefaultButton}" Content="UNCHECK" Click="UncheckButton_Click" x:Name="UncheckButton" FontSize="10" />
-                <Button Style="{StaticResource DefaultButton}" Content="START" Click="Button_ClickAsync" x:Name="StartButton" />
+                <Button Style="{StaticResource DefaultButton}" Content="UNCHECK" Click="UncheckButton_Click" x:Name="UncheckButton" FontSize="10" Margin="0,0,50,0"/>
+                <Button Style="{StaticResource DefaultButton}" Content="FULL SCR" Click="MaximalizeButton_Click" x:Name="MaximalizeButton" FontSize="10" />
                 <Button Style="{StaticResource ExitButton}" Content="EXIT" Click="ExitButton_Click" x:Name="ExitButton" />
             </WrapPanel>
         </Grid>
@@ -51,7 +52,9 @@
                 <Grid Grid.Column="2" x:Name="ColumnThree" />
             </Grid>
         </ScrollViewer>
-        
+        <TextBox Grid.Row="3" Grid.Column="1" Margin="10" x:Name="output" 
+                 Background="Black" Foreground="#0093d9" IsReadOnly="true" HorizontalScrollBarVisibility="Auto" />
+
         <!-- temporary testing section -->
         <!--<TextBox Grid.Row="2" Grid.Column="9" Grid.RowSpan="5" x:Name="txt" />-->
 

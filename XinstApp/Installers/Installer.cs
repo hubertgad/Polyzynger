@@ -1,33 +1,61 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace XinstApp.Installers
 {
     abstract class Installer
     {
-        protected string status;
-        protected string remotePath;
-        protected string tempPath;
-        protected string fileName;
-        protected string arguments;
-        protected string entryDir;
+        /// <summary>
+        /// Path from which file is downloaded.
+        /// </summary>
+        protected string remotePath { get; set; }
+        /// <summary>
+        /// Full temporary path to an installer file.
+        /// </summary>
+        protected string tempPath { get; set; }
+        protected string fileName { get; set; }
+        protected string arguments { get; set; }
+        protected string entryDir { get; set; }
         public Controls Controls { get; set; }
         protected string offlinePath => Path.Combine(this.entryDir, "files", this.fileName);
 
         protected Installer()
         {
-            this.status = "Initializing...";
             this.entryDir = GetEntryAssemblyDirName();
             this.Controls = new Controls();
-            this.arguments = "/qn";
+            this.arguments = " /qn";
         }
 
         public virtual Task Install()
         {
-            return null;
+            var tcs = new TaskCompletionSource<object>();
+
+            Process p = new Process();
+            p.StartInfo = this.tempPath.Contains(".msi") ? 
+                new ProcessStartInfo 
+                {
+                    FileName = $"msiexec.exe",
+                    Arguments = $"/i \"{ this.tempPath }\" /q /norestart"
+                } : 
+                new ProcessStartInfo 
+                {
+                    FileName = $"\"{ this.tempPath }\"",
+                    Arguments = $"{ this.arguments }",
+                };
+            p.StartInfo.Verb = "runas";
+            p.EnableRaisingEvents = true;
+            p.Exited += (s, e) =>
+            {
+                tcs.SetResult(null);
+            };
+            p.Start();
+
+            return tcs.Task;
         }
         
         public virtual Task<int> DownloadAsync(DownloadProgressChangedEventHandler downloadProgress) => DownloadFileAsync(downloadProgress, this.offlinePath, this.remotePath, this.tempPath);
