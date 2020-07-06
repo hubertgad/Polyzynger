@@ -2,8 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace XinstApp.Installers
@@ -14,23 +12,37 @@ namespace XinstApp.Installers
         /// Path from which file is downloaded.
         /// </summary>
         protected string remotePath { get; set; }
+
         /// <summary>
         /// Full temporary path to an installer file.
         /// </summary>
         protected string tempPath { get; set; }
+
+        /// <summary>
+        /// Installer file name.
+        /// </summary>
         protected string fileName { get; set; }
+
+        /// <summary>
+        /// Installation arguments to be passed to installation process.
+        /// </summary>
         protected string arguments { get; set; }
-        protected string entryDir { get; set; }
+
+        /// <summary>
+        /// GUI controls model.
+        /// </summary>
         public Controls Controls { get; set; }
-        protected string offlinePath => Path.Combine(this.entryDir, "files", this.fileName);
 
         protected Installer()
         {
-            this.entryDir = GetEntryAssemblyDirName();
             this.Controls = new Controls();
             this.arguments = " /qn";
         }
 
+        /// <summary>
+        /// Perform an installation of .exe or .msi file using System.Diagnostics.Process class.
+        /// </summary>
+        /// <returns></returns>
         public virtual Task Install()
         {
             var tcs = new TaskCompletionSource<object>();
@@ -57,17 +69,23 @@ namespace XinstApp.Installers
 
             return tcs.Task;
         }
-        
-        public virtual Task<int> DownloadAsync(DownloadProgressChangedEventHandler downloadProgress) => DownloadFileAsync(downloadProgress, this.offlinePath, this.remotePath, this.tempPath);
-        
-        protected virtual Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress, string offlinePath, string remotePath, string tempPath)
-        {
-            if (File.Exists(offlinePath))
-            {
-                this.tempPath = this.offlinePath;
-                return null;
-            }
 
+        /// <summary>
+        /// Downloads a file from location specified in the constructor and saves it in the temporary location specified in the constructor.
+        /// </summary>
+        /// <param name="downloadProgress">Progress bar handler.</param>
+        /// <returns>If completed successfully returns 0. If not returns 1.</returns>
+        public virtual Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress) => DownloadFileAsync(downloadProgress, this.remotePath, this.tempPath);
+
+        /// <summary>
+        /// Downloads file from given location and saves it using given local path.
+        /// </summary>
+        /// <param name="downloadProgress">Progress bar handler.</param>
+        /// <param name="remotePath">Remote location of the file.</param>
+        /// <param name="tempPath">Local temporary path where the file has to be saved.</param>
+        /// <returns>If completed successfully returns 0. If not returns 1.</returns>
+        public virtual Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress, string remotePath, string tempPath)
+        {
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
             try
             {
@@ -83,18 +101,18 @@ namespace XinstApp.Installers
             return tcs.Task;
         }
 
-        public virtual void DeleteTempFiles() => DeleteTempFiles(this.tempPath, this.offlinePath);
+        /// <summary>
+        /// Deletes temporary files in previously specified temp path.
+        /// </summary>
+        public virtual void DeleteTempFiles() => DeleteTempFiles(this.tempPath);
 
-        public virtual void DeleteTempFiles(string tempPath, string offlinePath)
+        /// <summary>
+        /// Deletes temporary files in given path.
+        /// </summary>
+        /// <param name="path">Path to temporary files.</param>
+        public virtual void DeleteTempFiles(string path)
         {
-            if (tempPath == offlinePath) return;
-            if (File.Exists(tempPath)) File.Delete(tempPath);
-        }
-
-        private string GetEntryAssemblyDirName()
-        {
-            var location = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
-            return new FileInfo(location.AbsolutePath).DirectoryName;
+            if (File.Exists(tempPath)) { File.Delete(tempPath); }
         }
     }
 }

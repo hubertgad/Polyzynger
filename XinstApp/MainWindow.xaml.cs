@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Media;
 using System.Threading;
+using XinstApp.Installers.SevenAds;
 
 namespace XinstApp
 {
@@ -18,6 +19,7 @@ namespace XinstApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly static SemaphoreSlim sem = new SemaphoreSlim(1);
         internal static MainWindow Main;
         List<Installer> Installers { get; set; }
         List<Installer> Browsers { get; set; }
@@ -26,15 +28,14 @@ namespace XinstApp
         List<Installer> Office { get; set; }
         List<Installer> Security { get; set; }
         List<Installer> Utilities { get; set; }
-        List<Installer> Ads { get; set; }
-        private readonly static SemaphoreSlim sem = new SemaphoreSlim(1);
-
 
         public MainWindow()
         {
             InitializeComponent();
             MouseDown += (o, e) => { if (e.ChangedButton == MouseButton.Left) this.DragMove(); }; //TODO: block alt+f4 closing, add some onclose behaviour
 
+            this.SSID.Text = "seven-guest";
+            this.password.Password = "Seven123$";
             this.output.Text += "Output:";
 
             AddColumnDefinitions(this.ColumnOne);
@@ -78,12 +79,12 @@ namespace XinstApp
             this.Installers.AddRange(this.Utilities);
             this.Installers.AddRange(this.Multimedia);
 
-            AddGroupToColumn(Browsers, "Web Browsers");
-            AddGroupToColumn(Runtimes, "Runtimes");
-            AddGroupToColumn(Office, "Office Apps");
-            AddGroupToColumn(Security, "Security");
-            AddGroupToColumn(Utilities, "Utilities");
-            AddGroupToColumn(Multimedia, "Multimedia");
+            AddGroupToColumn(SevenAdsController.Instance.Ads.Select(q => q.Controls).ToList(), "Seven items");
+            AddGroupToColumn(Runtimes.Select(q => q.Controls).ToList(), "Runtimes");
+            AddGroupToColumn(Office.Select(q => q.Controls).ToList(), "Office Apps");
+            AddGroupToColumn(Security.Select(q => q.Controls).ToList(), "Security");
+            AddGroupToColumn(Utilities.Select(q => q.Controls).ToList(), "Utilities");
+            AddGroupToColumn(Multimedia.Select(q => q.Controls).ToList(), "Multimedia");
 
             this.ColumnOne.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0, GridUnitType.Star) });
             this.ColumnTwo.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(0, GridUnitType.Star) });
@@ -98,11 +99,11 @@ namespace XinstApp
         }
 
         /// <summary>
-        /// Adds List of Installers to an Grid. 
+        /// Adds List of Controls to an Grid. 
         /// </summary>
-        /// <param name="group">Installers in a group.</param>
-        /// <param name="groupName">Name that will be shown as Label.</param>
-        private void AddGroupToColumn(List<Installer> group, string groupName)
+        /// <param name="group">Controls in a group.</param>
+        /// <param name="groupName">Name that will be shown as a Label.</param>
+        private void AddGroupToColumn(List<Controls> group, string groupName)
         {
             Grid column = ColumnThree.Children.Count < ColumnTwo.Children.Count ? ColumnThree 
                 : ColumnTwo.Children.Count < ColumnOne.Children.Count ? ColumnTwo 
@@ -114,15 +115,15 @@ namespace XinstApp
             Grid.SetRow(label, column.RowDefinitions.Count - 1);
             column.Children.Add(label);
 
-            foreach (Installer installer in group)
+            foreach (Controls control in group)
             {
                 column.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-                Grid.SetRow(installer.Controls.CheckBox, column.RowDefinitions.Count - 1);
-                Grid.SetRow(installer.Controls.ProgressBar, column.RowDefinitions.Count - 1);
-                Grid.SetRow(installer.Controls.Status, column.RowDefinitions.Count - 1);
-                column.Children.Add(installer.Controls.CheckBox);
-                column.Children.Add(installer.Controls.ProgressBar);
-                column.Children.Add(installer.Controls.Status);
+                Grid.SetRow(control.CheckBox, column.RowDefinitions.Count - 1);
+                Grid.SetRow(control.ProgressBar, column.RowDefinitions.Count - 1);
+                Grid.SetRow(control.Status, column.RowDefinitions.Count - 1);
+                column.Children.Add(control.CheckBox);
+                column.Children.Add(control.ProgressBar);
+                column.Children.Add(control.Status);
             }
         }
 
@@ -131,19 +132,22 @@ namespace XinstApp
         private async void Button_ClickAsync(object sender, RoutedEventArgs e)
         {
             EnableInterface(false);
+
             List<Task> tasks = new List<Task>();
             foreach (var installer in this.Installers) { if (installer.Controls.CheckBox.IsChecked.Value) tasks.Add(InstallAsync(installer)); }
+            tasks.Add(SevenAdsController.Instance.Install());
             await Task.WhenAll(tasks);
+
             EnableInterface(true);
         }
 
         private void EnableInterface(bool value)
         {
             this.StartButton.IsEnabled = value;
-            this.ExitButton.IsEnabled = value;
             this.CheckButton.IsEnabled = value;
             this.UncheckButton.IsEnabled = value;
             foreach (var installer in this.Installers) { installer.Controls.CheckBox.IsEnabled = value; }
+            foreach (var ad in SevenAdsController.Instance.Ads) { ad.Controls.CheckBox.IsEnabled = value; }
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e) => Close();
@@ -160,7 +164,7 @@ namespace XinstApp
 
             installer.Controls.ProgressBar.Visibility = Visibility.Visible;
             installer.Controls.Status.Content = "DOWNLOADING...";
-            int result = await installer.DownloadAsync(downloadHandler);
+            int result = await installer.DownloadFileAsync(downloadHandler);
             installer.Controls.ProgressBar.Visibility = Visibility.Hidden;
 
             installer.Controls.Status.Content = "WAITING";
@@ -200,20 +204,22 @@ namespace XinstApp
         private void CheckAll(bool value)
         {
             foreach (var installer in this.Installers) { installer.Controls.CheckBox.IsChecked = value; }
-        }
-
-        private void MaximalizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            //#TODO
+            foreach (var ad in SevenAdsController.Instance.Ads) { ad.Controls.CheckBox.IsChecked = value; }
         }
 
         void WriteLine(string message)
         {
+            output.Visibility = Visibility.Visible;
             output.AppendText(DateTime.Now.Hour.ToString("D2") + ":");
             output.AppendText(string.Format(DateTime.Now.Minute.ToString("D2")) + ":");
             output.AppendText(DateTime.Now.Second.ToString("D2") + " >> ");
             output.AppendText(message);
             output.AppendText(Environment.NewLine);
+        }
+
+        private async void ConnectToWiFi_Click(object sender, RoutedEventArgs e)
+        {
+            await WiFi.ConnectToWiFiAsync(this.SSID.Text, this.password.Password);
         }
     }
 }

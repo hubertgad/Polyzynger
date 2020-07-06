@@ -59,9 +59,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\Seven.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -74,6 +74,9 @@
       <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
       <Private>True</Private>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -93,6 +96,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Installers\SevenAds\DesktopArranger.cs" />
+    <Compile Include="Installers\SevenAds\Icon.cs" />
+    <Compile Include="Installers\SevenAds\SearchBarHider.cs" />
+    <Compile Include="Installers\SevenAds\SevenAdsController.cs" />
+    <Compile Include="Installers\SevenAds\SevenBase.cs" />
+    <Compile Include="Installers\SevenAds\Themepack.cs" />
+    <Compile Include="Resources\ContentLoading.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -113,6 +123,7 @@
     <Compile Include="Installers\InstallerMPC.cs" />
     <Compile Include="Installers\InstallerMSSilverlight.cs" />
     <Compile Include="Installers\InstallerTV.cs" />
+    <Compile Include="Installers\WiFi.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -157,7 +168,19 @@
     <EmbeddedResource Include="Resources\xinstico2.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\AdjustDesktopIcons.ps1" />
+    <EmbeddedResource Include="Resources\Prosimy o opinie!.url" />
+    <EmbeddedResource Include="Resources\Seven.deskthemepack" />
     <None Include="Resources\xinst.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Seven.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WiFiProfileTemplate.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo_seven_transparent.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

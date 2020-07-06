@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace XinstApp.Installers
@@ -25,7 +24,6 @@ namespace XinstApp.Installers
         private string _patchRemotePath = "";
         private string _patchFileName = "";
         private string _patchTempPath => Path.Combine(Path.GetTempPath(), _patchFileName);
-        protected string PatchOfflinePath => Path.Combine(this.entryDir, "files", this._patchFileName);
 
         private InstallerAdobeReader()
         {
@@ -36,11 +34,11 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "Adobe Reader";
         }
 
-        public override async Task<int> DownloadAsync(DownloadProgressChangedEventHandler downloadProgress)
+        public override async Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress)
         {
             await EstablishLastestPatchLocation();
-            Task<int> downloadInstaller = DownloadFileAsync(downloadProgress, this.offlinePath, this.remotePath, this.tempPath);
-            Task<int> downloadPatch = DownloadFileAsync(downloadProgress, this.PatchOfflinePath, this._patchRemotePath, this._patchTempPath);
+            Task<int> downloadInstaller = DownloadFileAsync(downloadProgress, this.remotePath, this.tempPath);
+            Task<int> downloadPatch = DownloadFileAsync(downloadProgress, this._patchRemotePath, this._patchTempPath);
             return await downloadInstaller + await downloadPatch;
         }
 
@@ -54,7 +52,6 @@ namespace XinstApp.Installers
             try
             {
                 DeleteTempFiles();
-                DeleteTempFiles(this._patchTempPath, this.PatchOfflinePath);
             }
             catch (Exception e)
             {

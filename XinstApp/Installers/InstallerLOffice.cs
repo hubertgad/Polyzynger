@@ -21,6 +21,7 @@ namespace XinstApp.Installers
             this.fileName = "LibreOffice_6.3.6_Win_x64.msi";
             this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.Controls.CheckBox.Content = "Libre Office";
+            this.Controls.CheckBox.IsChecked = false;
         }
         //TODO: Installer Libre Office
     }

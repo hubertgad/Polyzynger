@@ -22,7 +22,7 @@ namespace XinstApp.Installers
             this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.arguments = "/S /norestart";
             this.Controls.CheckBox.Content = "TeamViewer";
+            this.Controls.CheckBox.IsChecked = false;
         }
-        //TODO: Installer TV
     }
 }
