@@ -34,12 +34,11 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "Adobe Reader";
         }
 
-        public override async Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress)
+        public override async Task DownloadAsync()
         {
             await EstablishLastestPatchLocation();
-            Task<int> downloadInstaller = DownloadFileAsync(downloadProgress, this.remotePath, this.tempPath);
-            Task<int> downloadPatch = DownloadFileAsync(downloadProgress, this._patchRemotePath, this._patchTempPath);
-            return await downloadInstaller + await downloadPatch;
+            await DownloadFileAsync(this.remotePath, this.tempPath);
+            await DownloadFileAsync(this._patchRemotePath, this._patchTempPath);
         }
 
         public override async Task Install()
@@ -52,6 +51,7 @@ namespace XinstApp.Installers
             try
             {
                 DeleteTempFiles();
+                DeleteTempFiles(this._patchTempPath);
             }
             catch (Exception e)
             {
@@ -115,7 +115,6 @@ namespace XinstApp.Installers
             this._patchFileName = MatchPatchFileName(endDirLst, latestPatchNo);
             this._patchRemotePath = Path.Combine(endFTPDirPath, this._patchFileName);
             this._patchRemotePath = this._patchRemotePath.Replace("ftp://ftp.adobe.com/", "http://ardownload.adobe.com/");
-            Console.WriteLine(this._patchRemotePath);
         }
 
         private string MatchPatchFileName(List<string> list, int versionNo)
@@ -147,6 +146,12 @@ namespace XinstApp.Installers
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
             string shortcutPath = Path.Combine(desktopPath, "Acrobat Reader DC.lnk");
             if (File.Exists(shortcutPath)) File.Delete(shortcutPath);
+        }
+
+        public override void DeleteTempFiles()
+        {
+            base.DeleteTempFiles();
+            DeleteTempFiles(this._patchTempPath);
         }
     }
 }

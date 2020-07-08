@@ -6,7 +6,7 @@ namespace XinstApp.Installers.SevenAds
 {
     class SevenAdsController
     {
-        public List<SevenBase> Ads { get; set; }
+        public List<Script> Ads { get; set; }
 
         private static SevenAdsController _instance = null;
 
@@ -21,7 +21,7 @@ namespace XinstApp.Installers.SevenAds
 
         private SevenAdsController()
         {
-            Ads = new List<SevenBase>
+            Ads = new List<Script>
             {
                 Icon.Instance,
                 Themepack.Instance,
@@ -30,21 +30,24 @@ namespace XinstApp.Installers.SevenAds
             };
         }
 
-        public async Task Install()
+        public async Task Perform()
         {
             foreach (var ad in Ads)
             {
-                ad.Controls.Status.Content = "PERFORMING";
-                try
+                if (ad.Controls.CheckBox.IsChecked.Value)
                 {
-                    await ad.Perform();
-                    ad.Controls.Status.Content = "DONE";
-                    ad.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));
-                }
-                catch
-                {
-                    ad.Controls.Status.Content = "ERROR";
-                    ad.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)144, (byte)0, (byte)0));
+                    ad.Controls.Status.Content = "PERFORMING";
+                    try
+                    {
+                        await ad.Perform();
+                        ad.Controls.Status.Content = "DONE";
+                        ad.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));
+                    }
+                    catch
+                    {
+                        ad.Controls.Status.Content = "ERROR";
+                        ad.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)144, (byte)0, (byte)0));
+                    }
                 }
             }
         }

@@ -23,6 +23,5 @@ namespace XinstApp.Installers
             this.arguments = "/q /norestart";
             this.Controls.CheckBox.Content = "MS Silverlight";
         }
-        //TODO: Installer Silverlight
     }
 }

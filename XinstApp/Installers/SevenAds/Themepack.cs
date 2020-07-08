@@ -1,9 +1,10 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace XinstApp.Installers.SevenAds
 {
-    class Themepack : SevenBase
+    class Themepack : Script
     {
 
         private static Themepack _instance = null;
@@ -21,14 +22,40 @@ namespace XinstApp.Installers.SevenAds
         {
             this.Controls.CheckBox.Content = "Seven Theme";
         }
-        public override Task Perform()
+        public override async Task Perform()
         {
-            return Task.Run(() =>
+            await Task.Run(() =>
                 {
-                string path = Path.Combine(Path.GetTempPath(), "Seven.deskthemepack");
-                CopyResource("Seven.deskthemepack", path);
-                ExecuteScript($"start { path }");
-            });
+                    string path = Path.Combine(Path.GetTempPath(), "Seven.deskthemepack");
+                    CopyResource("Seven.deskthemepack", path);
+
+                    Process p = new Process
+                    {
+                        StartInfo =
+                        {
+                            FileName = "cmd.exe",
+                            Arguments = $"/C start /wait { path }",
+                            CreateNoWindow = true,
+                            UseShellExecute = false,
+                        }
+                    };
+                    p.EnableRaisingEvents = true;
+                    p.Exited += (s, e) =>
+                    {
+                        Process p2 = new Process
+                        {
+                            StartInfo =
+                            {
+                                FileName = "taskkill",
+                                Arguments = "/F /IM systemsettings.exe",
+                                Verb = "runas",
+                                CreateNoWindow = true
+                            }
+                        };
+                        p2.Start();
+                    };
+                    p.Start();
+                });
         }
     }
 }

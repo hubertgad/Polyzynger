@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace XinstApp.Installers.SevenAds
 {
-    public abstract class SevenBase
+    public abstract class Script
     {
         public Controls Controls { get; set; }
 
-        public SevenBase()
+        public Script()
         {
             this.Controls = new Controls();
         }

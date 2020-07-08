@@ -75,7 +75,7 @@ namespace XinstApp.Installers
         /// </summary>
         /// <param name="downloadProgress">Progress bar handler.</param>
         /// <returns>If completed successfully returns 0. If not returns 1.</returns>
-        public virtual Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress) => DownloadFileAsync(downloadProgress, this.remotePath, this.tempPath);
+        public virtual Task DownloadAsync() => DownloadFileAsync(this.remotePath, this.tempPath);
 
         /// <summary>
         /// Downloads file from given location and saves it using given local path.
@@ -84,20 +84,18 @@ namespace XinstApp.Installers
         /// <param name="remotePath">Remote location of the file.</param>
         /// <param name="tempPath">Local temporary path where the file has to be saved.</param>
         /// <returns>If completed successfully returns 0. If not returns 1.</returns>
-        public virtual Task<int> DownloadFileAsync(DownloadProgressChangedEventHandler downloadProgress, string remotePath, string tempPath)
+        public virtual Task DownloadFileAsync(string remotePath, string tempPath)
         {
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
-            try
+
+            WebClient client = new WebClient();
+            client.DownloadProgressChanged += (s, e) =>
             {
-                WebClient client = new WebClient();
-                client.DownloadProgressChanged += downloadProgress;
-                client.DownloadFileCompleted += (sender, e) => tcs.SetResult(0);
-                client.DownloadFileAsync(new Uri(remotePath), tempPath);
-            }
-            catch
-            {
-                tcs.SetResult(1);
-            }
+                Controls.ProgressBar.Value = e.ProgressPercentage;
+            };
+            client.DownloadFileCompleted += (sender, e) => tcs.SetResult(0);
+            client.DownloadFileAsync(new Uri(remotePath), tempPath);
+
             return tcs.Task;
         }
 
@@ -112,7 +110,7 @@ namespace XinstApp.Installers
         /// <param name="path">Path to temporary files.</param>
         public virtual void DeleteTempFiles(string path)
         {
-            if (File.Exists(tempPath)) { File.Delete(tempPath); }
+            if (File.Exists(path)) { File.Delete(path); }
         }
     }
 }

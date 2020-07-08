@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace XinstApp.Installers.SevenAds
 {
-    class DesktopArranger : SevenBase
+    class DesktopArranger : Script
     {
         private static DesktopArranger _instance = null;
 
@@ -19,7 +19,7 @@ namespace XinstApp.Installers.SevenAds
 
         private DesktopArranger()
         {
-            this.Controls.CheckBox.Content = "Arrange desktop";
+            this.Controls.CheckBox.Content = "Arrange Desktop";
         }
 
         public override Task Perform()

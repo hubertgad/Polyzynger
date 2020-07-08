@@ -1,9 +1,8 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace XinstApp.Installers.SevenAds
 {
-    class SearchBarHider : SevenBase
+    class SearchBarHider : Script
     {
         private static SearchBarHider _instance = null;
 
@@ -18,7 +17,7 @@ namespace XinstApp.Installers.SevenAds
 
         private SearchBarHider()
         {
-            this.Controls.CheckBox.Content = "Hide SearchBar";
+            this.Controls.CheckBox.Content = "Hide Search Bar";
         }
         public override Task Perform()
         {

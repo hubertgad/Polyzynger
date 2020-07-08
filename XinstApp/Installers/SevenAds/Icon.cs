@@ -5,7 +5,7 @@ using XinstApp.Resources;
 
 namespace XinstApp.Installers.SevenAds
 {
-    class Icon : SevenBase
+    class Icon : Script
     {
         private static Icon _instance = null;
 
