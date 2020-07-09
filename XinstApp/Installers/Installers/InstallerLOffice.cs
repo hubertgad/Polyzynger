@@ -23,6 +23,5 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "Libre Office";
             this.Controls.CheckBox.IsChecked = false;
         }
-        //TODO: Installer Libre Office
     }
 }

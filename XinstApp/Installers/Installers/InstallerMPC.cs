@@ -24,6 +24,5 @@ namespace XinstApp.Installers
             this.arguments = "/verysilent";
             this.Controls.CheckBox.Content = "K-Lite Codecs";
         }
-        //TODO: Installer MPC
     }
 }

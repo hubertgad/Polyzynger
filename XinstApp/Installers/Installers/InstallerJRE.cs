@@ -22,7 +22,5 @@ namespace XinstApp.Installers
             this.arguments = "/q /norestart";
             this.Controls.CheckBox.Content = "OpenJDK JRE";
         }
-
-        //TODO: Installer OpenJDK
     }
 }

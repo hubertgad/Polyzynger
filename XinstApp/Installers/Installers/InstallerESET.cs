@@ -21,7 +21,5 @@ namespace XinstApp.Installers
             this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
             this.Controls.CheckBox.Content = "ESET";
         }
-
-        //TODO: ESET Installer
     }
 }
