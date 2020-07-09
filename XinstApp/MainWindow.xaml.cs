@@ -7,6 +7,7 @@ using XinstApp.Installers;
 using System.Linq;
 using XinstApp.Installers.SevenAds;
 using XinstApp.Controllers;
+using XinstApp.Utilities;
 
 namespace XinstApp
 {
@@ -94,6 +95,12 @@ namespace XinstApp
         /// </summary>
         private async void StartButton_ClickAsync(object sender, RoutedEventArgs e)
         {
+            if (!ConnectionChecker.IsConnectedToInternet())
+            {
+                ShowNoInternetWarning();
+                return;
+            }
+
             EnableInterface(false);
 
             List<Task> tasks = new List<Task>();
@@ -105,9 +112,21 @@ namespace XinstApp
         }
 
         /// <summary>
-        /// 
+        /// Simply shows an warning message box which informs that there is no Internet connection.
         /// </summary>
-        /// <param name="value"></param>
+        private void ShowNoInternetWarning()
+        {
+            MessageBox.Show(
+                "No Internet connection detected. Please, connect to the Internet and try again.",
+                "Warning", 
+                MessageBoxButton.OK, 
+                MessageBoxImage.Warning);
+        }
+
+        /// <summary>
+        /// Enables or disables all controls depending on passed bool variable.
+        /// </summary>
+        /// <param name="value">True to enable or false to disable controls.</param>
         private void EnableInterface(bool value)
         {
             this.StartButton.IsEnabled = value;
@@ -136,16 +155,6 @@ namespace XinstApp
             foreach (var installer in InstallationController.Installers) { installer.Controls.CheckBox.IsChecked = value; }
             foreach (var ad in SevenAdsController.Instance.Ads) { ad.Controls.CheckBox.IsChecked = value; }
         }
-
-        //void WriteLine(string message)
-        //{
-        //    this.output.Visibility = Visibility.Visible;
-        //    this.output.AppendText(DateTime.Now.Hour.ToString("D2") + ":");
-        //    this.output.AppendText(string.Format(DateTime.Now.Minute.ToString("D2")) + ":");
-        //    this.output.AppendText(DateTime.Now.Second.ToString("D2") + " >> ");
-        //    this.output.AppendText(message);
-        //    this.output.AppendText(Environment.NewLine);
-        //}
 
         /// <summary>
         /// 

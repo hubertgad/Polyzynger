@@ -130,6 +130,7 @@
     <Compile Include="Installers\SevenAds\Script.cs" />
     <Compile Include="Installers\SevenAds\Themepack.cs" />
     <Compile Include="Resources\ContentLoading.cs" />
+    <Compile Include="Utilities\ConnectionChecker.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -150,7 +151,7 @@
     <Compile Include="Installers\Installers\InstallerMPC.cs" />
     <Compile Include="Installers\Installers\InstallerMSSilverlight.cs" />
     <Compile Include="Installers\Installers\InstallerTV.cs" />
-    <Compile Include="Installers\WiFi.cs" />
+    <Compile Include="Utilities\WiFi.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

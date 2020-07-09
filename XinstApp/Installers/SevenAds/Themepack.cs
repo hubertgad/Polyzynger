@@ -49,7 +49,8 @@ namespace XinstApp.Installers.SevenAds
                                 FileName = "taskkill",
                                 Arguments = "/F /IM systemsettings.exe",
                                 Verb = "runas",
-                                CreateNoWindow = true
+                                CreateNoWindow = true,
+                                UseShellExecute = false
                             }
                         };
                         p2.Start();

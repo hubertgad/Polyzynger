@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using XinstApp.Resources;
 
-namespace XinstApp.Installers
+namespace XinstApp.Utilities
 {
     public static class WiFi
     {
