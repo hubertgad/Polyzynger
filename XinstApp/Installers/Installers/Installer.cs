@@ -42,7 +42,6 @@ namespace XinstApp.Installers
         /// <summary>
         /// Perform an installation of .exe or .msi file using System.Diagnostics.Process class.
         /// </summary>
-        /// <returns></returns>
         public virtual Task Install()
         {
             var tcs = new TaskCompletionSource<object>();
@@ -88,15 +87,17 @@ namespace XinstApp.Installers
         {
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
 
-            WebClient client = new WebClient();
-            client.DownloadProgressChanged += (s, e) =>
+            using (WebClient client = new WebClient())
             {
-                Controls.ProgressBar.Value = e.ProgressPercentage;
-            };
-            client.DownloadFileCompleted += (sender, e) => tcs.SetResult(0);
-            client.DownloadFileAsync(new Uri(remotePath), tempPath);
+                client.DownloadProgressChanged += (s, e) =>
+                {
+                    Controls.ProgressBar.Value = e.ProgressPercentage;
+                };
+                client.DownloadFileCompleted += (sender, e) => tcs.SetResult(0);
+                client.DownloadFileAsync(new Uri(remotePath), tempPath);
 
-            return tcs.Task;
+                return tcs.Task;
+            }
         }
 
         /// <summary>
@@ -111,6 +112,29 @@ namespace XinstApp.Installers
         public virtual void DeleteTempFiles(string path)
         {
             if (File.Exists(path)) { File.Delete(path); }
+        }
+
+        /// <summary>
+        /// Checks if given Url is valid.
+        /// </summary>
+        /// <param name="url">Url address to be checked.</param>
+        /// <returns>Returns true if Url is valid, otherwise returns false.</returns>
+        protected bool IsUrlValid(string url)
+        {
+            try
+            {
+                using (WebClient webClient = new WebClient())
+                {
+                    using (Stream stream = webClient.OpenRead(url))
+                    { 
+                        return true; 
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
