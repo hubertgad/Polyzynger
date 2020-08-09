@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace XinstApp.Installers
 {
@@ -26,7 +27,13 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "Adobe Air";
         }
 
-        private void EstablishLastestVersion()
+        public override Task DownloadAsync()
+        {
+            EstablishLastestVersionPath();
+            return base.DownloadAsync();
+        }
+
+        private string EstablishLastestVersionPath()
         {
             using (WebClient client = new WebClient())
             {
@@ -39,20 +46,8 @@ namespace XinstApp.Installers
                 {
                     this.remotePath = newRemotePath;
                 }
-            }
-        }
 
-        private bool IsUrlValid(string url)
-        {
-            try
-            {
-                WebClient webClient = new WebClient();
-                using (Stream stream = webClient.OpenRead(url))
-                { return true; }
-            }
-            catch
-            {
-                return false;
+                return this.remotePath;
             }
         }
     }
