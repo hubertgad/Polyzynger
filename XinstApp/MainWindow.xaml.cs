@@ -129,6 +129,7 @@ namespace XinstApp
         /// <param name="value">True to enable or false to disable controls.</param>
         private void EnableInterface(bool value)
         {
+            this.ConnectToWiFiButton.IsEnabled = value;
             this.StartButton.IsEnabled = value;
             this.CheckButton.IsEnabled = value;
             this.UncheckButton.IsEnabled = value;
