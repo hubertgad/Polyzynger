@@ -149,7 +149,6 @@
     <Compile Include="Installers\Installers\InstallerJRE.cs" />
     <Compile Include="Installers\Installers\InstallerLOffice.cs" />
     <Compile Include="Installers\Installers\InstallerMPC.cs" />
-    <Compile Include="Installers\Installers\InstallerMSSilverlight.cs" />
     <Compile Include="Installers\Installers\InstallerTV.cs" />
     <Compile Include="Utilities\WiFi.cs" />
     <Compile Include="MainWindow.xaml.cs">
