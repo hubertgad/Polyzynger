@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         ResizeMode="CanResize"
         WindowStyle="SingleBorderWindow"
-        Title="Polyzynger v2.0" MinHeight="480" MinWidth="854" Height="480" Width="854" >
+        Title="Polyzynger v2.0.3" MinHeight="480" MinWidth="854" Height="480" Width="854" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -46,16 +46,14 @@
                     <TextBox Grid.Column="1" Margin="5" MinWidth="100" MaxHeight="20" x:Name="SSID" VerticalAlignment="Center" />
                     <Label Grid.Row="1" Grid.Column="0" Content="Password:" VerticalAlignment="Center" />
                     <PasswordBox Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="100" MaxHeight="20" x:Name="password" VerticalAlignment="Center" />
-                    <Button Style="{StaticResource DefaultButton}" Grid.Column="2" Grid.RowSpan="2" Margin="4" Content="CONNECT" x:Name="ConnectToWiFi" Click="ConnectToWiFi_Click"  />
+                    <Button Style="{StaticResource DefaultButton}" Grid.Column="2" Grid.RowSpan="2" Margin="4" Content="CONNECT" x:Name="ConnectToWiFiButton" Click="ConnectToWiFi_Click"  />
                 </Grid>
                 <Button Style="{StaticResource ExitButton}" Content="START" Click="StartButton_ClickAsync" x:Name="StartButton" Margin="25,0,0,0" />
                 <Button Style="{StaticResource DefaultButton}" Content="CHECK ALL" Click="CheckButton_Click" x:Name="CheckButton" />
                 <Button Style="{StaticResource DefaultButton}" Content="UNCHECK ALL" Click="UncheckButton_Click" x:Name="UncheckButton" FontSize="10" />
-
-
             </WrapPanel>
         </Grid>
-        
+
         <ScrollViewer Grid.Row="2" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -72,7 +70,6 @@
                  Background="Black" Foreground="#0093d9" IsReadOnly="true" HorizontalScrollBarVisibility="Auto"
                  Visibility="Hidden" />
 
-        <!-- temporary testing section -->
         <!--<TextBox Grid.Row="2" Grid.Column="9" Grid.RowSpan="5" x:Name="txt" />-->
 
     </Grid>
