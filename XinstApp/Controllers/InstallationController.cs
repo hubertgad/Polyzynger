@@ -16,7 +16,7 @@ namespace XinstApp.Controllers
         public List<Installer> Office { get; set; }
         public List<Installer> Security { get; set; }
         public List<Installer> Utilities { get; set; }
-        private readonly static SemaphoreSlim sem = new SemaphoreSlim(1);
+        private readonly static SemaphoreSlim _installationSemaphore = new SemaphoreSlim(1);
         private static InstallationController _instance = null;
 
         public static InstallationController Instance
@@ -103,7 +103,7 @@ namespace XinstApp.Controllers
 
             try
             {
-                await sem.WaitAsync();
+                await _installationSemaphore.WaitAsync();
                 installer.Controls.Status.Content = ">> INSTALLING";
                 installer.Controls.Status.Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217));
                 await installer.Install();
@@ -116,7 +116,7 @@ namespace XinstApp.Controllers
             }
             finally
             {
-                sem.Release();
+                _installationSemaphore.Release();
                 installer.DeleteTempFiles();
             }
 
