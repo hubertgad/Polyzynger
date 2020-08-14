@@ -19,6 +19,7 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "7-Zip";
         }
         
+        ///<inheritdoc/>
         protected override string EstablishLastestVersionPath()
         {
             using (WebClient client = new WebClient())
