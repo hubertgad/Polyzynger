@@ -27,7 +27,7 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "Adobe Air";
         }
 
-        private string EstablishLastestVersionPath()
+        protected override string EstablishLastestVersionPath()
         {
             using (WebClient client = new WebClient())
             {
