@@ -63,10 +63,20 @@ namespace XinstApp.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap logo {
+        public static System.Drawing.Bitmap logo_seven_transparent {
             get {
-                object obj = ResourceManager.GetObject("logo", resourceCulture);
+                object obj = ResourceManager.GetObject("logo_seven_transparent", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon Seven1 {
+            get {
+                object obj = ResourceManager.GetObject("Seven1", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

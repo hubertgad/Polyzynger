@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace XinstApp.Installers
@@ -25,7 +24,6 @@ namespace XinstApp.Installers
         private string _patchRemotePath = "";
         private string _patchFileName = "";
         private string _patchTempPath => Path.Combine(Path.GetTempPath(), _patchFileName);
-        protected string PatchOfflinePath => Path.Combine(this.entryDir, "files", this._patchFileName);
 
         private InstallerAdobeReader()
         {
@@ -36,12 +34,11 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "Adobe Reader";
         }
 
-        public override async Task<int> DownloadAsync(DownloadProgressChangedEventHandler downloadProgress)
+        public override async Task DownloadAsync()
         {
             await EstablishLastestPatchLocation();
-            Task<int> downloadInstaller = DownloadFileAsync(downloadProgress, this.offlinePath, this.remotePath, this.tempPath);
-            Task<int> downloadPatch = DownloadFileAsync(downloadProgress, this.PatchOfflinePath, this._patchRemotePath, this._patchTempPath);
-            return await downloadInstaller + await downloadPatch;
+            await DownloadFileAsync(this.remotePath, this.tempPath);
+            await DownloadFileAsync(this._patchRemotePath, this._patchTempPath);
         }
 
         public override async Task Install()
@@ -54,7 +51,7 @@ namespace XinstApp.Installers
             try
             {
                 DeleteTempFiles();
-                DeleteTempFiles(this._patchTempPath, this.PatchOfflinePath);
+                DeleteTempFiles(this._patchTempPath);
             }
             catch (Exception e)
             {
@@ -118,7 +115,6 @@ namespace XinstApp.Installers
             this._patchFileName = MatchPatchFileName(endDirLst, latestPatchNo);
             this._patchRemotePath = Path.Combine(endFTPDirPath, this._patchFileName);
             this._patchRemotePath = this._patchRemotePath.Replace("ftp://ftp.adobe.com/", "http://ardownload.adobe.com/");
-            Console.WriteLine(this._patchRemotePath);
         }
 
         private string MatchPatchFileName(List<string> list, int versionNo)
@@ -150,6 +146,12 @@ namespace XinstApp.Installers
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory);
             string shortcutPath = Path.Combine(desktopPath, "Acrobat Reader DC.lnk");
             if (File.Exists(shortcutPath)) File.Delete(shortcutPath);
+        }
+
+        public override void DeleteTempFiles()
+        {
+            base.DeleteTempFiles();
+            DeleteTempFiles(this._patchTempPath);
         }
     }
 }

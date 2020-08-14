@@ -15,6 +15,22 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,7 +64,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>..\..\..\..\Desktop\</OutputPath>
+    <OutputPath>..\..\..\..\OneDrive\Documents\build\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>none</DebugType>
@@ -59,21 +75,34 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>Resources\Seven.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>AC06D994533BB0639E671DEAF7BF23774F24A414</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>XinstApp_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
-      <Private>True</Private>
-      <Private>True</Private>
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -93,6 +122,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controllers\InstallationController.cs" />
+    <Compile Include="Installers\SevenAds\DesktopArranger.cs" />
+    <Compile Include="Installers\SevenAds\Icon.cs" />
+    <Compile Include="Installers\SevenAds\SearchBarHider.cs" />
+    <Compile Include="Controllers\SevenAdsController.cs" />
+    <Compile Include="Installers\SevenAds\Script.cs" />
+    <Compile Include="Installers\SevenAds\Themepack.cs" />
+    <Compile Include="Resources\ContentLoading.cs" />
+    <Compile Include="Utilities\ConnectionChecker.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -102,17 +140,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Installers\Controls.cs" />
-    <Compile Include="Installers\Installer.cs" />
-    <Compile Include="Installers\Installer7Zip.cs" />
-    <Compile Include="Installers\InstallerAdobeAir.cs" />
-    <Compile Include="Installers\InstallerAdobeReader.cs" />
-    <Compile Include="Installers\InstallerChrome.cs" />
-    <Compile Include="Installers\InstallerESET.cs" />
-    <Compile Include="Installers\InstallerJRE.cs" />
-    <Compile Include="Installers\InstallerLOffice.cs" />
-    <Compile Include="Installers\InstallerMPC.cs" />
-    <Compile Include="Installers\InstallerMSSilverlight.cs" />
-    <Compile Include="Installers\InstallerTV.cs" />
+    <Compile Include="Installers\Installers\Installer.cs" />
+    <Compile Include="Installers\Installers\Installer7Zip.cs" />
+    <Compile Include="Installers\Installers\InstallerAdobeAir.cs" />
+    <Compile Include="Installers\Installers\InstallerAdobeReader.cs" />
+    <Compile Include="Installers\Installers\InstallerChrome.cs" />
+    <Compile Include="Installers\Installers\InstallerESET.cs" />
+    <Compile Include="Installers\Installers\InstallerJRE.cs" />
+    <Compile Include="Installers\Installers\InstallerLOffice.cs" />
+    <Compile Include="Installers\Installers\InstallerMPC.cs" />
+    <Compile Include="Installers\Installers\InstallerTV.cs" />
+    <Compile Include="Utilities\WiFi.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -146,6 +184,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="XinstApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -157,7 +196,31 @@
     <EmbeddedResource Include="Resources\xinstico2.ico" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\AdjustDesktopIcons.ps1" />
+    <EmbeddedResource Include="Resources\Prosimy o opinie!.url" />
+    <EmbeddedResource Include="Resources\Seven.deskthemepack" />
     <None Include="Resources\xinst.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Seven.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WiFiProfileTemplate.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo_seven_transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
