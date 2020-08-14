@@ -27,12 +27,6 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.Content = "Adobe Air";
         }
 
-        public override Task DownloadAsync()
-        {
-            EstablishLastestVersionPath();
-            return base.DownloadAsync();
-        }
-
         private string EstablishLastestVersionPath()
         {
             using (WebClient client = new WebClient())
@@ -40,14 +34,9 @@ namespace XinstApp.Installers
                 string page = client.DownloadString("https://get.adobe.com/air/");
                 string version = Regex.Match(page, "Version [0-9]+[.][0-9]+", RegexOptions.IgnoreCase).Value;
                 string versionNo = Regex.Match(version, "[0-9]+[.][0-9]+").Value;
-                string newRemotePath = remotePath.Replace("32.0", versionNo);
+                this.newRemotePath = this.remotePath.Replace("32.0", versionNo);
 
-                if (IsUrlValid(newRemotePath))
-                {
-                    this.remotePath = newRemotePath;
-                }
-
-                return this.remotePath;
+                return base.EstablishLastestVersionPath();
             }
         }
     }
