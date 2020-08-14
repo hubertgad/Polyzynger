@@ -12,6 +12,11 @@ namespace XinstApp.Installers
         /// Path from which file is downloaded.
         /// </summary>
         protected string remotePath { get; set; }
+        
+        /// <summary>
+        /// Temp variable for proposed lastest application download path.
+        /// </summary>
+        protected string newRemotePath { get; set; } = null;
 
         /// <summary>
         /// Full temporary path to an installer file.
@@ -26,18 +31,18 @@ namespace XinstApp.Installers
         /// <summary>
         /// Installation arguments to be passed to installation process.
         /// </summary>
-        protected string arguments { get; set; }
+        protected string arguments { get; set; } = " /qn";
 
         /// <summary>
         /// GUI controls model.
         /// </summary>
-        public Controls Controls { get; set; }
+        public Controls Controls { get; set; } = new Controls();
 
-        protected Installer()
-        {
-            this.Controls = new Controls();
-            this.arguments = " /qn";
-        }
+       // protected Installer()
+       // {
+       //     this.Controls = new Controls();
+       //     this.arguments = " /qn";
+       // }
 
         /// <summary>
         /// Perform an installation of .exe or .msi file using System.Diagnostics.Process class.
@@ -85,6 +90,8 @@ namespace XinstApp.Installers
         /// <returns>If completed successfully returns 0. If not returns 1.</returns>
         public virtual Task DownloadFileAsync(string remotePath, string tempPath)
         {
+            EstablishLastestVersionPath();
+            
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
 
             using (WebClient client = new WebClient())
@@ -112,6 +119,20 @@ namespace XinstApp.Installers
         public virtual void DeleteTempFiles(string path)
         {
             if (File.Exists(path)) { File.Delete(path); }
+        }
+        
+        /// <summary>
+        /// Scans product's website for the newest stable version.
+        /// </summary>
+        /// <returns>Returns download Url for current stable app version.</returns>
+        protected virtual string EstablishLastestVersionPath()
+        {
+            if (IsUrlValid(this.newRemotePath))
+            {
+                this.remotePath = this.newRemotePath;
+            }
+            
+            return this.remotePath;
         }
 
         /// <summary>
