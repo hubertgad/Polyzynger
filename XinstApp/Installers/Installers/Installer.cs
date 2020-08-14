@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace XinstApp.Installers
 {
+    /// <summary>
+    /// A base class for installers.
+    /// </summary>
     abstract class Installer
     {
         /// <summary>
