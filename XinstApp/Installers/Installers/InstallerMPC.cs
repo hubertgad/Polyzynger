@@ -26,28 +26,17 @@ namespace XinstApp.Installers
             this.arguments = "/verysilent";
             this.Controls.CheckBox.Content = "K-Lite Codecs";
         }
-
-        public override Task DownloadAsync()
-        {
-            EstablishLastestVersionPath();
-            return base.DownloadAsync();
-        }
-
-        private string EstablishLastestVersionPath()
+        
+        protected override string EstablishLastestVersionPath()
         {
             Regex regex = new Regex($"https://files[d].codecguide.com/.*?.exe", RegexOptions.IgnoreCase);
 
             using (WebClient client = new WebClient())
             {
                 string page = client.DownloadString("https://codecguide.com/download_k-lite_codec_pack_standard.htm");
-                string newRemotePath = Regex.Match(page, "https://files[\\d].codecguide.com/.*?.exe", RegexOptions.IgnoreCase).Value;
+                this.newRemotePath = Regex.Match(page, "https://files[\\d].codecguide.com/.*?.exe", RegexOptions.IgnoreCase).Value;
                 
-                if (IsUrlValid(newRemotePath))
-                {
-                    this.remotePath = newRemotePath;
-                }
-
-                return this.remotePath;
+                return base.EstablishLastestVersionPath();
             }
         }
     }
