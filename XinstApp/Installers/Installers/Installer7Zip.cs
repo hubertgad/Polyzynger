@@ -24,7 +24,7 @@ namespace XinstApp.Installers
             using (WebClient client = new WebClient())
             {
                 string page = client.DownloadString("https://www.7-zip.org/download.html");
-                string version = Regex.Match(page, "[0-9]{2}[.][0-9]{2}", RegexOptions.IgnoreCase).Value;
+                string version = Regex.Match(page, "7-Zip [0-9]{2}[.][0-9]{2}", RegexOptions.IgnoreCase).Value;
                 string versionNo = Regex.Match(version, "[0-9]+[.][0-9]+").Value;
                 versionNo = versionNo.Replace(".", "");
                 this.newRemotePath = this.remotePath.Replace("1900", versionNo);
