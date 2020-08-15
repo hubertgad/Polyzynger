@@ -15,7 +15,7 @@ namespace XinstApp.Installers
         /// Path from which file is downloaded.
         /// </summary>
         protected string remotePath { get; set; }
-        
+
         /// <summary>
         /// Temp variable for proposed lastest application download path.
         /// </summary>
@@ -41,11 +41,11 @@ namespace XinstApp.Installers
         /// </summary>
         public Controls Controls { get; set; } = new Controls();
 
-       // protected Installer()
-       // {
-       //     this.Controls = new Controls();
-       //     this.arguments = " /qn";
-       // }
+        // protected Installer()
+        // {
+        //     this.Controls = new Controls();
+        //     this.arguments = " /qn";
+        // }
 
         /// <summary>
         /// Perform an installation of .exe or .msi file using System.Diagnostics.Process class.
@@ -55,13 +55,13 @@ namespace XinstApp.Installers
             var tcs = new TaskCompletionSource<object>();
 
             Process p = new Process();
-            p.StartInfo = this.tempPath.Contains(".msi") ? 
-                new ProcessStartInfo 
+            p.StartInfo = this.tempPath.Contains(".msi") ?
+                new ProcessStartInfo
                 {
                     FileName = $"msiexec.exe",
                     Arguments = $"/i \"{ this.tempPath }\" /q /norestart"
-                } : 
-                new ProcessStartInfo 
+                } :
+                new ProcessStartInfo
                 {
                     FileName = $"\"{ this.tempPath }\"",
                     Arguments = $"{ this.arguments }",
@@ -82,8 +82,12 @@ namespace XinstApp.Installers
         /// </summary>
         /// <param name="downloadProgress">Progress bar handler.</param>
         /// <returns>If completed successfully returns 0. If not returns 1.</returns>
-        public virtual Task DownloadAsync() => DownloadFileAsync(this.remotePath, this.tempPath);
-
+        public virtual Task DownloadAsync()
+        {
+            EstablishLastestVersionPath();
+            
+            return DownloadFileAsync(this.remotePath, this.tempPath);
+        }
         /// <summary>
         /// Downloads file from given location and saves it using given local path.
         /// </summary>
@@ -93,8 +97,6 @@ namespace XinstApp.Installers
         /// <returns>If completed successfully returns 0. If not returns 1.</returns>
         public virtual Task DownloadFileAsync(string remotePath, string tempPath)
         {
-            EstablishLastestVersionPath();
-            
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
 
             using (WebClient client = new WebClient())
