@@ -177,6 +177,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -190,16 +191,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\xinstico2.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\AdjustDesktopIcons.ps1" />
     <EmbeddedResource Include="Resources\Prosimy o opinie!.url" />
     <EmbeddedResource Include="Resources\Seven.deskthemepack" />
-    <None Include="Resources\xinst.ico" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Seven.ico" />
