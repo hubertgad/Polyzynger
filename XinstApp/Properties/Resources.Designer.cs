@@ -79,15 +79,5 @@ namespace XinstApp.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        public static System.Drawing.Icon xinst {
-            get {
-                object obj = ResourceManager.GetObject("xinst", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
     }
 }
