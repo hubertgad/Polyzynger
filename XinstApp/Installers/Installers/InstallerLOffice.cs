@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace XinstApp.Installers
 {
@@ -24,7 +26,6 @@ namespace XinstApp.Installers
             this.Controls.CheckBox.IsChecked = false;
         }
         
-        //TODO: LO: Check if function works
         protected override string EstablishLastestVersionPath()
         {
             using (WebClient client = new WebClient())
