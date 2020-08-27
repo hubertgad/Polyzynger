@@ -129,6 +129,11 @@
     <Compile Include="Controllers\SevenAdsController.cs" />
     <Compile Include="Installers\SevenAds\Script.cs" />
     <Compile Include="Installers\SevenAds\Themepack.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\ContentLoading.cs" />
     <Compile Include="Utilities\ConnectionChecker.cs" />
     <Page Include="MainWindow.xaml">
@@ -146,7 +151,7 @@
     <Compile Include="Installers\Installers\InstallerAdobeReader.cs" />
     <Compile Include="Installers\Installers\InstallerChrome.cs" />
     <Compile Include="Installers\Installers\InstallerESET.cs" />
-    <Compile Include="Installers\Installers\InstallerJRE.cs" />
+    <Compile Include="Installers\Installers\InstallerJava8.cs" />
     <Compile Include="Installers\Installers\InstallerLOffice.cs" />
     <Compile Include="Installers\Installers\InstallerMPC.cs" />
     <Compile Include="Installers\Installers\InstallerTV.cs" />
@@ -164,11 +169,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -176,8 +176,8 @@
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -202,7 +202,7 @@
     <EmbeddedResource Include="Resources\WiFiProfileTemplate.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\logo_seven_transparent.png" />
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

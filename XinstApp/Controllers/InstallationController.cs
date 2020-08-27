@@ -40,7 +40,7 @@ namespace XinstApp.Controllers
             };
             Runtimes = new List<Installer>
             {
-                InstallerJRE.Instance,
+                InstallerJava8.Instance,
                 InstallerAdobeAir.Instance
             };
             Office = new List<Installer>

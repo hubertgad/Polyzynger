@@ -27,17 +27,16 @@ namespace XinstApp.Installers
 
         private InstallerAdobeReader()
         {
-            this.remotePath = "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/1900820071/AcroRdrDC1900820071_pl_PL.exe";
-            this.fileName = "AcroRdrDC1900820071_pl_PL.exe";
-            this.arguments = "/sAll";
-            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.RemotePath = "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/1900820071/AcroRdrDC1900820071_pl_PL.exe";
+            this.FileName = "AcroRdrDC1900820071_pl_PL.exe";
+            this.Arguments = "/sAll";
             this.Controls.CheckBox.Content = "Adobe Reader";
         }
 
         public override async Task DownloadAsync()
         {
             await EstablishLastestPatchLocation();
-            await DownloadFileAsync(this.remotePath, this.tempPath);
+            await DownloadFileAsync(this.RemotePath, this.TempPath);
             await DownloadFileAsync(this._patchRemotePath, this._patchTempPath);
         }
 
@@ -64,8 +63,8 @@ namespace XinstApp.Installers
             var tcs = new TaskCompletionSource<object>();
             Process p = new Process()
             {
-                StartInfo = { FileName = $"\"{ this.tempPath }\"",
-                            Arguments = $"{ this.arguments }",
+                StartInfo = { FileName = $"\"{ this.TempPath }\"",
+                            Arguments = $"{ this.Arguments }",
                             Verb = "runas" }
             };
             p.EnableRaisingEvents = true;

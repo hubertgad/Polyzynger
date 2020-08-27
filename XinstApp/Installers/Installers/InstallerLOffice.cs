@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 
 namespace XinstApp.Installers
@@ -19,9 +18,8 @@ namespace XinstApp.Installers
 
         private InstallerLOffice() : base()
         {
-            this.remotePath = "https://download.documentfoundation.org/libreoffice/stable/6.3.6/win/x86_64/LibreOffice_6.3.6_Win_x64.msi";
-            this.fileName = "LibreOffice_6.3.6_Win_x64.msi";
-            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.RemotePath = "https://download.documentfoundation.org/libreoffice/stable/6.3.6/win/x86_64/LibreOffice_6.3.6_Win_x64.msi";
+            this.FileName = "LibreOffice_6.3.6_Win_x64.msi";
             this.Controls.CheckBox.Content = "Libre Office";
             this.Controls.CheckBox.IsChecked = false;
         }
@@ -33,7 +31,7 @@ namespace XinstApp.Installers
                 string page = client.DownloadString("https://pl.libreoffice.org/pobieranie/stabilna/");
                 string version = Regex.Match(page, "LibreOffice [0-9]+[.][0-9]+[.][0-9]+", RegexOptions.IgnoreCase).Value;
                 string versionNo = Regex.Match(version, "[0-9]+[.][0-9]+[.][0-9]+").Value;
-                this.newRemotePath = this.remotePath.Replace("6.3.6", versionNo);
+                this.NewRemotePath = this.RemotePath.Replace("6.3.6", versionNo);
                 
                 return base.EstablishLastestVersionPath();
             }

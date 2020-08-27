@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace XinstApp.Installers
+﻿namespace XinstApp.Installers
 {
     class InstallerTV : Installer
     {
@@ -17,10 +15,9 @@ namespace XinstApp.Installers
 
         private InstallerTV()
         {
-            this.remotePath = "https://download.teamviewer.com/download/TeamViewer_Setup.exe";
-            this.fileName = "TeamViewer_Setup.exe";
-            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
-            this.arguments = "/S /norestart";
+            this.RemotePath = "https://download.teamviewer.com/download/TeamViewer_Setup.exe";
+            this.FileName = "TeamViewer_Setup.exe";
+            this.Arguments = "/S /norestart";
             this.Controls.CheckBox.Content = "TeamViewer";
             this.Controls.CheckBox.IsChecked = false;
         }

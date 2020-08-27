@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 
 namespace XinstApp.Installers
@@ -19,10 +18,9 @@ namespace XinstApp.Installers
 
         private InstallerAdobeAir()
         {
-            this.remotePath = "https://airdownload.adobe.com/air/win/download/32.0/AdobeAIRInstaller.exe";
-            this.fileName = "AdobeAIRInstaller.exe";
-            this.arguments = "-silent -pingbackAllowed";
-            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.RemotePath = "https://airdownload.adobe.com/air/win/download/32.0/AdobeAIRInstaller.exe";
+            this.FileName = "AdobeAIRInstaller.exe";
+            this.Arguments = "-silent -pingbackAllowed";
             this.Controls.CheckBox.Content = "Adobe Air";
         }
 
@@ -33,7 +31,7 @@ namespace XinstApp.Installers
                 string page = client.DownloadString("https://get.adobe.com/air/");
                 string version = Regex.Match(page, "Version [0-9]+[.][0-9]+", RegexOptions.IgnoreCase).Value;
                 string versionNo = Regex.Match(version, "[0-9]+[.][0-9]+").Value;
-                this.newRemotePath = this.remotePath.Replace("32.0", versionNo);
+                this.NewRemotePath = this.RemotePath.Replace("32.0", versionNo);
 
                 return base.EstablishLastestVersionPath();
             }

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 
 namespace XinstApp.Installers
@@ -19,10 +18,9 @@ namespace XinstApp.Installers
 
         private InstallerMPC()
         {
-            this.remotePath = "https://files3.codecguide.com/K-Lite_Codec_Pack_1548_Standard.exe";
-            this.fileName = "K-Lite_Codec_Pack_1548_Standard.exe";
-            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
-            this.arguments = "/verysilent";
+            this.RemotePath = "https://files3.codecguide.com/K-Lite_Codec_Pack_1548_Standard.exe";
+            this.FileName = "K-Lite_Codec_Pack_1548_Standard.exe";
+            this.Arguments = "/verysilent";
             this.Controls.CheckBox.Content = "K-Lite Codecs";
         }
         
@@ -33,7 +31,7 @@ namespace XinstApp.Installers
             using (WebClient client = new WebClient())
             {
                 string page = client.DownloadString("https://codecguide.com/download_k-lite_codec_pack_standard.htm");
-                this.newRemotePath = Regex.Match(page, "https://files[\\d].codecguide.com/.*?.exe", RegexOptions.IgnoreCase).Value;
+                this.NewRemotePath = Regex.Match(page, "https://files[\\d].codecguide.com/.*?.exe", RegexOptions.IgnoreCase).Value;
                 
                 return base.EstablishLastestVersionPath();
             }

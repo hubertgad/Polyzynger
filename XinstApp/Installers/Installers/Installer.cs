@@ -14,38 +14,32 @@ namespace XinstApp.Installers
         /// <summary>
         /// Path from which file is downloaded.
         /// </summary>
-        protected string remotePath { get; set; }
+        protected string RemotePath { get; set; }
 
         /// <summary>
         /// Temp variable for proposed lastest application download path.
         /// </summary>
-        protected string newRemotePath { get; set; } = null;
+        protected string NewRemotePath { get; set; } = null;
 
         /// <summary>
         /// Full temporary path to an installer file.
         /// </summary>
-        protected string tempPath { get; set; }
+        protected string TempPath => Path.Combine(Path.GetTempPath(), this.FileName);
 
         /// <summary>
         /// Installer file name.
         /// </summary>
-        protected string fileName { get; set; }
+        protected string FileName { get; set; }
 
         /// <summary>
         /// Installation arguments to be passed to installation process.
         /// </summary>
-        protected string arguments { get; set; } = " /qn";
+        protected string Arguments { get; set; } = " /qn";
 
         /// <summary>
         /// GUI controls model.
         /// </summary>
         public Controls Controls { get; set; } = new Controls();
-
-        // protected Installer()
-        // {
-        //     this.Controls = new Controls();
-        //     this.arguments = " /qn";
-        // }
 
         /// <summary>
         /// Perform an installation of .exe or .msi file using System.Diagnostics.Process class.
@@ -55,16 +49,16 @@ namespace XinstApp.Installers
             var tcs = new TaskCompletionSource<object>();
 
             Process p = new Process();
-            p.StartInfo = this.tempPath.Contains(".msi") ?
+            p.StartInfo = this.TempPath.Contains(".msi") ?
                 new ProcessStartInfo
                 {
                     FileName = $"msiexec.exe",
-                    Arguments = $"/i \"{ this.tempPath }\" /q /norestart"
+                    Arguments = $"/i \"{ this.TempPath }\" /q /norestart"
                 } :
                 new ProcessStartInfo
                 {
-                    FileName = $"\"{ this.tempPath }\"",
-                    Arguments = $"{ this.arguments }",
+                    FileName = $"\"{ this.TempPath }\"",
+                    Arguments = $"{ this.Arguments }",
                 };
             p.StartInfo.Verb = "runas";
             p.EnableRaisingEvents = true;
@@ -86,7 +80,7 @@ namespace XinstApp.Installers
         {
             EstablishLastestVersionPath();
             
-            return DownloadFileAsync(this.remotePath, this.tempPath);
+            return DownloadFileAsync(this.RemotePath, this.TempPath);
         }
         /// <summary>
         /// Downloads file from given location and saves it using given local path.
@@ -115,7 +109,7 @@ namespace XinstApp.Installers
         /// <summary>
         /// Deletes temporary files in previously specified temp path.
         /// </summary>
-        public virtual void DeleteTempFiles() => DeleteTempFiles(this.tempPath);
+        public virtual void DeleteTempFiles() => DeleteTempFiles(this.TempPath);
 
         /// <summary>
         /// Deletes temporary files in given path.
@@ -132,12 +126,12 @@ namespace XinstApp.Installers
         /// <returns>Returns download Url for current stable app version.</returns>
         protected virtual string EstablishLastestVersionPath()
         {
-            if (IsUrlValid(this.newRemotePath))
+            if (IsUrlValid(this.NewRemotePath))
             {
-                this.remotePath = this.newRemotePath;
+                this.RemotePath = this.NewRemotePath;
             }
             
-            return this.remotePath;
+            return this.RemotePath;
         }
 
         /// <summary>

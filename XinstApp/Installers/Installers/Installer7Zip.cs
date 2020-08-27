@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using System.Text.RegularExpressions;
 
 namespace XinstApp.Installers
@@ -19,9 +18,8 @@ namespace XinstApp.Installers
 
         private Installer7Zip() : base()
         {
-            this.remotePath = "https://www.7-zip.org/a/7z1900-x64.msi";
-            this.fileName = "7z1900-x64.msi";
-            this.tempPath = Path.Combine(Path.GetTempPath(), this.fileName);
+            this.RemotePath = "https://www.7-zip.org/a/7z1900-x64.msi";
+            this.FileName = "7z1900-x64.msi";
             this.Controls.CheckBox.Content = "7-Zip";
         }
         
@@ -34,7 +32,7 @@ namespace XinstApp.Installers
                 string version = Regex.Match(page, "7-Zip [0-9]{2}[.][0-9]{2}", RegexOptions.IgnoreCase).Value;
                 string versionNo = Regex.Match(version, "[0-9]+[.][0-9]+").Value;
                 versionNo = versionNo.Replace(".", "");
-                this.newRemotePath = this.remotePath.Replace("1900", versionNo);
+                this.NewRemotePath = this.RemotePath.Replace("1900", versionNo);
                 
                 return base.EstablishLastestVersionPath();
             }
