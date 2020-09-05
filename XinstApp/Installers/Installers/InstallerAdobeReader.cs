@@ -7,7 +7,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace XinstApp.Installers
+namespace Polyzynger.Installers
 {
     class InstallerAdobeReader : Installer
     {

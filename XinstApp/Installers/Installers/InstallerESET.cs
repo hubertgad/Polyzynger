@@ -1,22 +1,35 @@
-﻿namespace XinstApp.Installers
+﻿using System.Collections.Generic;
+
+namespace Polyzynger.Installers
 {
     class InstallerESET : Installer
     {
-        private static InstallerESET _instance;
-        public static InstallerESET Instance
+        private static List<InstallerESET> Installers { get; set; } = new List<InstallerESET>();
+
+        public InstallerESET(string remotePath, string fileName, string content, string arguments = null, bool isChecked = true) : this()
         {
-            get
-            {
-                if (_instance == null) { _instance = new InstallerESET(); }
-                return _instance;
-            }
+            this.RemotePath = remotePath;
+            this.FileName = fileName;
+            this.Controls.CheckBox.Content = content;
+            this.Arguments = arguments ?? this.Arguments;
+            this.Controls.CheckBox.IsChecked = isChecked;
         }
 
         private InstallerESET()
         {
-            this.RemotePath = "https://download.eset.com/com/eset/apps/business/eea/windows/latest/eea_nt64.msi";
-            this.FileName = "eea_nt64.msi";
-            this.Controls.CheckBox.Content = "ESET Endpoint";
+            Installers.Add(this);
+            this.Controls.CheckBox.Checked += CheckBox_Checked;
+        }
+
+        private void CheckBox_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+            foreach (var installer in Installers)
+            {
+                if (installer != this)
+                {
+                    installer.Controls.CheckBox.IsChecked = false;
+                }
+            }
         }
     }
 }

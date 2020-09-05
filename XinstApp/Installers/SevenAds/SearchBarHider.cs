@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace XinstApp.Installers.SevenAds
+namespace Polyzynger.Installers.SevenAds
 {
     class SearchBarHider : Script
     {

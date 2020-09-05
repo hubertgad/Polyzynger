@@ -1,4 +1,4 @@
-﻿namespace XinstApp.Installers
+﻿namespace Polyzynger.Installers
 {
     class InstallerTV : Installer
     {

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XinstApp", "XinstApp\XinstApp.csproj", "{6AB3EB5D-AD31-4F4D-9F43-3B2CC2FCD43B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyzynger", "XinstApp\Polyzynger.csproj", "{6AB3EB5D-AD31-4F4D-9F43-3B2CC2FCD43B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

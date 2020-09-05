@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace XinstApp.Installers.SevenAds
+namespace Polyzynger.Installers.SevenAds
 {
     class SevenAdsController
     {

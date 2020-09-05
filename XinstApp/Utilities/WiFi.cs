@@ -2,9 +2,9 @@
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using XinstApp.Resources;
+using Polyzynger.Resources;
 
-namespace XinstApp.Utilities
+namespace Polyzynger.Utilities
 {
     public static class WiFi
     {

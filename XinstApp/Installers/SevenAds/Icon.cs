@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using XinstApp.Resources;
+using Polyzynger.Resources;
 
-namespace XinstApp.Installers.SevenAds
+namespace Polyzynger.Installers.SevenAds
 {
     class Icon : Script
     {

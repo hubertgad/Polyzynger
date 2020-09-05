@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Text.RegularExpressions;
 
-namespace XinstApp.Installers
+namespace Polyzynger.Installers
 {
     class InstallerLOffice : Installer
     {

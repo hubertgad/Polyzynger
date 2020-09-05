@@ -1,4 +1,4 @@
-﻿namespace XinstApp.Utilities
+﻿namespace Polyzynger.Utilities
 {
     static class ConnectionChecker
     {

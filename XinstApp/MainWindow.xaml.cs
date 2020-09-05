@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using XinstApp.Installers;
+using Polyzynger.Installers;
 using System.Linq;
-using XinstApp.Installers.SevenAds;
-using XinstApp.Controllers;
-using XinstApp.Utilities;
+using Polyzynger.Installers.SevenAds;
+using Polyzynger.Controllers;
+using Polyzynger.Utilities;
 
-namespace XinstApp
+namespace Polyzynger
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,7 +25,7 @@ namespace XinstApp
             MouseDown += (o, e) => { if (e.ChangedButton == MouseButton.Left) this.DragMove(); };
 
             this.SSID.Text = "seven-guest";
-            this.password.Password = "Seven123";
+            this.password.Password = "Seven123"; //easy, it's public
             this.output.Text += "Output:";
 
             AddColumnDefinitions(this.ColumnOne);
@@ -103,10 +103,16 @@ namespace XinstApp
 
             EnableInterface(false);
 
-            List<Task> tasks = new List<Task>();
-            tasks.Add(InstallationController.Perform());
-            tasks.Add(SevenAdsController.Perform());
-            await Task.WhenAll(tasks);
+            //List<Task> tasks = new List<Task>
+            //{
+            //    InstallationController.Perform(),
+            //    SevenAdsController.Perform()
+            //};
+            //await Task.WhenAll(tasks);
+
+            await Task.WhenAll(
+                InstallationController.Perform(), 
+                SevenAdsController.Perform());
 
             EnableInterface(true);
         }

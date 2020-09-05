@@ -1,13 +1,13 @@
-﻿<Window x:Class="XinstApp.MainWindow"
+﻿<Window x:Class="Polyzynger.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:XinstApp"
+        xmlns:local="clr-namespace:Polyzynger"
         mc:Ignorable="d"
         ResizeMode="CanResize"
         WindowStyle="SingleBorderWindow"
-        Title="Polyzynger v2.1" MinHeight="480" MinWidth="854" Height="480" Width="854" >
+        Title="Polyzynger" MinHeight="480" MinWidth="854" Height="480" Width="854" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -30,7 +30,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="1" Grid.RowSpan="1" Width="200" Height="85" Source="/Resources/logo.png" Margin="0,0,20,0"/>
+            <Image Grid.Column="1" Grid.RowSpan="1" Width="199" Height="27" Source="/Resources/logo2.png" Margin="0,0,20,0"/>
             <WrapPanel Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Top">
                 <Grid>
                     <Grid.RowDefinitions>

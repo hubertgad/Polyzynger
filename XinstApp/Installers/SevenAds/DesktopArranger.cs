@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace XinstApp.Installers.SevenAds
+namespace Polyzynger.Installers.SevenAds
 {
     class DesktopArranger : Script
     {

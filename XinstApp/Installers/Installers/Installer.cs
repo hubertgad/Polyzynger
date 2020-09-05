@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace XinstApp.Installers
+namespace Polyzynger.Installers
 {
     /// <summary>
     /// A base class for installers.
@@ -76,11 +77,11 @@ namespace XinstApp.Installers
         /// </summary>
         /// <param name="downloadProgress">Progress bar handler.</param>
         /// <returns>If completed successfully returns 0. If not returns 1.</returns>
-        public virtual Task DownloadAsync()
+        public virtual async Task DownloadAsync()
         {
-            EstablishLastestVersionPath();
+            _ = await Task.Run(() => EstablishLastestVersionPath());
             
-            return DownloadFileAsync(this.RemotePath, this.TempPath);
+            await DownloadFileAsync(this.RemotePath, this.TempPath);
         }
         /// <summary>
         /// Downloads file from given location and saves it using given local path.

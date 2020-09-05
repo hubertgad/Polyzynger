@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using XinstApp.Installers;
+using Polyzynger.Installers;
 
-namespace XinstApp.Controllers
+namespace Polyzynger.Controllers
 {
     class InstallationController
     {
@@ -55,7 +56,10 @@ namespace XinstApp.Controllers
             };
             Security = new List<Installer>
             {
-                InstallerESET.Instance
+                InstallersCreator.CreateNOD32Installer(),
+                InstallersCreator.CreateEISInstaller(),
+                InstallersCreator.CreateESSPInstaller(),
+                InstallersCreator.CreateEEAInstaller()
             };
 
             this.Installers = new List<Installer>();
@@ -67,14 +71,17 @@ namespace XinstApp.Controllers
             this.Installers.AddRange(this.Multimedia);
         }
 
-        public async Task Perform()
+        public Task Perform()
         {
             List<Task> tasks = new List<Task>();
             foreach (var installer in this.Installers) 
             {
-                if (installer.Controls.CheckBox.IsChecked.Value) { tasks.Add(InstallAsync(installer)); } 
+                if (installer.Controls.CheckBox.IsChecked.Value) 
+                { 
+                    tasks.Add(InstallAsync(installer)); 
+                } 
             }
-            await Task.WhenAll(tasks);
+            return Task.WhenAll(tasks);
         }
 
         private async Task InstallAsync(Installer installer)

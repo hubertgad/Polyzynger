@@ -4,7 +4,7 @@ using System.Management.Automation;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace XinstApp.Installers.SevenAds
+namespace Polyzynger.Installers.SevenAds
 {
     public abstract class Script
     {
@@ -27,7 +27,7 @@ namespace XinstApp.Installers.SevenAds
         {
             {
                 Assembly assembly = Assembly.GetExecutingAssembly();
-                string fullResourceName = "XinstApp.Resources." + resourceName;
+                string fullResourceName = "Polyzynger.Resources." + resourceName;
 
                 using (Stream input = assembly.GetManifestResourceStream(fullResourceName))
                 using (Stream output = File.Create(destination))
