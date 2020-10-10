@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -37,7 +36,7 @@ namespace Polyzynger.Controllers
             };
             Browsers = new List<Installer>
             {
-                InstallerChrome.Instance
+                InstallerCreator.CreateChromeInstaller()
             };
             Runtimes = new List<Installer>
             {
@@ -56,10 +55,10 @@ namespace Polyzynger.Controllers
             };
             Security = new List<Installer>
             {
-                InstallersCreator.CreateNOD32Installer(),
-                InstallersCreator.CreateEISInstaller(),
-                InstallersCreator.CreateESSPInstaller(),
-                InstallersCreator.CreateEEAInstaller()
+                InstallerCreator.CreateNOD32Installer(),
+                InstallerCreator.CreateEISInstaller(),
+                InstallerCreator.CreateESSPInstaller(),
+                InstallerCreator.CreateEEAInstaller()
             };
 
             this.Installers = new List<Installer>();

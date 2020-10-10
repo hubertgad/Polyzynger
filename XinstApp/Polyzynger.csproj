@@ -79,7 +79,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>Polyzynger.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -128,7 +128,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controllers\InstallationController.cs" />
-    <Compile Include="Installers\InstallersCreator.cs" />
+    <Compile Include="Installers\InstallerCreator.cs" />
     <Compile Include="Installers\SevenAds\DesktopArranger.cs" />
     <Compile Include="Installers\SevenAds\Icon.cs" />
     <Compile Include="Installers\SevenAds\SearchBarHider.cs" />
@@ -224,9 +224,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Polyzynger.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Icon.ico" />

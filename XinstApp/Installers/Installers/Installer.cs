@@ -1,7 +1,6 @@
-﻿using System;
+﻿using System; 
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -100,7 +99,7 @@ namespace Polyzynger.Installers
                 {
                     Controls.ProgressBar.Value = e.ProgressPercentage;
                 };
-                client.DownloadFileCompleted += (sender, e) => tcs.SetResult(0);
+                client.DownloadFileCompleted += (s, e) => tcs.SetResult(0);
                 client.DownloadFileAsync(new Uri(remotePath), tempPath);
 
                 return tcs.Task;

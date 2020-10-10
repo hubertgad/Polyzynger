@@ -26,7 +26,6 @@ namespace Polyzynger
 
             this.SSID.Text = "seven-guest";
             this.password.Password = "Seven123"; //easy, it's public
-            this.output.Text += "Output:";
 
             AddColumnDefinitions(this.ColumnOne);
             AddColumnDefinitions(this.ColumnTwo);
@@ -144,17 +143,17 @@ namespace Polyzynger
         }
 
         /// <summary>
-        /// 
+        /// Checks all checkboxes.
         /// </summary>
         private void CheckButton_Click(object sender, RoutedEventArgs e) => CheckAll(true);
 
         /// <summary>
-        /// 
+        /// Unchecks all checkboxes.
         /// </summary>
         private void UncheckButton_Click(object sender, RoutedEventArgs e) => CheckAll(false);
 
         /// <summary>
-        /// 
+        /// Check or uncheck all checkboxes depending on given bool value.
         /// </summary>
         /// <param name="value"></param>
         private void CheckAll(bool value)
@@ -164,7 +163,7 @@ namespace Polyzynger
         }
 
         /// <summary>
-        /// 
+        /// Connects to WiFi network specified in SSID and password fields.
         /// </summary>
         private async void ConnectToWiFi_Click(object sender, RoutedEventArgs e)
         {
