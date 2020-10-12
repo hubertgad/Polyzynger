@@ -1,0 +1,57 @@
+﻿<Window x:Class="PolyzyngerUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolyzyngerUI"  xmlns:controls="clr-namespace:PolyzyngerUI.Controls"
+        mc:Ignorable="d"
+        ResizeMode="CanResize"
+        WindowStyle="SingleBorderWindow"
+        Title="Polyzynger" MinHeight="480" MinWidth="854" Height="480" Width="854" >
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition Width="auto" MinWidth="120" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" MinWidth="120" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" MinWidth="120" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="20" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="1" Grid.Column="5" Click="StartButton_ClickAsync" Content="START" Style="{StaticResource CustomButton}"/>
+
+        
+        
+        <Label Grid.Row="2" Grid.Column="3" Content="Browsers" FontWeight="Bold" />
+        
+        <controls:CustomCheckBox Grid.Row="3" Grid.Column="3" x:Name="GChromeCheckBox" Content="Google Chrome" />
+        <controls:CustomProgressBar Grid.Row="3" Grid.Column="4" x:Name="GChromeProgressBar" />
+        <controls:StatusLabel Grid.Row="3" Grid.Column="4" x:Name="GChromeStatus" />
+        
+        
+        <Label Grid.Row="4" Grid.Column="3" Content="Office Apps" FontWeight="Bold" />
+        
+        <controls:CustomCheckBox Grid.Row="5" Grid.Column="3" x:Name="AReaderCheckBox" Content="Adobe Reader" />
+        <controls:CustomProgressBar Grid.Row="5" Grid.Column="4" x:Name="AReaderProgressBar" />
+        <controls:StatusLabel Grid.Row="5" Grid.Column="4" x:Name="AReaderStatus" />
+
+        <Label Grid.Row="5" Grid.Column="5" x:Name="Percentage"></Label>
+        
+    </Grid>
+</Window>
