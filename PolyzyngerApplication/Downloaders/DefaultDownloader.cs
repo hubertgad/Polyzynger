@@ -1,6 +1,5 @@
 ﻿using PolyzyngerApplication.Interfaces;
 using System;
-using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -10,56 +9,42 @@ namespace PolyzyngerApplication.Downloaders
     {
         public async Task DownloadAsync(string uri, string tempPath, State state, string patchUri = null, string patchTempPath = null)
         {
-            var downloads = (patchTempPath == null) ? 1 : 2;
-            Debug.WriteLine(patchTempPath == null);
-            Debug.WriteLine(downloads);
-            double progress1 = 0;
-            double progress2 = 0;
+            double downloads = string.IsNullOrEmpty(patchUri) ? 1 : 2;
 
-            await Task.Delay(500);
+            Task downloadInstaller = DownloadFile(uri, tempPath, state, downloads);
+
+            if (!string.IsNullOrEmpty(patchUri))
+            {
+                await DownloadFile(patchUri, patchTempPath, state, downloads);
+            }
+
+            await downloadInstaller;
+        }
+
+        private Task DownloadFile(string uri, string tempPath, State state, double downloads)
+        {
+            double progress = 0;
 
             TaskCompletionSource<int> tcs = new TaskCompletionSource<int>();
-            
+
             using WebClient client = new WebClient();
-            
+
             client.DownloadProgressChanged += (s, e) =>
             {
-                var delta = e.ProgressPercentage - progress1;
+                var delta = e.ProgressPercentage - progress;
                 state.DownloadProgress += delta / downloads;
-                progress1 = e.ProgressPercentage;
+                progress = e.ProgressPercentage;
             };
 
             client.DownloadFileCompleted += (s, e) =>
             {
-                state.DownloadProgress += (100 - progress1) / downloads;
+                state.DownloadProgress += (100 - progress) / downloads;
                 tcs.SetResult(0);
             };
 
             client.DownloadFileAsync(new Uri(uri), tempPath);
 
-            if (patchTempPath != null)
-            {
-                TaskCompletionSource<int> tcs2 = new TaskCompletionSource<int>();
-
-                using WebClient client2 = new WebClient();
-
-                client.DownloadProgressChanged += (s, e) =>
-                {
-                    var delta = e.ProgressPercentage - progress2;
-                    state.DownloadProgress += delta / downloads;
-                    progress2 = e.ProgressPercentage;
-                };
-
-                client.DownloadFileCompleted += (s, e) =>
-                {
-                    state.DownloadProgress = (100 - progress2) / downloads;
-                    tcs2.SetResult(0);
-                };
-
-                await tcs2.Task;
-            }
-
-            await tcs.Task;
+            return tcs.Task;
         }
     }
 }

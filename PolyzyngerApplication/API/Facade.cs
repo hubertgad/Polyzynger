@@ -29,7 +29,8 @@ namespace PolyzyngerApplication.API
 
         public async Task InstallLibreOfficeAsync(EventHandler<State> stateHandler)
         {
-            await Task.CompletedTask;
+            var libreOfficeController = new LibreOfficeController(stateHandler);
+            await libreOfficeController.ExecuteInstallationAsync();
         }
 
         public async Task Install7ZipAsync(EventHandler<State> stateHandler)

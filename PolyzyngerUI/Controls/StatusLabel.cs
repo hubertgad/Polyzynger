@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using PolyzyngerApplication;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -11,44 +12,44 @@ namespace PolyzyngerUI.Controls
             Style = TryFindResource("CustomLabel") as Style;
         }
 
-        public new object Content
+        public void UpdateContent(State state)
         {
-            get
+            Content = state.Stage.ToString();
+            
+            if (state.Stage == Stage.SCANNING)
             {
-                return base.Content;
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)75, (byte)0, (byte)130));
             }
-            set
+
+            if (state.Stage == Stage.DOWNLOADING)
             {
-                if (value.ToString() == "Downloading")
-                {
-                    base.Content = "DOWNLOADING";
-                    Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)0, (byte)0));
-                }
-                if (value.ToString() == "Waiting")
-                {
-                    base.Content = "WAITING";
-                    Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)0, (byte)0));
-                }
-                if (value.ToString() == "Installing")
-                {
-                    base.Content = ">> INSTALLING";
-                    Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217));
-                }
-                if (value.ToString() == "Updating")
-                {
-                    base.Content = "UPDATING";
-                    Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217));
-                }
-                if (value.ToString() == "Done")
-                {
-                    base.Content = "DONE";
-                    Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));
-                }
-                if (value.ToString() == "Error")
-                {
-                    base.Content = "ERROR";
-                    Foreground = new SolidColorBrush(Color.FromRgb((byte)144, (byte)0, (byte)0));
-                }
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)0, (byte)0));
+            }
+
+            if (state.Stage == Stage.WAITING)
+            {
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)0, (byte)0));
+            }
+
+            if (state.Stage == Stage.INSTALLING)
+            {
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217));
+            }
+
+            if (state.Stage == Stage.UPDATING)
+            {
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217));
+            }
+
+            if (state.Stage == Stage.DONE)
+            {
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));
+            }
+
+            if (state.Stage == Stage.ERROR)
+            {
+                base.Content = string.Concat(state.PreviousStage.ToString(), " ", Stage.ERROR.ToString());
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)144, (byte)0, (byte)0));
             }
         }
     }

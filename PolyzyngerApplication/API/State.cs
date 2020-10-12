@@ -9,6 +9,8 @@ namespace PolyzyngerApplication
         public State(EventHandler<State> handler)
         {
             RaiseStatusChange += handler;
+
+            Stage = Stage.EMPTY;
         }
 
         private double _downloadProgress;
@@ -36,14 +38,17 @@ namespace PolyzyngerApplication
             }
             set
             {
+                PreviousStage = _stage;
                 _stage = value;
                 RaiseStatusChange?.Invoke(this, this);
             }
         }
+
+        public Stage PreviousStage { get; set; }
     }
 
     public enum Stage
     {
-        Empty, Checking, Downloading, Waiting, Installing, Updating, Cleaning, Done, Error
+        EMPTY, SCANNING, DOWNLOADING, WAITING, INSTALLING, UPDATING, CLEANING, DONE, ERROR
     }
 }

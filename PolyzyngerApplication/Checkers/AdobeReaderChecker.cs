@@ -1,5 +1,4 @@
 ﻿using PolyzyngerApplication.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,9 +10,9 @@ namespace PolyzyngerApplication.Checkers
 {
     class AdobeReaderChecker : IChecker
     {
-        public async Task<(string installer, string patch)> CheckLatestVersionPathAsync()
+        public async Task<(string installer, string patch)> CheckLatestVersionPathAsync(string installerUri)
         {
-            string patchRemotePath = string.Empty;
+            string newPatchUri = string.Empty;
 
             await Task.Run(async () =>
             {
@@ -29,14 +28,13 @@ namespace PolyzyngerApplication.Checkers
 
                 var patchFileName = MatchPatchFileName(endDirLst, latestPatchNo);
 
-                patchRemotePath = Path.Combine(endFTPDirPath, patchFileName);
+                newPatchUri = Path.Combine(endFTPDirPath, patchFileName);
 
-                patchRemotePath = patchRemotePath.Replace("ftp://ftp.adobe.com/", "http://ardownload.adobe.com/");
+                newPatchUri = newPatchUri.Replace("ftp://ftp.adobe.com/", "http://ardownload.adobe.com/");
 
             });
-            System.Diagnostics.Debug.WriteLine(patchRemotePath);
-            Console.WriteLine(patchRemotePath);
-            return (string.Empty, patchRemotePath);
+
+            return (string.Empty, newPatchUri);
         }
 
         private string MatchPatchFileName(List<string> list, int versionNo)

@@ -50,8 +50,10 @@
         <controls:CustomCheckBox Grid.Row="5" Grid.Column="3" x:Name="AReaderCheckBox" Content="Adobe Reader" />
         <controls:CustomProgressBar Grid.Row="5" Grid.Column="4" x:Name="AReaderProgressBar" />
         <controls:StatusLabel Grid.Row="5" Grid.Column="4" x:Name="AReaderStatus" />
-
-        <Label Grid.Row="5" Grid.Column="5" x:Name="Percentage"></Label>
+        
+        <controls:CustomCheckBox Grid.Row="6" Grid.Column="3" x:Name="LOfficeCheckBox" Content="Libre Office" />
+        <controls:CustomProgressBar Grid.Row="6" Grid.Column="4" x:Name="LOfficeProgressBar" />
+        <controls:StatusLabel Grid.Row="6" Grid.Column="4" x:Name="LOfficeStatus" />
         
     </Grid>
 </Window>

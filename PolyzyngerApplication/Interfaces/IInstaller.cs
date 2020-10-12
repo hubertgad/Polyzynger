@@ -4,6 +4,6 @@ namespace PolyzyngerApplication.Interfaces
 {
     internal interface IInstaller
     {
-        Task InstallAsync();
+        Task InstallAsync(string tempPath, string arguments);
     }
 }

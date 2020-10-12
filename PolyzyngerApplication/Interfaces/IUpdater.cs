@@ -4,6 +4,6 @@ namespace PolyzyngerApplication.Interfaces
 {
     internal interface IUpdater
     {
-        Task UdateAsync();
+        Task UdateAsync(string patchTempPath);
     }
 }

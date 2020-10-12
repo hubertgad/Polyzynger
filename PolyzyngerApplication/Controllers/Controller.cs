@@ -1,13 +1,11 @@
-﻿using PolyzyngerApplication.API;
-using PolyzyngerApplication.Cleaners;
+﻿using PolyzyngerApplication.Cleaners;
 using PolyzyngerApplication.Downloaders;
 using PolyzyngerApplication.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Controllers
@@ -16,108 +14,102 @@ namespace PolyzyngerApplication.Controllers
     {
         private readonly State _state;
 
-        protected IChecker checker;
+        private readonly static SemaphoreSlim _installationSemaphore = new SemaphoreSlim(1);
 
-        private IDownloader downloader;
+        protected IChecker Checker;
 
-        private IInstaller installer;
+        protected IDownloader Downloader;
 
-        private IUpdater updater;
+        protected IInstaller Installer;
 
-        private ICleaner cleaner;
+        protected IUpdater Updater;
+
+        protected ICleaner Cleaner;
        
         /// <summary>
-        /// Path from which file is downloaded.
+        /// Path from which installer file is downloaded.
         /// </summary>
-        protected string remotePath;
-
-        /// <summary>
-        /// Full temporary path to an installer file.
-        /// </summary>
+        protected string InstallerUri;
 
         /// <summary>
         /// Installer file name.
         /// </summary>
-        protected string fileName;
+        protected string FileName => InstallerUri.Split('/').LastOrDefault();
 
-        protected string patchRemotePath;
+        /// <summary>
+        /// Path from which patch file is downloaded.
+        /// </summary>
+        protected string PatchUri = string.Empty;
 
         protected string PatchFileName => "patch.msp";
         
         /// <summary>
         /// Installation arguments to be passed to installation process.
         /// </summary>
-        protected string arguments = " /qn";
+        protected string Arguments = " /qn";
 
-        protected string TempPath => Path.Combine(Path.GetTempPath(), fileName);
+        /// <summary>
+        /// Full temporary path to an installer file.
+        /// </summary>
+        protected string InstallerTempPath => Path.Combine(Path.GetTempPath(), FileName);
 
+        /// <summary>
+        /// Full temporary path to a patch file.
+        /// </summary>
         protected string PatchTempPath => Path.Combine(Path.GetTempPath(), PatchFileName); 
 
         protected Controller(EventHandler<State> handler)
         {
             _state = new State(handler);
-            downloader = new DefaultDownloader();
-            cleaner = new DefaultCleaner();
+
+            Downloader = new DefaultDownloader();
+            
+            Cleaner = new DefaultCleaner();
         }
 
         internal async Task ExecuteInstallationAsync()
         {
+            Stage finalStage = Stage.DONE;
+
             try
             {
-                if (checker != null)
+                if (Checker != null)
                 {
-                    _state.Stage = Stage.Checking;
+                    _state.Stage = Stage.SCANNING;
+                    var (installerUri, patchUri) = await Checker.CheckLatestVersionPathAsync(InstallerUri);
 
-                    var newRemotePaths = await checker.CheckLatestVersionPathAsync();
-
-                    if (IsUrlValid(newRemotePaths.installer))
-                    {
-                        remotePath = newRemotePaths.installer;
-                    }
-
-                    if (IsUrlValid(newRemotePaths.patch))
-                    {
-                        patchRemotePath = newRemotePaths.patch;
-                    }
+                    AssigNewPathsIfValid(installerUri, patchUri);
                 }
 
-                _state.Stage = Stage.Downloading;
+                _state.Stage = Stage.DOWNLOADING;
+                await Downloader.DownloadAsync(InstallerUri, InstallerTempPath, _state, PatchUri, PatchTempPath);
 
-                await downloader.DownloadAsync(remotePath, TempPath, _state, patchRemotePath, PatchTempPath);
-                
-                //Task d2 = Task.CompletedTask;
-                
-                //if (!string.IsNullOrEmpty(patchRemotePath))
-                //{
-                //    d2 = downloader.DownloadAsync(patchRemotePath, PatchTempPath, _state);
-                //}
+                _state.Stage = Stage.WAITING;
+                await _installationSemaphore.WaitAsync();
 
-                //await Task.WhenAll(d1, d2);
+                _state.Stage = Stage.INSTALLING;
+                await Installer.InstallAsync(InstallerTempPath, Arguments);
 
-                _state.Stage = Stage.Waiting;
-
-                for (int i = 0; i <= 2; i++)
+                if (Updater != null)
                 {
-                    await Task.Delay(1000);
+                    _state.Stage = Stage.UPDATING;
+                    await Updater.UdateAsync(PatchTempPath);
                 }
 
-                _state.Stage = Stage.Installing;
-
-                for (int i = 0; i <= 2; i++)
-                {
-                    await Task.Delay(1000);
-                }
-
-                _state.Stage = Stage.Done;
+                _state.Stage = Stage.CLEANING;
             }
             catch
             {
-                _state.Stage = Stage.Error;
+                finalStage = Stage.ERROR;
             }
             finally
             {
-                cleaner.DeleteTempFilesAsync(TempPath);
-                cleaner.DeleteTempFilesAsync(PatchTempPath);
+                _installationSemaphore.Release();
+
+                Cleaner.DeleteTempFilesAsync(InstallerTempPath);
+                Cleaner.DeleteTempFilesAsync(PatchTempPath);
+
+                _state.Stage = finalStage;
             }
         }
 
@@ -125,17 +117,26 @@ namespace PolyzyngerApplication.Controllers
         {
             try
             {
-                using (WebClient webClient = new WebClient())
-                {
-                    using (Stream stream = webClient.OpenRead(url))
-                    {
-                        return true;
-                    }
-                }
+                using WebClient webClient = new WebClient();
+                using Stream stream = webClient.OpenRead(url);
+                return true;
             }
             catch
             {
                 return false;
+            }
+        }
+
+        private void AssigNewPathsIfValid(string installerUri, string patchUri)
+        {
+            if (IsUrlValid(installerUri))
+            {
+                InstallerUri = installerUri;
+            }
+
+            if (IsUrlValid(patchUri))
+            {
+                PatchUri = patchUri;
             }
         }
     }
