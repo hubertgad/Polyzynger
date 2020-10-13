@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PolyzyngerUI"  xmlns:controls="clr-namespace:PolyzyngerUI.Controls"
+        xmlns:local="clr-namespace:PolyzyngerUI"
+        xmlns:controls="clr-namespace:PolyzyngerUI.Controls"
         mc:Ignorable="d"
         ResizeMode="CanResize"
         WindowStyle="SingleBorderWindow"
-        Title="Polyzynger" MinHeight="480" MinWidth="854" Height="480" Width="854" >
+        Title="Polyzynger"
+        MinHeight="480" MinWidth="854"
+        Height="480" Width="854" >
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -30,14 +33,26 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
         <Button Grid.Row="1" Grid.Column="5" Click="StartButton_ClickAsync" Content="START" Style="{StaticResource CustomButton}"/>
 
+        <!-- COLUMN 1 -->
+            
         
-        
+        <!-- COLUMN 2 -->
+            
         <Label Grid.Row="2" Grid.Column="3" Content="Browsers" FontWeight="Bold" />
         
         <controls:CustomCheckBox Grid.Row="3" Grid.Column="3" x:Name="GChromeCheckBox" Content="Google Chrome" />
@@ -55,5 +70,19 @@
         <controls:CustomProgressBar Grid.Row="6" Grid.Column="4" x:Name="LOfficeProgressBar" />
         <controls:StatusLabel Grid.Row="6" Grid.Column="4" x:Name="LOfficeStatus" />
         
+        <Label Grid.Row="4" Grid.Column="7" Content="Utilities" FontWeight="Bold" />
+            
+        <controls:CustomCheckBox Grid.Row="8" Grid.Column="3" x:Name="7ZipCheckBox" Content="7-Zip" />
+        <controls:CustomProgressBar Grid.Row="8" Grid.Column="4" x:Name="7ZipProgressBar" />
+        <controls:StatusLabel Grid.Row="8" Grid.Column="4" x:Name="7ZipStatus" />
+            
+        <controls:CustomCheckBox Grid.Row="9" Grid.Column="3" x:Name="TVCheckBox" Content="Team Viewer" />
+        <controls:CustomProgressBar Grid.Row="9" Grid.Column="4" x:Name="TVProgressBar" />
+        <controls:StatusLabel Grid.Row="9" Grid.Column="4" x:Name="TVStatus" />
+        
+        <!-- COLUMN 3 -->
+            
+            
+            
     </Grid>
 </Window>
