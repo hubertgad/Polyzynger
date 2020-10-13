@@ -3,8 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PolyzyngerUI"
-        xmlns:controls="clr-namespace:PolyzyngerUI.Controls"
+        xmlns:c="clr-namespace:PolyzyngerUI.Controls"
         mc:Ignorable="d"
         ResizeMode="CanResize"
         WindowStyle="SingleBorderWindow"
@@ -39,91 +38,109 @@
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
-        <!--                    NAVBAR                  -->
-            
-        <Button Grid.Row="1" Grid.Column="5" Click="StartButton_ClickAsync" Content="START" Style="{StaticResource CustomButton}"/>
+        <!--                    NAVBAR                     -->
 
-            
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="6" VerticalAlignment="Top" Orientation="Horizontal">
+            <Image Width="199" Height="27" Source="/Resources/logo.png" />
+            <Button Style="{StaticResource CustomButton}" Content="START" Click="StartButton_ClickAsync" x:Name="StartButton" Margin="25,0,0,0" />
+            <Button Style="{StaticResource CustomButton}" Content="CHECK ALL" Click="CheckButton_Click" x:Name="CheckButton" />
+            <Button Style="{StaticResource CustomButton}" Content="UNCHECK ALL" Click="UncheckButton_Click" x:Name="UncheckButton" FontSize="10" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="SSID:" VerticalAlignment="Center" />
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="5" MinWidth="100" MaxHeight="20" x:Name="SSID" VerticalAlignment="Center" />
+                <Label Grid.Row="1" Grid.Column="0" Content="Password:" DockPanel.Dock="Left"  />
+                <PasswordBox Grid.Row="1" Grid.Column="1"  Margin="5" MinWidth="100" MaxHeight="20" x:Name="Password" DockPanel.Dock="Bottom" />
+            </Grid>
+            <Button Style="{StaticResource CustomButton}" Margin="5" Content="CONNECT" x:Name="ConnectToWiFiButton" Click="ConnectToWiFiButton_Click" DockPanel.Dock="Right" />
+        </StackPanel>
+
         <!--                    COLUMN 1                   -->
-            
-        <Label Grid.Row="2" Grid.Column="1" Content="Seven" FontWeight="Bold" />
-            
-        <controls:CustomCheckBox Grid.Row="3" Grid.Column="1" x:Name="SIconCheckBox" Content="Seven Icon" />
-        <controls:StatusLabel Grid.Row="3" Grid.Column="1" x:Name="SIconStatus" />
-            
-        <controls:CustomCheckBox Grid.Row="4" Grid.Column="3" x:Name="SThemeCheckBox" Content="Seven Theme" />
-        <controls:StatusLabel Grid.Row="4" Grid.Column="4" x:Name="SThemeStatus" />
-            
-        <controls:CustomCheckBox Grid.Row="5" Grid.Column="3" x:Name="HSearchBarCheckBox" Content="Hide Search Bar" />
-        <controls:StatusLabel Grid.Row="5" Grid.Column="4" x:Name="HSearchBar" />
-            
-        <controls:CustomCheckBox Grid.Row="6" Grid.Column="3" x:Name="ADesktopCheckBox" Content="Arrange Desktop" />
-        <controls:StatusLabel Grid.Row="6" Grid.Column="4" x:Name="ADesktopStatus" />
-            
-        <Label Grid.Row="7" Grid.Column="1" Content="Multimedia" FontWeight="Bold" />
-            
-        <controls:CustomCheckBox Grid.Row="8" Grid.Column="3" x:Name="KLiteCheckBox" Content="K-Lite Codecs" />
-        <controls:CustomProgressBar Grid.Row="8" Grid.Column="4" x:Name="KLiteProgressBar" />
-        <controls:StatusLabel Grid.Row="8" Grid.Column="4" x:Name="KLiteStatus" />
-        
-            
+
+        <Label Grid.Row="3" Grid.Column="1" Content="Seven" FontWeight="Bold" />
+
+        <c:CustomCheckBox Grid.Row="4" Grid.Column="1" x:Name="SIconCheckBox" Content="Seven Icon" />
+        <c:StatusLabel Grid.Row="4" Grid.Column="2" x:Name="SIconStatus" />
+
+        <c:CustomCheckBox Grid.Row="5" Grid.Column="1" x:Name="SThemeCheckBox" Content="Seven Theme" />
+        <c:StatusLabel Grid.Row="5" Grid.Column="2" x:Name="SThemeStatus" />
+
+        <c:CustomCheckBox Grid.Row="6" Grid.Column="1" x:Name="HSearchBarCheckBox" Content="Hide Search Bar" />
+        <c:StatusLabel Grid.Row="6" Grid.Column="2" x:Name="HSearchBar" />
+
+        <c:CustomCheckBox Grid.Row="7" Grid.Column="1" x:Name="ADesktopCheckBox" Content="Arrange Desktop" />
+        <c:StatusLabel Grid.Row="7" Grid.Column="2" x:Name="ADesktopStatus" />
+
+        <Label Grid.Row="8" Grid.Column="1" Content="Multimedia" FontWeight="Bold" />
+
+        <c:CustomCheckBox Grid.Row="9" Grid.Column="1" x:Name="KLiteCheckBox" Content="K-Lite Codecs" />
+        <c:CustomProgressBar Grid.Row="9" Grid.Column="2" x:Name="KLiteProgressBar" />
+        <c:StatusLabel Grid.Row="9" Grid.Column="2" x:Name="KLiteStatus" />
+
         <!--                    COLUMN 2                        -->
-            
-        <Label Grid.Row="2" Grid.Column="3" Content="Browsers" FontWeight="Bold" />
-        
-        <controls:CustomCheckBox Grid.Row="3" Grid.Column="3" x:Name="GChromeCheckBox" Content="Google Chrome" />
-        <controls:CustomProgressBar Grid.Row="3" Grid.Column="4" x:Name="GChromeProgressBar" />
-        <controls:StatusLabel Grid.Row="3" Grid.Column="4" x:Name="GChromeStatus" />
-                
-        <Label Grid.Row="4" Grid.Column="3" Content="Office Apps" FontWeight="Bold" />
-        
-        <controls:CustomCheckBox Grid.Row="5" Grid.Column="3" x:Name="AReaderCheckBox" Content="Adobe Reader" />
-        <controls:CustomProgressBar Grid.Row="5" Grid.Column="4" x:Name="AReaderProgressBar" />
-        <controls:StatusLabel Grid.Row="5" Grid.Column="4" x:Name="AReaderStatus" />
-        
-        <controls:CustomCheckBox Grid.Row="6" Grid.Column="3" x:Name="LOfficeCheckBox" Content="Libre Office" />
-        <controls:CustomProgressBar Grid.Row="6" Grid.Column="4" x:Name="LOfficeProgressBar" />
-        <controls:StatusLabel Grid.Row="6" Grid.Column="4" x:Name="LOfficeStatus" />
-                    
-        <Label Grid.Row="4" Grid.Column="7" Content="Utilities" FontWeight="Bold" />
-            
-        <controls:CustomCheckBox Grid.Row="8" Grid.Column="3" x:Name="7ZipCheckBox" Content="7-Zip" />
-        <controls:CustomProgressBar Grid.Row="8" Grid.Column="4" x:Name="7ZipProgressBar" />
-        <controls:StatusLabel Grid.Row="8" Grid.Column="4" x:Name="7ZipStatus" />
-            
-        <controls:CustomCheckBox Grid.Row="9" Grid.Column="3" x:Name="TVCheckBox" Content="Team Viewer" />
-        <controls:CustomProgressBar Grid.Row="9" Grid.Column="4" x:Name="TVProgressBar" />
-        <controls:StatusLabel Grid.Row="9" Grid.Column="4" x:Name="TVStatus" />
-        
+
+        <Label Grid.Row="3" Grid.Column="3" Content="Browsers" FontWeight="Bold" />
+
+        <c:CustomCheckBox Grid.Row="4" Grid.Column="3" x:Name="GChromeCheckBox" Content="Google Chrome" />
+        <c:CustomProgressBar Grid.Row="4" Grid.Column="4" x:Name="GChromeProgressBar" />
+        <c:StatusLabel Grid.Row="4" Grid.Column="4" x:Name="GChromeStatus" />
+
+        <Label Grid.Row="5" Grid.Column="3" Content="Office Apps" FontWeight="Bold" />
+
+        <c:CustomCheckBox Grid.Row="6" Grid.Column="3" x:Name="AReaderCheckBox" Content="Adobe Reader" />
+        <c:CustomProgressBar Grid.Row="6" Grid.Column="4" x:Name="AReaderProgressBar" />
+        <c:StatusLabel Grid.Row="6" Grid.Column="4" x:Name="AReaderStatus" />
+
+        <c:CustomCheckBox Grid.Row="7" Grid.Column="3" x:Name="LOfficeCheckBox" Content="Libre Office" />
+        <c:CustomProgressBar Grid.Row="7" Grid.Column="4" x:Name="LOfficeProgressBar" />
+        <c:StatusLabel Grid.Row="7" Grid.Column="4" x:Name="LOfficeStatus" />
+
+        <Label Grid.Row="8" Grid.Column="3" Content="Utilities" FontWeight="Bold" />
+
+        <c:CustomCheckBox Grid.Row="9" Grid.Column="3" x:Name="SZipCheckBox" Content="7-Zip" />
+        <c:CustomProgressBar Grid.Row="9" Grid.Column="4" x:Name="SZipProgressBar" />
+        <c:StatusLabel Grid.Row="9" Grid.Column="4" x:Name="SZipStatus" />
+
+        <c:CustomCheckBox Grid.Row="10" Grid.Column="3" x:Name="TVCheckBox" Content="Team Viewer" />
+        <c:CustomProgressBar Grid.Row="10" Grid.Column="4" x:Name="TVProgressBar" />
+        <c:StatusLabel Grid.Row="10" Grid.Column="4" x:Name="TVStatus" />
+
         <!--                    COLUMN 3                        -->
 
-        <Label Grid.Row="2" Grid.Column="5" Content="Runtimes" FontWeight="Bold" />
+        <Label Grid.Row="3" Grid.Column="5" Content="Runtimes" FontWeight="Bold" />
 
-        <controls:CustomCheckBox Grid.Row="3" Grid.Column="5" x:Name="JavaCheckBox" Content="Java 8" />
-        <controls:CustomProgressBar Grid.Row="3" Grid.Column="6" x:Name="JavaProgressBar" />
-        <controls:StatusLabel Grid.Row="3" Grid.Column="6" x:Name="JavaStatus" />            
+        <c:CustomCheckBox Grid.Row="4" Grid.Column="5" x:Name="JavaCheckBox" Content="Java 8" />
+        <c:CustomProgressBar Grid.Row="4" Grid.Column="6" x:Name="JavaProgressBar" />
+        <c:StatusLabel Grid.Row="4" Grid.Column="6" x:Name="JavaStatus" />
 
-        <controls:CustomCheckBox Grid.Row="4" Grid.Column="5" x:Name="AAirCheckBox" Content="Adobe Air" />
-        <controls:CustomProgressBar Grid.Row="4" Grid.Column="6" x:Name="AAirProgressBar" />
-        <controls:StatusLabel Grid.Row="4" Grid.Column="6" x:Name="AAirStatus" />
-            
-        <Label Grid.Row="2" Grid.Column="5" Content="Security" FontWeight="Bold" />
+        <c:CustomCheckBox Grid.Row="5" Grid.Column="5" x:Name="AAirCheckBox" Content="Adobe Air" />
+        <c:CustomProgressBar Grid.Row="5" Grid.Column="6" x:Name="AAirProgressBar" />
+        <c:StatusLabel Grid.Row="5" Grid.Column="6" x:Name="AAirStatus" />
 
-        <controls:CustomCheckBox Grid.Row="6" Grid.Column="5" x:Name="EsetNod32CheckBox" Content="ESET NOD32" />
-        <controls:CustomProgressBar Grid.Row="6" Grid.Column="6" x:Name="EsetNod32ProgressBar" />
-        <controls:StatusLabel Grid.Row="6" Grid.Column="6" x:Name="EsetNod32Status" />            
+        <Label Grid.Row="6" Grid.Column="5" Content="Security" FontWeight="Bold" />
 
-        <controls:CustomCheckBox Grid.Row="7" Grid.Column="5" x:Name="EsetISCheckBox" Content="ESET IS" />
-        <controls:CustomProgressBar Grid.Row="7" Grid.Column="6" x:Name="EsetISProgressBar" />
-        <controls:StatusLabel Grid.Row="7" Grid.Column="6" x:Name="EsetISStatus" />
+        <c:CustomCheckBox Grid.Row="7" Grid.Column="5" x:Name="EsetNod32CheckBox" Content="ESET NOD32" />
+        <c:CustomProgressBar Grid.Row="7" Grid.Column="6" x:Name="EsetNod32ProgressBar" />
+        <c:StatusLabel Grid.Row="7" Grid.Column="6" x:Name="EsetNod32Status" />
 
-        <controls:CustomCheckBox Grid.Row="8" Grid.Column="5" x:Name="EsetSSPCheckBox" Content="ESET SSP" />
-        <controls:CustomProgressBar Grid.Row="8" Grid.Column="6" x:Name="EsetSSPProgressBar" />
-        <controls:StatusLabel Grid.Row="8" Grid.Column="6" x:Name="EsetSSPtatus" />            
+        <c:CustomCheckBox Grid.Row="8" Grid.Column="5" x:Name="EsetISCheckBox" Content="ESET IS" />
+        <c:CustomProgressBar Grid.Row="8" Grid.Column="6" x:Name="EsetISProgressBar" />
+        <c:StatusLabel Grid.Row="8" Grid.Column="6" x:Name="EsetISStatus" />
 
-        <controls:CustomCheckBox Grid.Row="9" Grid.Column="5" x:Name="EsetEndpointheckBox" Content="ESET Endpoint" />
-        <controls:CustomProgressBar Grid.Row="9" Grid.Column="6" x:Name="EsetEndpointProgressBar" />
-        <controls:StatusLabel Grid.Row="9" Grid.Column="6" x:Name="EsetEndpointStatus" />
-            
+        <c:CustomCheckBox Grid.Row="9" Grid.Column="5" x:Name="EsetSSPCheckBox" Content="ESET SSP" />
+        <c:CustomProgressBar Grid.Row="9" Grid.Column="6" x:Name="EsetSSPProgressBar" />
+        <c:StatusLabel Grid.Row="9" Grid.Column="6" x:Name="EsetSSPtatus" />
+
+        <c:CustomCheckBox Grid.Row="10" Grid.Column="5" x:Name="EsetEndpointheckBox" Content="ESET Endpoint" />
+        <c:CustomProgressBar Grid.Row="10" Grid.Column="6" x:Name="EsetEndpointProgressBar" />
+        <c:StatusLabel Grid.Row="10" Grid.Column="6" x:Name="EsetEndpointStatus" />
+
     </Grid>
 </Window>

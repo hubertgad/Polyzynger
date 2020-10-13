@@ -34,5 +34,25 @@ namespace PolyzyngerUI
             label.UpdateContent(state);
             bar.Value = state.DownloadProgress;
         }
+
+        private void UncheckButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void StartButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ConnectToWiFiButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
