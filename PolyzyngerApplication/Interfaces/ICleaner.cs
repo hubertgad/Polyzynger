@@ -2,6 +2,6 @@
 {
     internal interface ICleaner
     {
-        void DeleteTempFilesAsync(string path);
+        void DeleteTempFiles(string path);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using PolyzyngerApplication.Cleaners;
 using PolyzyngerApplication.Downloaders;
+using PolyzyngerApplication.Installers;
 using PolyzyngerApplication.Interfaces;
 using System;
 using System.IO;
@@ -12,17 +13,15 @@ namespace PolyzyngerApplication.Controllers
 {
     internal abstract class Controller
     {
-        private readonly State _state;
+        protected readonly State _state;
 
-        private readonly static SemaphoreSlim _installationSemaphore = new SemaphoreSlim(1);
+        protected readonly static SemaphoreSlim _installationSemaphore = new SemaphoreSlim(1);
 
         protected IChecker Checker;
 
         protected IDownloader Downloader;
 
         protected IInstaller Installer;
-
-        protected IUpdater Updater;
 
         protected ICleaner Cleaner;
        
@@ -34,69 +33,42 @@ namespace PolyzyngerApplication.Controllers
         /// <summary>
         /// Installer file name.
         /// </summary>
-        protected string FileName => InstallerUri.Split('/').LastOrDefault();
-
-        /// <summary>
-        /// Path from which patch file is downloaded.
-        /// </summary>
-        protected string PatchUri = string.Empty;
-
-        protected string PatchFileName => "patch.msp";
-        
-        /// <summary>
-        /// Installation arguments to be passed to installation process.
-        /// </summary>
-        protected string Arguments = " /qn";
+        protected string InstallerFileName => InstallerUri.Split('/').LastOrDefault();
 
         /// <summary>
         /// Full temporary path to an installer file.
         /// </summary>
-        protected string InstallerTempPath => Path.Combine(Path.GetTempPath(), FileName);
+        protected string InstallerTempPath => Path.Combine(Path.GetTempPath(), InstallerFileName);
 
         /// <summary>
-        /// Full temporary path to a patch file.
+        /// Installation arguments to be passed to installation process.
         /// </summary>
-        protected string PatchTempPath => Path.Combine(Path.GetTempPath(), PatchFileName); 
+        protected string InstallationArguments = " /qn";
 
         protected Controller(EventHandler<State> handler)
         {
             _state = new State(handler);
 
             Downloader = new DefaultDownloader();
+
+            Installer = new InstallerMsi();
             
             Cleaner = new DefaultCleaner();
         }
 
-        internal async Task ExecuteInstallationAsync()
+        internal virtual async Task ExecuteInstallationStepsAsync()
         {
             Stage finalStage = Stage.DONE;
 
             try
             {
-                if (Checker != null)
-                {
-                    _state.Stage = Stage.SCANNING;
-                    var (installerUri, patchUri) = await Checker.CheckLatestVersionPathAsync(InstallerUri);
+                await ScannAsync();
 
-                    AssigNewPathsIfValid(installerUri, patchUri);
-                }
+                await DownloadAsync();
 
-                _state.Stage = Stage.DOWNLOADING;
-                await Downloader.DownloadAsync(InstallerUri, InstallerTempPath, _state, PatchUri, PatchTempPath);
+                await PutSemaphoreAsync();
 
-                _state.Stage = Stage.WAITING;
-                await _installationSemaphore.WaitAsync();
-
-                _state.Stage = Stage.INSTALLING;
-                await Installer.InstallAsync(InstallerTempPath, Arguments);
-
-                if (Updater != null)
-                {
-                    _state.Stage = Stage.UPDATING;
-                    await Updater.UdateAsync(PatchTempPath);
-                }
-
-                _state.Stage = Stage.CLEANING;
+                await InstallAsync();
             }
             catch
             {
@@ -104,16 +76,48 @@ namespace PolyzyngerApplication.Controllers
             }
             finally
             {
-                _installationSemaphore.Release();
-
-                Cleaner.DeleteTempFilesAsync(InstallerTempPath);
-                Cleaner.DeleteTempFilesAsync(PatchTempPath);
-
-                _state.Stage = finalStage;
+                CleanUp(finalStage);
             }
         }
 
-        private bool IsUrlValid(string url)
+        protected virtual async Task ScannAsync()
+        {
+            if (Checker != null)
+            {
+                _state.Stage = Stage.SCANNING;
+                var newInstallerUri = await Checker.CheckLatestVersionPathAsync(InstallerUri);
+                AssignNewUriIfValid(ref InstallerUri, newInstallerUri);
+            }
+        }
+
+        protected virtual async Task DownloadAsync()
+        {
+            _state.Stage = Stage.DOWNLOADING;
+            await Downloader.DownloadAsync(InstallerUri, InstallerTempPath, _state);
+        }
+
+        protected virtual Task PutSemaphoreAsync()
+        {
+            _state.Stage = Stage.WAITING;
+            return _installationSemaphore.WaitAsync();
+        }
+
+        protected virtual Task InstallAsync()
+        {
+            _state.Stage = Stage.INSTALLING;
+            return Installer.InstallAsync(InstallerTempPath, InstallationArguments);
+        }
+
+        protected virtual void CleanUp(Stage finalStage)
+        {
+            _state.Stage = Stage.CLEANING;
+            _installationSemaphore.Release();
+            Cleaner.DeleteTempFiles(InstallerTempPath);
+
+            _state.Stage = finalStage;
+        }
+
+        protected bool IsUrlValid(string url)
         {
             try
             {
@@ -127,16 +131,11 @@ namespace PolyzyngerApplication.Controllers
             }
         }
 
-        private void AssigNewPathsIfValid(string installerUri, string patchUri)
+        protected void AssignNewUriIfValid(ref string currentUri, string newUri)
         {
-            if (IsUrlValid(installerUri))
+            if (IsUrlValid(newUri))
             {
-                InstallerUri = installerUri;
-            }
-
-            if (IsUrlValid(patchUri))
-            {
-                PatchUri = patchUri;
+                currentUri = newUri;
             }
         }
     }

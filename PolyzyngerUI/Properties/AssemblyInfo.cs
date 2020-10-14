@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PolyzyngerUI")]
+[assembly: AssemblyTitle("Polyzynger")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PolyzyngerUI")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyProduct("Polyzynger")]
+[assembly: AssemblyCopyright("2020 © hubertgad.net")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

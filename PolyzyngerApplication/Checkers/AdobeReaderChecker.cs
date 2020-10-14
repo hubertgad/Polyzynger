@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Checkers
 {
-    class AdobeReaderChecker : IChecker
+    internal class AdobeReaderChecker : IChecker
     {
-        public async Task<(string installer, string patch)> CheckLatestVersionPathAsync(string installerUri)
+        public async Task<string> CheckLatestVersionPathAsync(string initialUri = null)
         {
             string newPatchUri = string.Empty;
 
@@ -28,13 +28,13 @@ namespace PolyzyngerApplication.Checkers
 
                 var patchFileName = MatchPatchFileName(endDirLst, latestPatchNo);
 
-                newPatchUri = Path.Combine(endFTPDirPath, patchFileName);
+                newPatchUri = Path.Combine(endFTPDirPath, patchFileName).Replace("\\", "/");
 
                 newPatchUri = newPatchUri.Replace("ftp://ftp.adobe.com/", "http://ardownload.adobe.com/");
 
             });
 
-            return (string.Empty, newPatchUri);
+            return newPatchUri;
         }
 
         private string MatchPatchFileName(List<string> list, int versionNo)

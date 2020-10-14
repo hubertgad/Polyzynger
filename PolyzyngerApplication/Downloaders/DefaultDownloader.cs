@@ -7,21 +7,7 @@ namespace PolyzyngerApplication.Downloaders
 {
     class DefaultDownloader : IDownloader
     {
-        public async Task DownloadAsync(string uri, string tempPath, State state, string patchUri = null, string patchTempPath = null)
-        {
-            double downloads = string.IsNullOrEmpty(patchUri) ? 1 : 2;
-
-            Task downloadInstaller = DownloadFile(uri, tempPath, state, downloads);
-
-            if (!string.IsNullOrEmpty(patchUri))
-            {
-                await DownloadFile(patchUri, patchTempPath, state, downloads);
-            }
-
-            await downloadInstaller;
-        }
-
-        private Task DownloadFile(string uri, string tempPath, State state, double downloads)
+        public Task DownloadAsync(string uri, string tempPath, State state, double downloads = 1)
         {
             double progress = 0;
 

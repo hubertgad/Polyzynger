@@ -4,6 +4,6 @@ namespace PolyzyngerApplication.Interfaces
 {
     internal interface IChecker
     {
-        Task<(string installer, string patch)> CheckLatestVersionPathAsync(string installerUri);
+        Task<string> CheckLatestVersionPathAsync(string initialUri = null);
     }
 }

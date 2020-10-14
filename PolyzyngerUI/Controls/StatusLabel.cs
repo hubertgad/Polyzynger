@@ -41,6 +41,11 @@ namespace PolyzyngerUI.Controls
                 Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)147, (byte)217));
             }
 
+            if (state.Stage == Stage.CLEANING)
+            {
+                Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));
+            }
+
             if (state.Stage == Stage.DONE)
             {
                 Foreground = new SolidColorBrush(Color.FromRgb((byte)0, (byte)144, (byte)0));

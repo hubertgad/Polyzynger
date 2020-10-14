@@ -73,7 +73,7 @@
         <c:StatusLabel Grid.Row="5" Grid.Column="2" x:Name="SThemeStatus" />
 
         <c:CustomCheckBox Grid.Row="6" Grid.Column="1" x:Name="HSearchBarCheckBox" Content="Hide Search Bar" />
-        <c:StatusLabel Grid.Row="6" Grid.Column="2" x:Name="HSearchBar" />
+        <c:StatusLabel Grid.Row="6" Grid.Column="2" x:Name="HSearchBarStatus" />
 
         <c:CustomCheckBox Grid.Row="7" Grid.Column="1" x:Name="ADesktopCheckBox" Content="Arrange Desktop" />
         <c:StatusLabel Grid.Row="7" Grid.Column="2" x:Name="ADesktopStatus" />
@@ -136,9 +136,9 @@
 
         <c:CustomCheckBox Grid.Row="9" Grid.Column="5" x:Name="EsetSSPCheckBox" Content="ESET SSP" />
         <c:CustomProgressBar Grid.Row="9" Grid.Column="6" x:Name="EsetSSPProgressBar" />
-        <c:StatusLabel Grid.Row="9" Grid.Column="6" x:Name="EsetSSPtatus" />
+        <c:StatusLabel Grid.Row="9" Grid.Column="6" x:Name="EsetSSPStatus" />
 
-        <c:CustomCheckBox Grid.Row="10" Grid.Column="5" x:Name="EsetEndpointheckBox" Content="ESET Endpoint" />
+        <c:CustomCheckBox Grid.Row="10" Grid.Column="5" x:Name="EsetEndpointCheckBox" Content="ESET Endpoint" />
         <c:CustomProgressBar Grid.Row="10" Grid.Column="6" x:Name="EsetEndpointProgressBar" />
         <c:StatusLabel Grid.Row="10" Grid.Column="6" x:Name="EsetEndpointStatus" />
 

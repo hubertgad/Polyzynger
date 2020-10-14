@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\OneDrive\Documents\build\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -45,12 +45,16 @@
   <ItemGroup>
     <Compile Include="API\Facade.cs" />
     <Compile Include="Checkers\AdobeReaderChecker.cs" />
+    <Compile Include="Checkers\KLiteChecker.cs" />
     <Compile Include="Checkers\LibreOfficeChecker.cs" />
+    <Compile Include="Checkers\SevenZipChecker.cs" />
     <Compile Include="Cleaners\DefaultCleaner.cs" />
     <Compile Include="Controllers\AdobeReaderController.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\GoogleChromeController.cs" />
+    <Compile Include="Controllers\KLiteController.cs" />
     <Compile Include="Controllers\LibreOfficeController.cs" />
+    <Compile Include="Controllers\SevenZipController.cs" />
     <Compile Include="Downloaders\DefaultDownloader.cs" />
     <Compile Include="Installers\InstallerExe.cs" />
     <Compile Include="Installers\InstallerMsi.cs" />

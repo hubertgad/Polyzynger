@@ -5,7 +5,7 @@ namespace PolyzyngerApplication.Cleaners
 {
     class DefaultCleaner : ICleaner
     {
-        public void DeleteTempFilesAsync(string path)
+        public void DeleteTempFiles(string path)
         {
             if (File.Exists(path)) 
             { 
