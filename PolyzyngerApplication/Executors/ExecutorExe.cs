@@ -2,11 +2,11 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace PolyzyngerApplication.Installers
+namespace PolyzyngerApplication.Executors
 {
-    internal class InstallerMsi : IInstaller
+    internal class ExecutorExe : IExecutor
     {
-        public Task InstallAsync(string tempPath, string arguments)
+        public Task ExecuteAsync(string file, string arguments = null)
         {
             var tcs = new TaskCompletionSource<object>();
 
@@ -14,8 +14,8 @@ namespace PolyzyngerApplication.Installers
             {
                 StartInfo = new ProcessStartInfo
                 {
-                    FileName = $"msiexec.exe",
-                    Arguments = $"/i \"{ tempPath }\" /q /norestart",
+                    FileName = $"\"{ file }\"",
+                    Arguments = $"{ arguments }",
                     Verb = "runas"
                 },
                 EnableRaisingEvents = true

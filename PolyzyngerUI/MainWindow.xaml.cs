@@ -74,7 +74,7 @@ namespace PolyzyngerUI
                 tasks.Add(Facade.InstallESETSSPAsync((s, st) => AssignControls(EsetSSPStatus, EsetSSPProgressBar, st)));
 
             if (EsetEndpointCheckBox.IsChecked.Value)
-                tasks.Add(Facade.InstallEndPointAsync((s, st) => AssignControls(EsetEndpointStatus, EsetEndpointProgressBar, st)));
+                tasks.Add(Facade.InstallEndpointAsync((s, st) => AssignControls(EsetEndpointStatus, EsetEndpointProgressBar, st)));
 
             await Task.WhenAll(tasks);
 

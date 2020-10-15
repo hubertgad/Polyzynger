@@ -14,8 +14,11 @@ namespace PolyzyngerApplication.Updaters
             string tempPath = Path.Combine(Path.GetTempPath(), "temp.cmd");
 
             using (Stream fileStream = File.Create(tempPath))
-            using (StreamWriter streamWriter = new StreamWriter(fileStream))
+            {
+                using StreamWriter streamWriter = new StreamWriter(fileStream);
+
                 streamWriter.Write($"START /WAIT msiexec /update \"{ patchTempPath }\" /qn");
+            }
 
             Process p = new Process()
             {

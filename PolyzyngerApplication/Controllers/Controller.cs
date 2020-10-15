@@ -1,6 +1,4 @@
-﻿using PolyzyngerApplication.Cleaners;
-using PolyzyngerApplication.Downloaders;
-using PolyzyngerApplication.Installers;
+﻿using PolyzyngerApplication.Downloaders;
 using PolyzyngerApplication.Interfaces;
 using System;
 using System.IO;
@@ -21,19 +19,24 @@ namespace PolyzyngerApplication.Controllers
 
         protected IDownloader Downloader;
 
-        protected IInstaller Installer;
+        protected IExecutor Executor;
 
-        protected ICleaner Cleaner;
-       
         /// <summary>
         /// Path from which installer file is downloaded.
         /// </summary>
         protected string InstallerUri;
 
+        private string _installerFileName;
+
         /// <summary>
         /// Installer file name.
         /// </summary>
-        protected string InstallerFileName => InstallerUri.Split('/').LastOrDefault();
+        public string InstallerFileName
+        {
+            get { return _installerFileName ?? InstallerUri.Split('/').LastOrDefault(); }
+            set { _installerFileName = value; }
+        }
+
 
         /// <summary>
         /// Full temporary path to an installer file.
@@ -45,18 +48,19 @@ namespace PolyzyngerApplication.Controllers
         /// </summary>
         protected string InstallationArguments = " /qn";
 
-        protected Controller(EventHandler<State> handler)
+        protected Controller(EventHandler<State> handler, 
+            IExecutor executor, IChecker checker = null, IDownloader downloader = null)
         {
             _state = new State(handler);
 
-            Downloader = new DefaultDownloader();
+            Executor = executor;
 
-            Installer = new InstallerMsi();
-            
-            Cleaner = new DefaultCleaner();
+            Checker = checker;
+
+            Downloader = downloader ?? new DefaultDownloader();
         }
 
-        internal virtual async Task ExecuteInstallationStepsAsync()
+        internal virtual async Task InstallAsync()
         {
             Stage finalStage = Stage.DONE;
 
@@ -68,7 +72,7 @@ namespace PolyzyngerApplication.Controllers
 
                 await PutSemaphoreAsync();
 
-                await InstallAsync();
+                await ExecuteAsync();
             }
             catch
             {
@@ -102,19 +106,26 @@ namespace PolyzyngerApplication.Controllers
             return _installationSemaphore.WaitAsync();
         }
 
-        protected virtual Task InstallAsync()
+        protected virtual Task ExecuteAsync()
         {
             _state.Stage = Stage.INSTALLING;
-            return Installer.InstallAsync(InstallerTempPath, InstallationArguments);
+            return Executor.ExecuteAsync(InstallerTempPath, InstallationArguments);
         }
 
         protected virtual void CleanUp(Stage finalStage)
         {
-            _state.Stage = Stage.CLEANING;
             _installationSemaphore.Release();
-            Cleaner.DeleteTempFiles(InstallerTempPath);
+            DeleteTempFiles(InstallerTempPath);
 
             _state.Stage = finalStage;
+        }
+
+        protected void DeleteTempFiles(string path)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
         }
 
         protected bool IsUrlValid(string url)

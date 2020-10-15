@@ -1,4 +1,5 @@
 ﻿using PolyzyngerApplication.Controllers;
+using PolyzyngerApplication.InstallationControllers.Controllers;
 using System;
 using System.Threading.Tasks;
 
@@ -17,67 +18,62 @@ namespace PolyzyngerApplication.API
 
         public async Task InstallKLiteCodecsAsync(EventHandler<State> stateHandler)
         {
-            var kLiteController = new KLiteController(stateHandler);
-            await kLiteController.ExecuteInstallationStepsAsync();
+            await ExecuteInstallationStepsAsync(new KLiteController(stateHandler));
         }
 
         public async Task InstallGoogleChromeAsync(EventHandler<State> stateHandler)
         {
-            var googleChromeController = new GoogleChromeController(stateHandler);
-            await googleChromeController.ExecuteInstallationStepsAsync();
+            await ExecuteInstallationStepsAsync(new GoogleChromeController(stateHandler));
         }
 
         public async Task InstallAdobeReaderAsync(EventHandler<State> stateHandler)
         {
-            var adobeReaderController = new AdobeReaderController(stateHandler);
-            await adobeReaderController.ExecuteInstallationStepsAsync();
+            await ExecuteInstallationStepsAsync(new AdobeReaderController(stateHandler));
         }
 
         public async Task InstallLibreOfficeAsync(EventHandler<State> stateHandler)
         {
-            var libreOfficeController = new LibreOfficeController(stateHandler);
-            await libreOfficeController.ExecuteInstallationStepsAsync();
+            await ExecuteInstallationStepsAsync(new LibreOfficeController(stateHandler));
         }
 
         public async Task Install7ZipAsync(EventHandler<State> stateHandler)
         {
-            var sevenZipController = new SevenZipController(stateHandler);
-            await sevenZipController.ExecuteInstallationStepsAsync();
+            await ExecuteInstallationStepsAsync(new SevenZipController(stateHandler));
         }
 
         public async Task InstallTeamViewerAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await ExecuteInstallationStepsAsync(new TeamViewerController(stateHandler));
         }
 
         public async Task InstallJavaAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await ExecuteInstallationStepsAsync(new Java8Controller(stateHandler));
         }
 
         public async Task InstallAdobeAirAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await ExecuteInstallationStepsAsync(new AdobeAirController(stateHandler));
         }
 
         public async Task InstallESETNOD32Async(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await ExecuteInstallationStepsAsync(new EsetNod32Controller(stateHandler));
         }
 
         public async Task InstallESETISAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await ExecuteInstallationStepsAsync(new EsetISController(stateHandler));
         }
 
         public async Task InstallESETSSPAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await ExecuteInstallationStepsAsync(new EsetSSPController(stateHandler));
         }
 
-        public async Task InstallEndPointAsync(EventHandler<State> stateHandler)
+        public async Task InstallEndpointAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await ExecuteInstallationStepsAsync(new EsetEEAController(stateHandler));
         }
 
         public async Task CopySevenIconAsync(EventHandler<State> stateHandler)
@@ -103,6 +99,11 @@ namespace PolyzyngerApplication.API
         public async Task ConnectToWiFi(EventHandler<State> stateHandler)
         {
             throw new NotImplementedException();
+        }
+
+        private async Task ExecuteInstallationStepsAsync(Controller controller)
+        {
+            await controller.InstallAsync();
         }
     }
 }

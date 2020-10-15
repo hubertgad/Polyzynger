@@ -1,5 +1,6 @@
 ﻿using PolyzyngerApplication.Checkers;
-using PolyzyngerApplication.Installers;
+using PolyzyngerApplication.Controllers;
+using PolyzyngerApplication.Executors;
 using PolyzyngerApplication.Interfaces;
 using PolyzyngerApplication.Updaters;
 using System;
@@ -7,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PolyzyngerApplication.Controllers
+namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
     internal class AdobeReaderController : Controller
     {
@@ -29,7 +30,7 @@ namespace PolyzyngerApplication.Controllers
         protected string PatchTempPath => Path.Combine(Path.GetTempPath(), PatchFileName);
 
         internal AdobeReaderController(EventHandler<State> handler)
-            : base(handler)
+            : base(handler, new ExecutorExe(), new AdobeReaderChecker())
         {
             InstallerUri = "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/1900820071/AcroRdrDC1900820071_pl_PL.exe";
 
@@ -37,14 +38,10 @@ namespace PolyzyngerApplication.Controllers
 
             PatchUri = "ftp://ftp.adobe.com/pub/adobe/reader/win/AcrobatDC/";
 
-            Checker = new AdobeReaderChecker();
-
-            Installer = new InstallerExe();
-
             Updater = new AdobeReaderUpdater();
         }
 
-        internal override async Task ExecuteInstallationStepsAsync()
+        internal override async Task InstallAsync()
         {
             Stage finalStage = Stage.DONE;
 
@@ -56,7 +53,7 @@ namespace PolyzyngerApplication.Controllers
 
                 await PutSemaphoreAsync();
 
-                await InstallAsync();
+                await ExecuteAsync();
 
                 await UpdateAsync();
             }
@@ -87,8 +84,8 @@ namespace PolyzyngerApplication.Controllers
         {
             _state.Stage = Stage.CLEANING;
             _installationSemaphore.Release();
-            Cleaner.DeleteTempFiles(InstallerTempPath);
-            Cleaner.DeleteTempFiles(PatchTempPath);
+            DeleteTempFiles(InstallerTempPath);
+            DeleteTempFiles(PatchTempPath);
 
             _state.Stage = finalStage;
         }
