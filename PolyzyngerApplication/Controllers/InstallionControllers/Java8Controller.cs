@@ -4,7 +4,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class Java8Controller : Controller
+    internal class Java8Controller : InstallationController
     {
         internal Java8Controller(EventHandler<State> handler)
             : base(handler, new ExecutorExe())

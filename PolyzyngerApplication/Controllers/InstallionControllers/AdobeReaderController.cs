@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class AdobeReaderController : Controller
+    internal class AdobeReaderController : InstallationController
     {
         protected IUpdater Updater;
 
@@ -84,8 +84,8 @@ namespace PolyzyngerApplication.InstallationControllers.Controllers
         {
             _state.Stage = Stage.CLEANING;
             _installationSemaphore.Release();
-            DeleteTempFiles(InstallerTempPath);
-            DeleteTempFiles(PatchTempPath);
+            DeleteTempFile(InstallerTempPath);
+            DeleteTempFile(PatchTempPath);
 
             _state.Stage = finalStage;
         }

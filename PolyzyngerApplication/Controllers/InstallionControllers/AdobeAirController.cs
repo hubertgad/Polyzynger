@@ -5,7 +5,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class AdobeAirController : Controller
+    internal class AdobeAirController : InstallationController
     {
         internal AdobeAirController(EventHandler<State> handler)
             : base(handler, new ExecutorExe(), new AdobeAirChecker())

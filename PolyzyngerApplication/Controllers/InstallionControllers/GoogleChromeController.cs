@@ -4,7 +4,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class GoogleChromeController : Controller
+    internal class GoogleChromeController : InstallationController
     {
         internal GoogleChromeController(EventHandler<State> handler)
             : base(handler, new ExecutorExe())

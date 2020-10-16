@@ -4,7 +4,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class EsetNod32Controller : Controller
+    internal class EsetNod32Controller : InstallationController
     {
         internal EsetNod32Controller(EventHandler<State> handler)
             : base(handler, new ExecutorExe())

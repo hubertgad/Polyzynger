@@ -4,6 +4,6 @@ namespace PolyzyngerApplication.Interfaces
 {
     internal interface IDownloader
     {
-        Task DownloadAsync(string uri, string tempPath, State state, double downloads = 1);
+        Task DownloadAsync(string source, string destination, State state, double downloads = 1);
     }
 }

@@ -7,7 +7,7 @@ namespace PolyzyngerApplication.Downloaders
 {
     class DefaultDownloader : IDownloader
     {
-        public Task DownloadAsync(string uri, string tempPath, State state, double downloads = 1)
+        public Task DownloadAsync(string source, string destination, State state, double downloads = 1)
         {
             double progress = 0;
 
@@ -28,7 +28,7 @@ namespace PolyzyngerApplication.Downloaders
                 tcs.SetResult(0);
             };
 
-            client.DownloadFileAsync(new Uri(uri), tempPath);
+            client.DownloadFileAsync(new Uri(source), destination);
 
             return tcs.Task;
         }

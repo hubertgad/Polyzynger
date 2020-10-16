@@ -5,7 +5,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class KLiteController : Controller
+    internal class KLiteController : InstallationController
     {
         internal KLiteController(EventHandler<State> handler)
             : base(handler, new ExecutorExe(), new KLiteChecker())

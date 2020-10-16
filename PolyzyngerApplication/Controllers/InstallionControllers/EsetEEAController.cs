@@ -4,7 +4,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class EsetEEAController : Controller
+    internal class EsetEEAController : InstallationController
     {
         internal EsetEEAController(EventHandler<State> handler)
             : base(handler, new ExecutorMsi())

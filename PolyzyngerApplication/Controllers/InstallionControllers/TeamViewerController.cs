@@ -4,7 +4,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class TeamViewerController : Controller
+    internal class TeamViewerController : InstallationController
     {
         internal TeamViewerController(EventHandler<State> handler)
             : base(handler, new ExecutorExe())

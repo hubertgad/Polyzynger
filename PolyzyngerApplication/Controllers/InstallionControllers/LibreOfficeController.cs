@@ -5,7 +5,7 @@ using System;
 
 namespace PolyzyngerApplication.InstallationControllers.Controllers
 {
-    internal class LibreOfficeController : Controller
+    internal class LibreOfficeController : InstallationController
     {
         internal LibreOfficeController(EventHandler<State> handler) 
             : base(handler, new ExecutorMsi(), new LibreOfficeChecker())
