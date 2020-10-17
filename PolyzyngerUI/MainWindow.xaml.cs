@@ -23,6 +23,18 @@ namespace PolyzyngerUI
             SSID.Text = "seven-guest";
             
             Password.Password = "Seven123";
+
+            SIconCheckBox.IsChecked = true;
+            SThemeCheckBox.IsChecked = true;
+            HSearchBarCheckBox.IsChecked = true;
+            ADesktopCheckBox.IsChecked = true;
+            KLiteCheckBox.IsChecked = true;
+            GChromeCheckBox.IsChecked = true;
+            AReaderCheckBox.IsChecked = true;
+            SZipCheckBox.IsChecked = true;
+            JavaCheckBox.IsChecked = true;
+            AAirCheckBox.IsChecked = true;
+            EsetNod32CheckBox.IsChecked = true;
         }
 
         private async void StartButton_ClickAsync(object sender, RoutedEventArgs e)
