@@ -47,11 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Facade.cs" />
-    <Compile Include="Checkers\AdobeAirChecker.cs" />
-    <Compile Include="Checkers\AdobeReaderChecker.cs" />
-    <Compile Include="Checkers\KLiteChecker.cs" />
-    <Compile Include="Checkers\LibreOfficeChecker.cs" />
-    <Compile Include="Checkers\SevenZipChecker.cs" />
+    <Compile Include="Scanners\AdobeAirScanner.cs" />
+    <Compile Include="Scanners\AdobeReaderScanner.cs" />
+    <Compile Include="Scanners\KLiteScanner.cs" />
+    <Compile Include="Scanners\LibreOfficeScanner.cs" />
+    <Compile Include="Scanners\SevenZipScanner.cs" />
     <Compile Include="Controllers\Controller.cs" />
     <Compile Include="Controllers\InstallionControllers\AdobeAirController.cs" />
     <Compile Include="Controllers\InstallionControllers\AdobeReaderController.cs" />
@@ -66,24 +66,22 @@
     <Compile Include="Controllers\InstallionControllers\LibreOfficeController.cs" />
     <Compile Include="Controllers\InstallionControllers\SevenZipController.cs" />
     <Compile Include="Controllers\InstallionControllers\TeamViewerController.cs" />
-    <Compile Include="Controllers\SevenController.cs" />
     <Compile Include="Controllers\SevenTasksControllers\DesktopIconsController.cs" />
     <Compile Include="Controllers\SevenTasksControllers\HideSearchBarController.cs" />
     <Compile Include="Controllers\SevenTasksControllers\SevenIconController.cs" />
     <Compile Include="Controllers\SevenTasksControllers\SevenThemeController.cs" />
-    <Compile Include="Controllers\SevenTasksControllers\WiFiController.cs" />
+    <Compile Include="Controllers\SevenTasksControllers\WiFiProfileController.cs" />
     <Compile Include="Downloaders\DefaultDownloader.cs" />
     <Compile Include="Executors\ExecutorPS.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Executors\Executor.cs" />
     <Compile Include="Executors\ExecutorMsi.cs" />
-    <Compile Include="Interfaces\IChecker.cs" />
+    <Compile Include="Interfaces\IScanner.cs" />
     <Compile Include="Interfaces\IDownloader.cs" />
     <Compile Include="Interfaces\IExecutor.cs" />
-    <Compile Include="Interfaces\IUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="API\State.cs" />
-    <Compile Include="Updaters\AdobeReaderUpdater.cs" />
+    <Compile Include="Resources\ResourcesManager.cs" />
     <Compile Include="Utilities\ConnectionChecker.cs" />
   </ItemGroup>
   <ItemGroup>

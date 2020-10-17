@@ -5,11 +5,11 @@ namespace PolyzyngerApplication.Controllers
 {
     internal abstract class Controller
     {
-        protected readonly State _state;
+        protected readonly State State;
 
         protected Controller(EventHandler<State> handler)
         {
-            _state = new State(handler);
+            State = new State(handler);
         }
 
         internal abstract Task InstallAsync();

@@ -1,23 +1,24 @@
-﻿using System;
+﻿using PolyzyngerApplication.Resources;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 {
-    internal class SevenIconController : SevenController
+    internal class SevenIconController : Controller
     {
         public SevenIconController(EventHandler<State> handler)
             : base(handler) { }
 
         internal override async Task InstallAsync()
         {
-            _state.Stage = Stage.INSTALLING;
+            State.Stage = Stage.INSTALLING;
 
             await CopyIconAsync();
 
             await CopyLinkAsync();
 
-            _state.Stage = Stage.DONE;
+            State.Stage = Stage.DONE;
         }
 
         private Task CopyIconAsync()
@@ -28,18 +29,18 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 
             string iconDestination = Path.Combine(sevenDir, "Seven.ico");
 
-            return CopyResourceAsync("Seven.ico", iconDestination);
+            return ResourcesManager.CopyResourceAsync("Seven.ico", iconDestination);
         }
 
         private async Task CopyLinkAsync()
         {
             string linkDestination = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop).ToString(), "Prosimy o opinię!.url");
 
-            string linkText = await GetResourceAsync("Prosimy o opinie!.url");
+            string linkText = await ResourcesManager.GetResourceAsync("Prosimy o opinie!.url");
 
             linkText = linkText.Replace("USERNAME", Environment.UserName.ToString());
 
-            await SaveResourceAsFile(linkText, linkDestination);
+            await ResourcesManager.SaveStringAsFile(linkText, linkDestination);
         }
     }
 }

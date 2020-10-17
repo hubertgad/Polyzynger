@@ -5,5 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>", Scope = "type", Target = "~T:PolyzyngerApplication.InstallationControllers.Controllers.EsetSSPController")]
-[assembly: SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>", Scope = "type", Target = "~T:PolyzyngerApplication.InstallationControllers.Controllers.EsetEEAController")]
+[assembly: SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>", Scope = "type", Target = "~T:PolyzyngerApplication.Controllers.InstallationControllers.EsetSSPController")]
+[assembly: SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>", Scope = "type", Target = "~T:PolyzyngerApplication.Controllers.InstallationControllers.EsetEEAController")]

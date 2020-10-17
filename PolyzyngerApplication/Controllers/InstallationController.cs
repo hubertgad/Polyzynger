@@ -13,7 +13,7 @@ namespace PolyzyngerApplication.Controllers
     {
         protected readonly static SemaphoreSlim _installationSemaphore = new SemaphoreSlim(1);
 
-        protected IChecker Checker;
+        protected IScanner Scanner;
 
         protected IDownloader Downloader;
 
@@ -46,10 +46,10 @@ namespace PolyzyngerApplication.Controllers
         protected string InstallationArguments;
 
         protected InstallationController(EventHandler<State> handler, 
-            IExecutor executor, IChecker checker = null, IDownloader downloader = null)
+            IExecutor executor, IScanner scanner = null, IDownloader downloader = null)
             : base (handler)
         {
-            Checker = checker;
+            Scanner = scanner;
 
             Downloader = downloader ?? new DefaultDownloader();
 
@@ -82,29 +82,29 @@ namespace PolyzyngerApplication.Controllers
 
         protected virtual async Task ScannAsync()
         {
-            if (Checker != null)
+            if (Scanner != null)
             {
-                _state.Stage = Stage.SCANNING;
-                var newInstallerUri = await Checker.CheckLatestVersionPathAsync(InstallerUri);
+                State.Stage = Stage.SCANNING;
+                var newInstallerUri = await Scanner.CheckLatestVersionPathAsync(InstallerUri);
                 AssignNewUriIfValid(ref InstallerUri, newInstallerUri);
             }
         }
 
         protected virtual async Task DownloadAsync()
         {
-            _state.Stage = Stage.DOWNLOADING;
-            await Downloader.DownloadAsync(InstallerUri, InstallerTempPath, _state);
+            State.Stage = Stage.DOWNLOADING;
+            await Downloader.DownloadAsync(InstallerUri, InstallerTempPath, State);
         }
 
         protected virtual Task PutSemaphoreAsync()
         {
-            _state.Stage = Stage.WAITING;
+            State.Stage = Stage.WAITING;
             return _installationSemaphore.WaitAsync();
         }
 
         protected virtual Task ExecuteAsync()
         {
-            _state.Stage = Stage.INSTALLING;
+            State.Stage = Stage.INSTALLING;
             return Executor.ExecuteAsync(InstallerTempPath, InstallationArguments);
         }
 
@@ -113,7 +113,7 @@ namespace PolyzyngerApplication.Controllers
             _installationSemaphore.Release();
             DeleteTempFile(InstallerTempPath);
 
-            _state.Stage = finalStage;
+            State.Stage = finalStage;
         }
 
         protected void DeleteTempFile(string path)

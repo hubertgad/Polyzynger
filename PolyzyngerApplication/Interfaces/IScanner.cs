@@ -2,7 +2,7 @@
 
 namespace PolyzyngerApplication.Interfaces
 {
-    internal interface IChecker
+    internal interface IScanner
     {
         Task<string> CheckLatestVersionPathAsync(string initialUri = null);
     }

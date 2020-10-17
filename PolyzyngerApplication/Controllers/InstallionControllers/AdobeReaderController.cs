@@ -1,19 +1,15 @@
-﻿using PolyzyngerApplication.Checkers;
-using PolyzyngerApplication.Controllers;
+﻿using PolyzyngerApplication.Scanners;
 using PolyzyngerApplication.Executors;
-using PolyzyngerApplication.Interfaces;
-using PolyzyngerApplication.Updaters;
+using PolyzyngerApplication.Resources;
 using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace PolyzyngerApplication.InstallationControllers.Controllers
+namespace PolyzyngerApplication.Controllers.InstallationControllers
 {
     internal class AdobeReaderController : InstallationController
     {
-        protected IUpdater Updater;
-
         /// <summary>
         /// Path from which patch file is downloaded.
         /// </summary>
@@ -30,15 +26,13 @@ namespace PolyzyngerApplication.InstallationControllers.Controllers
         protected string PatchTempPath => Path.Combine(Path.GetTempPath(), PatchFileName);
 
         internal AdobeReaderController(EventHandler<State> handler)
-            : base(handler, new Executor(), new AdobeReaderChecker())
+            : base(handler, new Executor(), new AdobeReaderScanner())
         {
             InstallerUri = "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/1900820071/AcroRdrDC1900820071_pl_PL.exe";
 
             InstallationArguments = "/sAll";
 
             PatchUri = "ftp://ftp.adobe.com/pub/adobe/reader/win/AcrobatDC/";
-
-            Updater = new AdobeReaderUpdater();
         }
 
         internal override async Task InstallAsync()
@@ -69,31 +63,34 @@ namespace PolyzyngerApplication.InstallationControllers.Controllers
 
         protected override async Task ScannAsync()
         {
-            _state.Stage = Stage.SCANNING;
-            PatchUri = await Checker.CheckLatestVersionPathAsync(PatchUri);
+            State.Stage = Stage.SCANNING;
+            PatchUri = await Scanner.CheckLatestVersionPathAsync(PatchUri);
         }
 
         protected override async Task DownloadAsync()
         {
-            _state.Stage = Stage.DOWNLOADING;
-            await Downloader.DownloadAsync(InstallerUri, InstallerTempPath, _state, 2);
-            await Downloader.DownloadAsync(PatchUri, PatchTempPath, _state, 2);
+            State.Stage = Stage.DOWNLOADING;
+            await Downloader.DownloadAsync(InstallerUri, InstallerTempPath, State, 2);
+            await Downloader.DownloadAsync(PatchUri, PatchTempPath, State, 2);
         }
 
         protected override void CleanUp(Stage finalStage)
         {
-            _state.Stage = Stage.CLEANING;
+            State.Stage = Stage.CLEANING;
             _installationSemaphore.Release();
             DeleteTempFile(InstallerTempPath);
             DeleteTempFile(PatchTempPath);
 
-            _state.Stage = finalStage;
+            State.Stage = finalStage;
         }
 
-        private Task UpdateAsync()
+        private async Task UpdateAsync()
         {
-            _state.Stage = Stage.UPDATING;
-            return Updater.UdateAsync(PatchTempPath);
+            State.Stage = Stage.UPDATING;
+            string tempPath = Path.Combine(Path.GetTempPath(), "temp.cmd");
+            await ResourcesManager.SaveStringAsFile($"START /WAIT msiexec /update \"{ PatchTempPath }\" /qn", tempPath);
+            await Executor.ExecuteAsync(tempPath);
+            DeleteTempFile(tempPath);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PolyzyngerApplication.Resources;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -7,17 +8,17 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 {
     //#TODO: Ta klasa zawiera metodę InstallAsync(), która jest kiepsko napisana.
     // Na chwilę obecną nie mam pomysłu, jak zrobić to lepiej.
-    internal class SevenThemeController : SevenController
+    internal class SevenThemeController : Controller
     {
         public SevenThemeController(EventHandler<State> handler)
             : base(handler) { }
 
         internal override async Task InstallAsync()
         {
-            _state.Stage = Stage.INSTALLING;
+            State.Stage = Stage.INSTALLING;
 
             string path = Path.Combine(Path.GetTempPath(), "Seven.deskthemepack");
-            await CopyResourceAsync("Seven.deskthemepack", path);
+            await ResourcesManager.CopyResourceAsync("Seven.deskthemepack", path);
 
             Process p = new Process
             {
@@ -47,7 +48,7 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
             };
             p.Start();
 
-            _state.Stage = Stage.DONE;
+            State.Stage = Stage.DONE;
         }
     }
 }

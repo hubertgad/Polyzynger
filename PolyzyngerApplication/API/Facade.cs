@@ -1,6 +1,6 @@
 ﻿using PolyzyngerApplication.Controllers;
 using PolyzyngerApplication.Controllers.SevenTasksControllers;
-using PolyzyngerApplication.InstallationControllers.Controllers;
+using PolyzyngerApplication.Controllers.InstallationControllers;
 using PolyzyngerApplication.Utilities;
 using System;
 using System.Threading.Tasks;
@@ -100,7 +100,7 @@ namespace PolyzyngerApplication.API
 
         public async Task ConnectToWiFi(EventHandler<State> stateHandler, string ssid, string password)
         {
-            await InstallAsync(new WiFiController(stateHandler, ssid, password));
+            await InstallAsync(new WiFiProfileController(stateHandler, ssid, password));
         }
 
         public bool IsConnectedToInternet()

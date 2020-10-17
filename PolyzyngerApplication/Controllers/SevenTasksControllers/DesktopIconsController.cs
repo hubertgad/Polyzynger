@@ -1,12 +1,13 @@
 ﻿using PolyzyngerApplication.Executors;
 using PolyzyngerApplication.Interfaces;
+using PolyzyngerApplication.Resources;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 {
-    internal class DesktopIconsController : SevenController
+    internal class DesktopIconsController : Controller
     {
         protected IExecutor Executor;
         
@@ -18,18 +19,18 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 
         internal override async Task InstallAsync()
         {
-            _state.Stage = Stage.INSTALLING;
+            State.Stage = Stage.INSTALLING;
 
-            var script = await GetResourceAsync("AdjustDesktopIcons.ps1");
+            var script = await ResourcesManager.GetResourceAsync("AdjustDesktopIcons.ps1");
 
             await Executor.ExecuteAsync(script);
 
             DeleteEdgeShotcut();
 
-            _state.Stage = Stage.DONE;
+            State.Stage = Stage.DONE;
         }
 
-        private static void DeleteEdgeShotcut()
+        private void DeleteEdgeShotcut()
         {
             Delete(Environment.GetFolderPath(Environment.SpecialFolder.CommonDesktopDirectory));
 

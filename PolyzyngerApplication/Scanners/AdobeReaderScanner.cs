@@ -6,9 +6,9 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace PolyzyngerApplication.Checkers
+namespace PolyzyngerApplication.Scanners
 {
-    internal class AdobeReaderChecker : IChecker
+    internal class AdobeReaderScanner : IScanner
     {
         public async Task<string> CheckLatestVersionPathAsync(string initialUri = null)
         {

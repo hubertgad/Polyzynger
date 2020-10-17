@@ -2,7 +2,7 @@
 using PolyzyngerApplication.Executors;
 using System;
 
-namespace PolyzyngerApplication.InstallationControllers.Controllers
+namespace PolyzyngerApplication.Controllers.InstallationControllers
 {
     internal class EsetEEAController : InstallationController
     {

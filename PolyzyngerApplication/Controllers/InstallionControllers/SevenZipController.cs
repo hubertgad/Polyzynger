@@ -1,14 +1,13 @@
-﻿using PolyzyngerApplication.Checkers;
-using PolyzyngerApplication.Controllers;
+﻿using PolyzyngerApplication.Scanners;
 using PolyzyngerApplication.Executors;
 using System;
 
-namespace PolyzyngerApplication.InstallationControllers.Controllers
+namespace PolyzyngerApplication.Controllers.InstallationControllers
 {
     internal class SevenZipController : InstallationController
     {
         internal SevenZipController(EventHandler<State> handler)
-            : base(handler, new ExecutorMsi(), new SevenZipChecker())
+            : base(handler, new ExecutorMsi(), new SevenZipScanner())
         {
             InstallerUri = "https://www.7-zip.org/a/7z1900-x64.msi";
         }

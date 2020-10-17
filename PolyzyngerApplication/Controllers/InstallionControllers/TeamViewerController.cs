@@ -1,8 +1,7 @@
-﻿using PolyzyngerApplication.Controllers;
-using PolyzyngerApplication.Executors;
+﻿using PolyzyngerApplication.Executors;
 using System;
 
-namespace PolyzyngerApplication.InstallationControllers.Controllers
+namespace PolyzyngerApplication.Controllers.InstallationControllers
 {
     internal class TeamViewerController : InstallationController
     {

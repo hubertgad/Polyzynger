@@ -1,14 +1,13 @@
-﻿using PolyzyngerApplication.Checkers;
-using PolyzyngerApplication.Controllers;
+﻿using PolyzyngerApplication.Scanners;
 using PolyzyngerApplication.Executors;
 using System;
 
-namespace PolyzyngerApplication.InstallationControllers.Controllers
+namespace PolyzyngerApplication.Controllers.InstallationControllers
 {
     internal class KLiteController : InstallationController
     {
         internal KLiteController(EventHandler<State> handler)
-            : base(handler, new Executor(), new KLiteChecker())
+            : base(handler, new Executor(), new KLiteScanner())
         {
             InstallerUri = "https://files3.codecguide.com/K-Lite_Codec_Pack_1548_Standard.exe";
 

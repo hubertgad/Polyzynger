@@ -1,5 +1,6 @@
 ﻿using PolyzyngerApplication.Executors;
 using PolyzyngerApplication.Interfaces;
+using PolyzyngerApplication.Resources;
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 {
-    internal class WiFiController : SevenController
+    internal class WiFiProfileController : Controller
     {
         private readonly string _ssid;
         
@@ -15,7 +16,7 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 
         protected IExecutor Executor;
 
-        public WiFiController(EventHandler<State> handler, string ssid, string password)
+        public WiFiProfileController(EventHandler<State> handler, string ssid, string password)
             : base(handler)
         {
             _ssid = ssid;
@@ -27,21 +28,21 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 
         internal override async Task InstallAsync()
         {
-            _state.Stage = Stage.INSTALLING;
+            State.Stage = Stage.INSTALLING;
 
             string tempPath = Path.Combine(Path.GetTempPath(), "profile.xml");
 
-            var template = await GetResourceAsync("WiFiProfileTemplate.xml");
+            var template = await ResourcesManager.GetResourceAsync("WiFiProfileTemplate.xml");
 
             string profile = Regex.Replace(template, "{SSID}", _ssid).Replace("{password}", _password);
 
-            await SaveResourceAsFile(profile, tempPath);
+            await ResourcesManager.SaveStringAsFile(profile, tempPath);
 
             await Executor.ExecuteAsync("netsh", $"wlan add profile filename=\"{tempPath}\"");
 
             File.Delete(tempPath);
 
-            _state.Stage = Stage.DONE;
+            State.Stage = Stage.DONE;
         }
     }
 }

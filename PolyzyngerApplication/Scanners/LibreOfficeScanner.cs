@@ -3,9 +3,9 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace PolyzyngerApplication.Checkers
+namespace PolyzyngerApplication.Scanners
 {
-    class LibreOfficeChecker : IChecker
+    internal class LibreOfficeScanner : IScanner
     {
         public async Task<string> CheckLatestVersionPathAsync(string initialUri = null)
         {

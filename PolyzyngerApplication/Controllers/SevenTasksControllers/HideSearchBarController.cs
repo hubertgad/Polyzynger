@@ -1,11 +1,12 @@
 ﻿using PolyzyngerApplication.Executors;
 using PolyzyngerApplication.Interfaces;
+using PolyzyngerApplication.Resources;
 using System;
 using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 {
-    internal class HideSearchBarController : SevenController
+    internal class HideSearchBarController : Controller
     {
         protected IExecutor Executor;
 
@@ -17,13 +18,13 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 
         internal override async Task InstallAsync()
         {
-            _state.Stage = Stage.INSTALLING;
+            State.Stage = Stage.INSTALLING;
 
-            var script = await GetResourceAsync("HideSearchBar.ps1");
+            var script = await ResourcesManager.GetResourceAsync("HideSearchBar.ps1");
 
             await Executor.ExecuteAsync(script);
 
-            _state.Stage = Stage.DONE;
+            State.Stage = Stage.DONE;
         }
     }
 }

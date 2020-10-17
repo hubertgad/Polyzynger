@@ -1,23 +1,12 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace PolyzyngerApplication.Controllers
+namespace PolyzyngerApplication.Resources
 {
-    internal abstract class SevenController : Controller
+    public static class ResourcesManager
     {
-        protected SevenController(EventHandler<State> handler)
-            : base(handler) { }
-
-        protected string GetEntryAssemblyDirName()
-        {
-            var location = new Uri(Assembly.GetEntryAssembly().GetName().CodeBase);
-
-            return new FileInfo(location.AbsolutePath).DirectoryName;
-        }
-
-        protected async Task CopyResourceAsync(string resourceName, string destination)
+        public static async Task CopyResourceAsync(string resourceName, string destination)
         {
             using (Stream input = GetManifestResourceStream(resourceName))
             {
@@ -27,7 +16,7 @@ namespace PolyzyngerApplication.Controllers
             }
         }
 
-        protected async Task<string> GetResourceAsync(string resourceName)
+        internal static async Task<string> GetResourceAsync(string resourceName)
         {
             using (Stream stream = GetManifestResourceStream(resourceName))
             {
@@ -37,7 +26,7 @@ namespace PolyzyngerApplication.Controllers
             }
         }
 
-        protected Task SaveResourceAsFile(string content, string destination)
+        internal static Task SaveStringAsFile(string content, string destination)
         {
             using (Stream stream = File.Create(destination))
             {
@@ -47,7 +36,7 @@ namespace PolyzyngerApplication.Controllers
             }
         }
 
-        protected Stream GetManifestResourceStream(string resourceName)
+        internal static Stream GetManifestResourceStream(string resourceName)
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
 
