@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Executors
 {
-    internal class ExecutorExe : IExecutor
+    internal class Executor : IExecutor
     {
-        public Task ExecuteAsync(string file, string arguments = null)
+        public virtual Task ExecuteAsync(string file, string arguments = null)
         {
             var tcs = new TaskCompletionSource<object>();
 
@@ -16,7 +16,9 @@ namespace PolyzyngerApplication.Executors
                 {
                     FileName = $"\"{ file }\"",
                     Arguments = $"{ arguments }",
-                    Verb = "runas"
+                    Verb = "runas",
+                    CreateNoWindow = true,
+                    UseShellExecute = false
                 },
                 EnableRaisingEvents = true
             };

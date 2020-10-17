@@ -1,34 +1,13 @@
 ﻿using PolyzyngerApplication.Interfaces;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Executors
 {
-    internal class ExecutorMsi : IExecutor
+    internal class ExecutorMsi : Executor, IExecutor
     {
-        public Task ExecuteAsync(string file, string arguments = null)
+        public override Task ExecuteAsync(string file, string arguments = null)
         {
-            var tcs = new TaskCompletionSource<object>();
-
-            Process p = new Process
-            {
-                StartInfo = new ProcessStartInfo
-                {
-                    FileName = $"msiexec.exe",
-                    Arguments = $"/i \"{ file }\" /q /norestart",
-                    Verb = "runas"
-                },
-                EnableRaisingEvents = true
-            };
-
-            p.Exited += (s, e) =>
-            {
-                tcs.SetResult(null);
-            };
-
-            p.Start();
-
-            return tcs.Task;
+            return base.ExecuteAsync($"msiexec.exe", $"/i \"{ file }\" /q /norestart");
         }
     }
 }

@@ -7,7 +7,7 @@ namespace PolyzyngerApplication.InstallationControllers.Controllers
     internal class Java8Controller : InstallationController
     {
         internal Java8Controller(EventHandler<State> handler)
-            : base(handler, new ExecutorExe())
+            : base(handler, new Executor())
         {
             InstallerUri = "https://javadl.oracle.com/webapps/download/AutoDL?BundleId=242990_a4634525489241b9a9e1aa73d9e118e6";
 

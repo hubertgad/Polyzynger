@@ -1,6 +1,7 @@
 ﻿using PolyzyngerApplication.Controllers;
 using PolyzyngerApplication.Controllers.SevenTasksControllers;
 using PolyzyngerApplication.InstallationControllers.Controllers;
+using PolyzyngerApplication.Utilities;
 using System;
 using System.Threading.Tasks;
 
@@ -89,17 +90,22 @@ namespace PolyzyngerApplication.API
 
         public async Task HideSearchBarAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await InstallAsync(new HideSearchBarController(stateHandler));
         }
 
         public async Task ArrangeDesktopItemsAsync(EventHandler<State> stateHandler)
         {
-            throw new NotImplementedException();
+            await InstallAsync(new DesktopIconsController(stateHandler));
         }
 
-        public async Task ConnectToWiFi(EventHandler<State> stateHandler)
+        public async Task ConnectToWiFi(EventHandler<State> stateHandler, string ssid, string password)
         {
-            throw new NotImplementedException();
+            await InstallAsync(new WiFiController(stateHandler, ssid, password));
+        }
+
+        public bool IsConnectedToInternet()
+        {
+            return ConnectionChecker.IsConnectedToInternet();
         }
 
         private async Task InstallAsync(Controller controller)

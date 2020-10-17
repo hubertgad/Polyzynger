@@ -76,9 +76,15 @@
     </Style>
 
     <Style x:Key="CustomLabel" TargetType="Label">
-        <Setter Property="Margin" Value="5" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="10" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0, 0, 15, 0" />
+    </Style>
+
+    <Style x:Key="HeadingLabel" TargetType="Label">
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
@@ -91,6 +97,8 @@
         <Setter Property="Margin" Value="5" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Height" Value="15" />
+        <Setter Property="Foreground" Value="#0093d9" />
+        <Setter Property="Margin" Value="0, 0, 15, 0" />
     </Style>
     
 </ResourceDictionary>

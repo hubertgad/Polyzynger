@@ -39,7 +39,7 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 
             linkText = linkText.Replace("USERNAME", Environment.UserName.ToString());
 
-            await SaveResourceAsFile(linkDestination, linkText);
+            await SaveResourceAsFile(linkText, linkDestination);
         }
     }
 }

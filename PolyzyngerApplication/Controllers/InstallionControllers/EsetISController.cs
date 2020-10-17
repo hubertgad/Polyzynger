@@ -7,7 +7,7 @@ namespace PolyzyngerApplication.InstallationControllers.Controllers
     internal class EsetISController : InstallationController
     {
         internal EsetISController(EventHandler<State> handler)
-            : base(handler, new ExecutorExe())
+            : base(handler, new Executor())
         {
             InstallerUri = "https://download.eset.com/com/eset/tools/installers/live_eis/latest/eset_internet_security_live_installer.exe";
 

@@ -8,7 +8,7 @@ namespace PolyzyngerApplication.InstallationControllers.Controllers
     internal class AdobeAirController : InstallationController
     {
         internal AdobeAirController(EventHandler<State> handler)
-            : base(handler, new ExecutorExe(), new AdobeAirChecker())
+            : base(handler, new Executor(), new AdobeAirChecker())
         {
             InstallerUri = "https://airdownload.adobe.com/air/win/download/32.0/AdobeAIRInstaller.exe";
 

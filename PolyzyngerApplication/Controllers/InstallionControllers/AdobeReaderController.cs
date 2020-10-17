@@ -30,7 +30,7 @@ namespace PolyzyngerApplication.InstallationControllers.Controllers
         protected string PatchTempPath => Path.Combine(Path.GetTempPath(), PatchFileName);
 
         internal AdobeReaderController(EventHandler<State> handler)
-            : base(handler, new ExecutorExe(), new AdobeReaderChecker())
+            : base(handler, new Executor(), new AdobeReaderChecker())
         {
             InstallerUri = "http://ardownload.adobe.com/pub/adobe/reader/win/AcrobatDC/1900820071/AcroRdrDC1900820071_pl_PL.exe";
 

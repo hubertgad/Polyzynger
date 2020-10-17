@@ -7,8 +7,6 @@ namespace PolyzyngerApplication.Controllers
 {
     internal abstract class SevenController : Controller
     {
-        protected Assembly Assembly => Assembly.GetExecutingAssembly();
-
         protected SevenController(EventHandler<State> handler)
             : base(handler) { }
 
@@ -39,7 +37,7 @@ namespace PolyzyngerApplication.Controllers
             }
         }
 
-        protected Task SaveResourceAsFile(string destination, string content)
+        protected Task SaveResourceAsFile(string content, string destination)
         {
             using (Stream stream = File.Create(destination))
             {

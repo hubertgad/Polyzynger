@@ -17,13 +17,22 @@ namespace PolyzyngerUI
         public MainWindow()
         {
             InitializeComponent();
+
             Facade = Facade.Instance;
-            SSID.Text = "SSID";
-            Password.Password = "password";
+            
+            SSID.Text = "seven-guest";
+            
+            Password.Password = "Seven123";
         }
 
         private async void StartButton_ClickAsync(object sender, RoutedEventArgs e)
         {
+            if (!Facade.IsConnectedToInternet())
+            {
+                ShowNoInternetWarning();
+                return;
+            }
+
             EnableInterface(false);
 
             List<Task> tasks = new List<Task>();
@@ -35,10 +44,10 @@ namespace PolyzyngerUI
                 tasks.Add(Facade.ApplySevenThemeAsync((s, st) => AssignControls(SThemeStatus, null, st)));
 
             if (HSearchBarCheckBox.IsChecked.Value)
-                tasks.Add(Facade.CopySevenIconAsync((s, st) => AssignControls(HSearchBarStatus, null, st)));
+                tasks.Add(Facade.HideSearchBarAsync((s, st) => AssignControls(HSearchBarStatus, null, st)));
 
             if (ADesktopCheckBox.IsChecked.Value)
-                tasks.Add(Facade.CopySevenIconAsync((s, st) => AssignControls(ADesktopStatus, null, st)));
+                tasks.Add(Facade.ArrangeDesktopItemsAsync((s, st) => AssignControls(ADesktopStatus, null, st)));
 
             if (KLiteCheckBox.IsChecked.Value)
                 tasks.Add(Facade.InstallKLiteCodecsAsync((s, st) => AssignControls(KLiteStatus, KLiteProgressBar, st)));
@@ -99,7 +108,10 @@ namespace PolyzyngerUI
 
         private async void ConnectToWiFiButton_Click(object sender, RoutedEventArgs e)
         {
-            await Facade.ConnectToWiFi(async (s, e) => await Task.CompletedTask);
+            ConnectToWiFiButton.IsEnabled = false;
+            await Facade.ConnectToWiFi(async (s, e) => await Task.CompletedTask, SSID.Text, Password.Password);
+            await Task.Delay(3000);
+            ConnectToWiFiButton.IsEnabled = true;
         }
 
         private void CheckAll(bool value)
@@ -146,6 +158,18 @@ namespace PolyzyngerUI
             EsetISCheckBox.IsEnabled = value;
             EsetSSPCheckBox.IsEnabled = value;
             EsetEndpointCheckBox.IsEnabled = value;
+        }
+
+        /// <summary>
+        /// Simply shows a warning message box which informs that there is no Internet connection.
+        /// </summary>
+        private void ShowNoInternetWarning()
+        {
+            MessageBox.Show(
+                "No Internet connection detected. Please, connect to the Internet and try again.",
+                "Warning",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
         }
     }
 }

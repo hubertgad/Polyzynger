@@ -67,12 +67,15 @@
     <Compile Include="Controllers\InstallionControllers\SevenZipController.cs" />
     <Compile Include="Controllers\InstallionControllers\TeamViewerController.cs" />
     <Compile Include="Controllers\SevenController.cs" />
+    <Compile Include="Controllers\SevenTasksControllers\DesktopIconsController.cs" />
+    <Compile Include="Controllers\SevenTasksControllers\HideSearchBarController.cs" />
     <Compile Include="Controllers\SevenTasksControllers\SevenIconController.cs" />
     <Compile Include="Controllers\SevenTasksControllers\SevenThemeController.cs" />
+    <Compile Include="Controllers\SevenTasksControllers\WiFiController.cs" />
     <Compile Include="Downloaders\DefaultDownloader.cs" />
     <Compile Include="Executors\ExecutorPS.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Executors\ExecutorExe.cs" />
+    <Compile Include="Executors\Executor.cs" />
     <Compile Include="Executors\ExecutorMsi.cs" />
     <Compile Include="Interfaces\IChecker.cs" />
     <Compile Include="Interfaces\IDownloader.cs" />
@@ -81,12 +84,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="API\State.cs" />
     <Compile Include="Updaters\AdobeReaderUpdater.cs" />
+    <Compile Include="Utilities\ConnectionChecker.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\WiFiProfileTemplate.xml" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
     <EmbeddedResource Include="Resources\Prosimy o opinie!.url" />
     <EmbeddedResource Include="Resources\Seven.deskthemepack" />
+    <EmbeddedResource Include="Resources\HideSearchBar.ps1" />
+    <EmbeddedResource Include="Resources\AdjustDesktopIcons.ps1" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Seven.ico" />
