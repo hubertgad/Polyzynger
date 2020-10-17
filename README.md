@@ -16,6 +16,7 @@ If somethings new has come, estabilish new download link and check it.
 - Delete temporary files.
 
 ### Resources
+- [View UML Class Diagram](https://download.hubertgad.net/Polyzynger/Polyzynger.class.violet.html)
 - [Download compiled file](https://download.hubertgad.net/Polyzynger/Polyzynger.exe)
 
 ### See also
