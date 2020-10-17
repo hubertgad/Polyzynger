@@ -3,7 +3,6 @@
 ## What?
 Polyzynger is a simple WPF application that **finds** the latest version, **downloads** and **installs** software on Windows.
 Also, it additionally copies some resources and executes PowerShell scripts if necessary.
-To ensure that it will easily run even on an older and not updated Windows OS ***Polyzynger*** uses .NET Framework 4.6.1.
 
 ## Why?
 I have created it to make work in my department easier and faster.
