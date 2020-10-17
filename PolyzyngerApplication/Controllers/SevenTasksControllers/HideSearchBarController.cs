@@ -8,8 +8,6 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 {
     internal class HideSearchBarController : Controller
     {
-        protected IExecutor Executor;
-
         public HideSearchBarController(EventHandler<State> handler)
             : base(handler) 
         {

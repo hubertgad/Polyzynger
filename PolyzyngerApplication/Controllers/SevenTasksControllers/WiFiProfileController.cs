@@ -14,8 +14,6 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
         
         private readonly string _password;
 
-        protected IExecutor Executor;
-
         public WiFiProfileController(EventHandler<State> handler, string ssid, string password)
             : base(handler)
         {

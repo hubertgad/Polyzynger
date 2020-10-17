@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PolyzyngerApplication.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace PolyzyngerApplication.Controllers
@@ -7,9 +8,13 @@ namespace PolyzyngerApplication.Controllers
     {
         protected readonly State State;
 
-        protected Controller(EventHandler<State> handler)
+        protected IExecutor Executor;
+
+        protected Controller(EventHandler<State> handler, IExecutor executor = null)
         {
             State = new State(handler);
+
+            Executor = executor;
         }
 
         internal abstract Task InstallAsync();

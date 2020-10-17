@@ -9,8 +9,6 @@ namespace PolyzyngerApplication.Controllers.SevenTasksControllers
 {
     internal class DesktopIconsController : Controller
     {
-        protected IExecutor Executor;
-        
         public DesktopIconsController(EventHandler<State> handler)
             : base(handler)
         {

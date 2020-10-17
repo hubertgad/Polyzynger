@@ -17,8 +17,6 @@ namespace PolyzyngerApplication.Controllers
 
         protected IDownloader Downloader;
 
-        protected IExecutor Executor;
-
         /// <summary>
         /// Path from which installer file is downloaded.
         /// </summary>
@@ -47,13 +45,11 @@ namespace PolyzyngerApplication.Controllers
 
         protected InstallationController(EventHandler<State> handler, 
             IExecutor executor, IScanner scanner = null, IDownloader downloader = null)
-            : base (handler)
+            : base (handler, executor)
         {
             Scanner = scanner;
 
             Downloader = downloader ?? new DefaultDownloader();
-
-            Executor = executor;
         }
 
         internal override async Task InstallAsync()
